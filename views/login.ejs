@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/css/style.css' />
+    <script src="/js/jquery-3.0.0.min.js"></script>
+    <script src="/js/rollups/hmac-sha256.js"></script>
+    <script src="/js/components/enc-base64.js"></script>
+    <script src="/js/components/core.js"></script>
+</head>
+<body>
+<h1><%= title %></h1>
+<p>Please Log In to Continue</p>
+<form action="/login" method="post">
+    <div>
+        <label>Username:</label>
+        <input id="username" type="text" name="username"/>
+    </div>
+    <div>
+        <label>Password:</label>
+        <input id="password" type="password" name="password"/>
+    </div>
+    <div>
+        <input id="submit" type="submit" value="Log In"/>
+    </div>
+</form>
+<p><small>Hint: test - testing</small></p>
+
+<script>
+
+    $('#submit').click(function(e){
+        console.log('fires on click');
+        e.preventDefault();
+        $.ajax({
+            url: '/login',
+            headers: { 'Authorization': createLoginAuth() },
+            type: 'POST',
+            success: function(data){
+                var res = JSON.parse(data);
+                console.log(res);
+                if (res.err){
+                    console.log('we have a problem');
+                } else{
+                    console.log('signing in');
+                    window.location.href = '/home';
+                }
+            }
+        });
+    });
+
+</script>
+</body>
+</html>
+

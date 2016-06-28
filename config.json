@@ -1,0 +1,19 @@
+{
+    "couchbase": {
+        "server": "127.0.0.1:8091",
+        "bucket": "default"
+    },
+    "server": {
+        "ip": 3020
+    },
+    "login": {
+        "loc": "/login"
+    },
+    "logout": {
+        "loc": "/logout"
+    },
+    "crypt": {
+        "key":"w0lv3r1n3",
+        "algorithm": "aes-256-ctr"
+    }
+}
