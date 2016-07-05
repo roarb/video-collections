@@ -3,6 +3,8 @@ var passport = require('passport');
 require('./../auth/auth');
 var db = require('./../db');
 var config = require('./../config');
+var crypto = require('./../auth/local-crypto');
+var uuid = require('node-uuid');
 
 var appRouter = function(app) {
 
@@ -43,7 +45,7 @@ var appRouter = function(app) {
         if(!req.user) {
             return res.render('login', { title: 'ERROR - Log in first' });
         }
-        res.render('index', { title: 'Angular Example - launched from express ejs tempate'} );
+        res.render('index', { title: 'Angular Example - launched from express ejs tempate', user:req.user} );
     });
 
     app.get('/home', function(req, res) {
@@ -52,7 +54,7 @@ var appRouter = function(app) {
         if (!req.user) {
             return res.render("login", {title: 'Login First'});
         }
-        res.render('index', { title: 'logged in'});
+        res.render('index', { title: 'logged in', user:req.user});
     });
 
     app.get('/login', function(req, res) {
@@ -60,7 +62,7 @@ var appRouter = function(app) {
         if (!req.user) {
             return res.render("login", {title: 'Login First'});
         }
-        res.render('index', { title: 'logged in'});
+        res.render('index', { title: 'logged in', user:req.user});
     });
 
     app.post(config.login.loc, function(req, res, next) {
@@ -99,6 +101,16 @@ var appRouter = function(app) {
             }
         });
         return res.render('login', { title: "New User Signed Up" });
+    });
+
+    // search videos API calls
+
+    app.post("/api/1/search/multi", function(req, res, next) {
+        console.log('api/1/search/multi hit');
+        console.log(req.body.query);
+        var lookup = db.moviedb.findByName(req.body.query);
+        console.log(lookup);
+        return res.send('api hit');
     });
 
     app.post("/api/delete", function(req, res) {

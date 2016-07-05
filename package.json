@@ -1,5 +1,5 @@
 {
-  "name": "Video Collection",
+  "name": "VideoCollection",
   "version": "0.0.1",
   "description": "Video Collection Web App",
   "author": "Rob Hoehn - rhoehn24@gmail.com",
@@ -10,6 +10,7 @@
     "cookie-parser": "^1.4.3",
     "couchbase": "^2.0.8",
     "express": "^4.13.0",
+    "express-session": "^1.13.0",
     "ejs": "^2.4.2",
     "node-forge": "^0.6.30",
     "node-uuid": "^1.4.7",

@@ -1,41 +1,44 @@
 var app = require("./../app");
 var config = require("./../config");
 var localCrypto = require("./../auth/local-crypto");
+var couchbase = require('couchbase');
 
 /**
- * Find a user by ID from the 'users' document
+ * Find a user by ID from the all uid-xxx documents
  * 
  * @param id
  * @param cb
  */
 exports.findById = function(id, cb) {
     console.log(id + ' hit from within the findById function');
-    app.bucket.get('users', function(err, result) {
-        if (err) throw err;
-        var users = result.value.users;
-        for (var i = 0; i < users.length; i++){
-            if (users[i].id == id){
-                return cb(false, users[i]);
-            }
-        }
+    var ViewQuery = couchbase.ViewQuery;
+    var query = ViewQuery.from('userId', 'userId');
+    app.bucket.query(query, function(err, results) {
+       for(var i in results) {
+           var user = results[i].value;
+           if (id == user.id){
+               return cb(false, user);
+           }
+       }
         return cb(true, null);
     });
 };
 
 /**
- * Find a user by Username from the 'users' document
+ * Find a user by Username from all uid-xxx documents
  * 
  * @param key
  * @param cb
  */
 exports.findByConsumerKey =  function(key, cb) {
-    app.bucket.get('users', function(err, result) {
-        if (err) throw err;
-        var users = result.value.users;
-        for (var i = 0; i < users.length; i++){
-            if (users[i].username == key){
-                users[i].password = localCrypto.decrypt(users[i].password);
-                return cb(false, users[i]);
+    var ViewQuery = couchbase.ViewQuery;
+    var query = ViewQuery.from('userId', 'userId');
+    app.bucket.query(query, function(err, results) {
+        for(var i in results) {
+            var user = results[i].value;
+            if (key == user.username) {
+                user.password = localCrypto.decrypt(user.password);
+                return cb(false, user);
             }
         }
         return cb(true, null);
@@ -49,6 +52,7 @@ exports.findByConsumerKey =  function(key, cb) {
  * @param user - object from /register form
  * @param cb - callback function ( error, message )
  */
+// todo - rewrite with new multi users-docs
 exports.registerUser = function(user, cb) {
     app.bucket.get('users', function(err, result){
         if (err){ return cb(true, "Problem with loading the users from couchbase."); }

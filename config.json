@@ -1,10 +1,10 @@
 {
     "couchbase": {
         "server": "127.0.0.1:8091",
-        "bucket": "default"
+        "bucket": "video-collection"
     },
     "server": {
-        "ip": 3020
+        "ip": 8011
     },
     "login": {
         "loc": "/login"
@@ -15,5 +15,8 @@
     "crypt": {
         "key":"w0lv3r1n3",
         "algorithm": "aes-256-ctr"
+    },
+    "api": {
+      "themoviedb": "bba1c49a8793f95b6d78dc9adcdb6ded"
     }
 }

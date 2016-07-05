@@ -3,15 +3,31 @@
 <head>
     <title><%= title %></title>
     <link rel="stylesheet" href="css/bootstrap.min.css">
+    <script src="js/jquery-3.0.0.min.js"></script>
     <script src="js/angular.min.js"></script>
     <script src="js/angular-ui-router.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/app.js"></script>
+    <script src="js/db-lookup.js"></script>
 </head>
 <body ng-app="recordsapp">
 <h1><%= title %></h1>
+
+<p>Welcome <%= user.username %></p>
+<div style="text-align:center; padding:20px;">
+    <input id="search" type="text" />
+    <br /><button id="search-movies">Search</button>
+</div>
 <div style="padding: 20px">
     <div ui-view></div>
 </div>
 </body>
+<script>
+
+    $('#search-movies').click(function(e){
+        console.log('search for movie initiated');
+        searchMovies($('#search').val());
+
+    });
+</script>
 </html>
