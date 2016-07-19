@@ -1,1 +1,35 @@
+@import 'colors.css';
+
+@font-face {
+    font-family: 'Glyphicons Halflings';
+    src: url('../fonts/glyphicons-halflings-regular.eot');
+    src: url('../fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/glyphicons-halflings-regular.woff') format('woff'),
+    url('../fonts/glyphicons-halflings-regular.ttf') format('truetype'),
+    url('../fonts/glyphicons-halflings-regular.svg#glyphicons-halflingsregular') format('svg');
+}
+
+body {padding:20px;}
 a:hover {color:#ff0000;}
+.clear, .clearer {clear:both !important;}
+.f-left {float:left;}
+.f-right {float:right;}
+.a-center {text-align:center;}
+.a-left {text-align:left;}
+.a-right {text-align:right;}
+
+.video-item {background:#fff; height:360px; padding:10px;}
+.video-item .video-poster {float:left; padding:5px; max-width:40%; position:relative;}
+.video-item .video-desc {float:left; padding:5px; max-width:60%; overflow-x:auto; position:relative; height:360px;}
+.video-item .video-desc h4 {font-size:20px; float:left;}
+.video-item .video-desc .rating {float:right;}
+
+.add-video {position:absolute; color:#ccc; font-size:26px; left:5px; top:215px; cursor:pointer;}
+.format-options {background:#ccc; border-radius:18px; top:222px; position:absolute; left:20px; padding:2px 0; z-index:10; width:500px;}
+.format-options li {list-style:none; padding:4px 0; border-radius:12px; margin:4px; cursor:pointer; float:left; width:156px;}
+.format-options li:hover {background:#fff;}
+.format-options li.owned {background:#2aabd2;}
+
+.video-poster .release-date {top:-5px; position:relative; clear:left; padding:0 5px; float:left;}
+.video-poster .owned-formats {position:absolute; z-index:5;}
+.video-poster .owned-formats span span {padding:4px; border-radius:12px; font-size:6px;}

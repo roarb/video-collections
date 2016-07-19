@@ -49,12 +49,11 @@ var appRouter = function(app) {
     });
 
     app.get('/home', function(req, res) {
-        console.log('home loads');
         console.log(req.user);
         if (!req.user) {
-            return res.render("login", {title: 'Login First'});
+            return res.render("login", {title: 'Please Login First'});
         }
-        res.render('index', { title: 'logged in', user:req.user});
+        res.render('index', { title: 'Welcome '+req.user.username, user:req.user});
     });
 
     app.get('/login', function(req, res) {
@@ -62,7 +61,7 @@ var appRouter = function(app) {
         if (!req.user) {
             return res.render("login", {title: 'Login First'});
         }
-        res.render('index', { title: 'logged in', user:req.user});
+        res.render('index', { title: 'Welcome '+req.user.username, user:req.user});
     });
 
     app.post(config.login.loc, function(req, res, next) {
@@ -104,14 +103,28 @@ var appRouter = function(app) {
     });
 
     // search videos API calls
-
     app.post("/api/1/search/multi", function(req, res, next) {
-        console.log('api/1/search/multi hit');
-        console.log(req.body.query);
-        var lookup = db.moviedb.findByName(req.body.query);
-        console.log(lookup);
-        return res.send('api hit');
+        db.moviedb.findByName(req.query.query, req.user, function(err, videos){
+            //console.log("api 1 search multi - in callaback to findByName");
+            return res.status(false).send(videos);
+        });
     });
+
+    // add video - format to user document
+    app.post("/api/1/add/format", function(req, res, next){
+        db.moviedb.addFormat(req.user.id, req.body.videoId, req.body.format, function(err, result) {
+            res.send(JSON.stringify({"err": err, "msg": result}));
+        });
+    });
+
+    // remove video - format to user document
+    app.post("/api/1/remove/format", function(req, res, next){
+        db.moviedb.removeFormat(req.user.id, req.body.videoId, req.body.format, function(err, result) {
+            res.send(JSON.stringify({"err": err, "msg": result}));
+        });
+    });
+
+    // original CEAN sample examples below //
 
     app.post("/api/delete", function(req, res) {
         if(!req.body.document_id) {

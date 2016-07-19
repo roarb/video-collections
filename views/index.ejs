@@ -3,31 +3,58 @@
 <head>
     <title><%= title %></title>
     <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
     <script src="js/jquery-3.0.0.min.js"></script>
     <script src="js/angular.min.js"></script>
-    <script src="js/angular-ui-router.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
-    <script src="js/app.js"></script>
     <script src="js/db-lookup.js"></script>
+    <script src="js/videoapp.js"></script>
+    <script src="js/scripts.js"></script>
 </head>
-<body ng-app="recordsapp">
+<body ng-app="videoapp" ng-controller="videoController">
 <h1><%= title %></h1>
 
 <p>Welcome <%= user.username %></p>
 <div style="text-align:center; padding:20px;">
-    <input id="search" type="text" />
-    <br /><button id="search-movies">Search</button>
+    <input id="search" type="text" placeholder="Search Videos" />
+    <button id="search-movies" ng-click="MainItemClick()">Search</button>
 </div>
-<div style="padding: 20px">
-    <div ui-view></div>
+<div ng-repeat="vid in videoService.catalog">
+    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-6 video-item">
+
+        <div class="video-poster" data ="http://image.tmdb.org/t/p/w185/{{vid.poster_path}}">
+            <div ng-if="vid.owned" id="owned-vi-{{vid.media_type}}-{{vid.id}}" class="owned-formats">
+                <span ng-repeat="format in vid.format" class="format-bubble">
+                    <span ng-class="format | firstLetter">{{format}}</span>
+                </span>
+            </div>
+            <div class="video-poster">
+                <img src="/images/no-poster.jpg" />
+            </div>
+            <br />
+            <span class="release-date">Released: {{vid.release_date}}</span>
+            <span class="glyphicon glyphicon-plus-sign add-video" onclick="toggleFormatOptions(this)"></span>
+            <div class="format-options hidden a-center" data-vid="vi-{{vid.media_type}}-{{vid.id}}">
+                <li ng-repeat="formatAvail in formatOptions" ng-if="vid.format | contains:formatAvail" onclick="toggleVideoFormatOwned(this, 'remove')" class="owned">
+                    {{formatAvail}}
+                </li>
+                <li ng-repeat="formatAvail in formatOptions" ng-if="vid.format | doesNotContain:formatAvail" onclick="toggleVideoFormatOwned(this, 'add')">
+                    {{formatAvail}}
+                </li>
+            </div>
+        </div>
+
+        <div class="video-desc">
+            <h4>{{vid.title}}</h4>
+            <span class="rating"><span ng-bind="vid.vote_average | voteStars"></span></span>
+            <div class="clearer"></div>
+            <span class="overview">Summary: {{vid.overview}}</span><br />
+        </div>
+
+    </div>
 </div>
+<p ng-hide="videoService.catalog.length">No matching videos located.</p>
+<span ng-show="videoService.catalog.length" class="videos-found clear f-left">Videos Found: {{videoService.catalog.length}}</span>
+
 </body>
-<script>
-
-    $('#search-movies').click(function(e){
-        console.log('search for movie initiated');
-        searchMovies($('#search').val());
-
-    });
-</script>
 </html>
