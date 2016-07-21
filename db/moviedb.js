@@ -83,6 +83,25 @@ module.exports = {
         });
     },
 
+    getUserCollection: function(userId, cb) {
+        console.log('moviedb getUserCollection fires with userId: '+userId);
+        app.bucket.get('uid-'+userId, function(err, result){
+            if (err) { return cb(true, "Problem Accessing User Video Collection" ); }
+            var videos = [];
+            for (var i = 0; i < result.value.videos.length; i++){
+                videos.push(result.value.videos[i].id);
+            }
+            var query = ViewQuery.from('video', 'videoById').keys(videos);
+            app.bucket.query(query, function(err, results) {
+                if (err) { return cb(true, "Problem Loading User Video Collection" ); }
+                if (results == null){ return cb(true, "No Movies In Collection Yet" ); }
+                return cb(false, videos);
+            });
+
+        })
+
+    },
+
     addFormat: function (userId, videoId, format, cb) {
         console.log('adding '+format+' to video '+videoId+' for user '+userId);
         app.bucket.get('uid-'+userId, function(err, result){

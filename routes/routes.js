@@ -43,25 +43,39 @@ var appRouter = function(app) {
     app.get("/", function(req, res){
         //console.log(req.user);
         if(!req.user) {
-            return res.render('login', { title: 'ERROR - Log in first' });
+            return res.render('login', { title: 'TrackRight.org - Please Login First', user: false, url:"login"});
         }
-        res.render('index', { title: 'Angular Example - launched from express ejs tempate', user:req.user} );
+        res.render('index', { title: 'TrackRight.org', user: req.user, url:"home"} );
     });
 
     app.get('/home', function(req, res) {
         console.log(req.user);
         if (!req.user) {
-            return res.render("login", {title: 'Please Login First'});
+            return res.render("login", {title: 'TrackRight.org - Please Login First', user: false, url:"login"});
         }
-        res.render('index', { title: 'Welcome '+req.user.username, user:req.user});
+        res.render('index', { title: 'TrackRight.org', user: req.user, url:"home"});
     });
 
     app.get('/login', function(req, res) {
         console.log(req.user);
         if (!req.user) {
-            return res.render("login", {title: 'Login First'});
+            return res.render("login", {title: 'TrackRight.org - Please Login First', user: false, url:"login"});
         }
-        res.render('index', { title: 'Welcome '+req.user.username, user:req.user});
+        res.render('index', { title: 'TrackRight.org', user:req.user, url:"home"});
+    });
+
+    app.get('/account', function(req, res){
+       if (!req.user) {
+           return res.render("login", {title: 'TrackRight.org - Please Login First', user: false, url:"login"});
+       }
+       res.render('account', { title: req.user.username + "'s Account", user:req.user, url:"account"});
+    });
+
+    app.get('/collection', function(req, res){
+        if (!req.user) {
+            return res.render("login", {title: 'TrackRight.org - Please Login First', user: false, msg:'Please Login First', url:"login"});
+        }
+        res.render('collection', { title: req.user.username + "'s Collection", user:req.user, url:"collection"});
     });
 
     app.post(config.login.loc, function(req, res, next) {
@@ -122,6 +136,15 @@ var appRouter = function(app) {
         db.moviedb.removeFormat(req.user.id, req.body.videoId, req.body.format, function(err, result) {
             res.send(JSON.stringify({"err": err, "msg": result}));
         });
+    });
+
+    // get user collection of videos
+    app.post("/api/1/user/collection", function(req, res, next){
+        console.log('post - api/1/user/collection hit');
+        console.log(req.user.id);
+        db.moviedb.getUserCollection(req.user.id, function(err, result) {
+            res.send(JSON.stringify({"err": err, "msg": result}));
+        })
     });
 
     // original CEAN sample examples below //

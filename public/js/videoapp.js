@@ -8,13 +8,9 @@ app.service('videoService', function ($http) {
         if (!name){ return false; }
 
         // get data on run here
-        console.log("videoService.getMyData");
-        console.log(name);
         var url = '/api/1/search/multi';
         url += '?query=' + name;
-        console.log(url);
         $http.post(url).success(function (data) {
-            console.log("$http.post.success");
             self.catalog = data;
             // lazy load all the new images
             //lazyVideoPosterLoad();
@@ -24,7 +20,23 @@ app.service('videoService', function ($http) {
     self.getData();
 });
 
-var videoController = function ($scope, videoService) {
+app.service('videoCollection', function ($http) {
+
+    var self  = this;
+    self.collection = [];
+
+    self.getData = function() {
+
+        // get collection of movies here
+        $http.post('/api/1/user/collection').success(function (data) {
+            self.collection = data;
+        });
+    };
+
+    self.getData();
+});
+
+var videoController = function ($scope, videoService, videoCollection) {
     $scope.videoService = videoService;
 
     $scope.formatOptions = [
@@ -36,9 +48,16 @@ var videoController = function ($scope, videoService) {
     $scope.formatOptions.sort();
 
     $scope.MainItemClick = function () {
+        console.log('$scope.MainItemClick function runs within the videoapp');
         var query = document.getElementById("search").value;
         videoService.getData(query);
     };
+
+    $scope.videoCollection = videoCollection;
+    $scope.CollectionLoad = function() {
+        videoCollection.getData();
+    };
+
 };
 
 app.controller(videoController);

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <% include partials/head.ejs %>
+</head>
+<!--<body ng-app="videoapp" ng-controller="videoController" data-ng-init="CollectionLoad()">-->
+<body ng-app="videoapp" ng-controller="videoController">
+
+<% include partials/nav.ejs %>
+
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div ng-if="videoCollection.collection.err"><span>{{videoCollection.collection.msg}}</span>Testing error reporting</div>
+    <div ng-repeat="vid in videoCollection.collection">
+        {{vid}}
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-6 video-item">
+
+            <div class="video-poster" data ="http://image.tmdb.org/t/p/w185/{{vid.poster_path}}">
+                <div ng-if="vid.owned" id="owned-vi-{{vid.media_type}}-{{vid.id}}" class="owned-formats">
+                <span ng-repeat="format in vid.format" class="format-bubble">
+                    <span ng-class="format | firstLetter">{{format}}</span>
+                </span>
+                </div>
+                <div class="video-poster">
+                    <img src="/images/no-poster.jpg" />
+                </div>
+                <br />
+                <span class="release-date">Released: {{vid.release_date}}</span>
+                <span class="glyphicon glyphicon-plus-sign add-video" onclick="toggleFormatOptions(this)"></span>
+                <div class="format-options hidden a-center" data-vid="vi-{{vid.media_type}}-{{vid.id}}">
+                    <li ng-repeat="formatAvail in formatOptions" ng-if="vid.format | contains:formatAvail" onclick="toggleVideoFormatOwned(this, 'remove')" class="owned">
+                        {{formatAvail}}
+                    </li>
+                    <li ng-repeat="formatAvail in formatOptions" ng-if="vid.format | doesNotContain:formatAvail" onclick="toggleVideoFormatOwned(this, 'add')">
+                        {{formatAvail}}
+                    </li>
+                </div>
+            </div>
+
+            <div class="video-desc">
+                <h4>{{vid.title}}</h4>
+                <span class="rating"><span ng-bind="vid.vote_average | voteStars"></span></span>
+                <div class="clearer"></div>
+                <span class="overview">Summary: {{vid.overview}}</span>
+                <div class="clearer"></div>
+                <div class="watch-list">-- watch list --</div>
+            </div>
+
+        </div>
+    </div>
+    <div class="clearer"></div>
+    <p ng-hide="videoCollection.catalog.length">No matching videos located.</p>
+    <span ng-show="videoCollection.catalog.length" class="videos-found clear f-left">Videos Found: {{videoCollection.collection.length}}</span>
+
+</div>
+<% include partials/footer.ejs %>
+</body>
+</html>

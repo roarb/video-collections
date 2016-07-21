@@ -18,6 +18,8 @@ a:hover {color:#ff0000;}
 .a-left {text-align:left;}
 .a-right {text-align:right;}
 
+.navbar-right .title {margin-top:10px; font-size:26px;}
+
 .video-item {background:#fff; height:360px; padding:10px;}
 .video-item .video-poster {float:left; padding:5px; max-width:40%; position:relative;}
 .video-item .video-desc {float:left; padding:5px; max-width:60%; overflow-x:auto; position:relative; height:360px;}

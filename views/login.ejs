@@ -1,31 +1,29 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/css/style.css' />
-    <script src="/js/jquery-3.0.0.min.js"></script>
-    <script src="/js/rollups/hmac-sha256.js"></script>
-    <script src="/js/components/enc-base64.js"></script>
-    <script src="/js/components/core.js"></script>
+    <% include partials/head.ejs %>
 </head>
 <body>
-<h1><%= title %></h1>
-<p>Please Log In to Continue</p>
-<form action="/login" method="post">
-    <div>
-        <label>Username:</label>
-        <input id="username" type="text" name="username"/>
-    </div>
-    <div>
-        <label>Password:</label>
-        <input id="password" type="password" name="password"/>
-    </div>
-    <div>
-        <input id="submit" type="submit" value="Log In"/>
-    </div>
-</form>
-<p><small>hint: rhoehn24 / test</small></p>
-<p><small>hint: rsmith / bigo</small></p>
+<% include partials/nav.ejs %>
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <p>Please Login First</p>
+    <form action="/login" method="post">
+        <div>
+            <label>Username:</label>
+            <input id="username" type="text" name="username"/>
+        </div>
+        <div>
+            <label>Password:</label>
+            <input id="password" type="password" name="password"/>
+        </div>
+        <div>
+            <input id="submit" type="submit" value="Log In"/>
+        </div>
+    </form>
+    <p><small>hint: rhoehn24 / test</small></p>
+    <p><small>hint: rsmith / bigo</small></p>
+</div>
+<% include partials/footer.ejs %>
 <script>
 
     $('#submit').click(function(e){
