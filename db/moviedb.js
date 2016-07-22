@@ -85,17 +85,35 @@ module.exports = {
 
     getUserCollection: function(userId, cb) {
         console.log('moviedb getUserCollection fires with userId: '+userId);
+        var userVideos = [],
+            videos = [];
         app.bucket.get('uid-'+userId, function(err, result){
             if (err) { return cb(true, "Problem Accessing User Video Collection" ); }
-            var videos = [];
             for (var i = 0; i < result.value.videos.length; i++){
+                var rating = null;
+                if (result.value.videos[i].rating != undefined){
+                    rating = result.value.videos[i].rating;
+                }
+                userVideos.push({
+                    id: result.value.videos[i].id,
+                    format: result.value.videos[i].format,
+                    rating: rating
+                });
                 videos.push(result.value.videos[i].id);
             }
             var query = ViewQuery.from('video', 'videoById').keys(videos);
             app.bucket.query(query, function(err, results) {
                 if (err) { return cb(true, "Problem Loading User Video Collection" ); }
                 if (results == null){ return cb(true, "No Movies In Collection Yet" ); }
-                return cb(false, videos);
+                for (var i = 0; i < results.length; i++){
+                    for (var x = 0; x < userVideos.length; x++){
+                        if (results[i].key == userVideos[x].id){
+                            results[i].value.format = userVideos[x].format;
+                            results[i].value.userRating = userVideos[x].rating;
+                        }
+                    }
+                }
+                return cb(false, results);
             });
 
         })

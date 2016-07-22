@@ -29,6 +29,8 @@ app.service('videoCollection', function ($http) {
 
         // get collection of movies here
         $http.post('/api/1/user/collection').success(function (data) {
+            console.log('videoCollection data returned from CB');
+            console.log(data);
             self.collection = data;
         });
     };
