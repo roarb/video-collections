@@ -20,18 +20,22 @@ a:hover {color:#ff0000;}
 
 .navbar-right .title {margin-top:10px; font-size:26px;}
 
+.video-search input {padding:5px 12px; top:1px; position:relative;}
+
 .video-item {background:#fff; height:360px; padding:10px;}
 .video-item .video-poster {float:left; padding:5px; max-width:40%; position:relative;}
 .video-item .video-desc {float:left; padding:5px; max-width:60%; overflow-x:auto; position:relative; height:360px;}
-.video-item .video-desc h4 {font-size:20px; float:left;}
-.video-item .video-desc .rating {float:right;}
+.video-item .video-desc h4 {font-size:20px; float:left; width:100%; border-bottom:1px solid #d1d1d1;}
+.video-item .video-desc .rating {float:right; width:100px; background:url('../images/grey-star-rating-full.jpg') no-repeat 0 0; font-size:0; height:17px;}
+.video-item .video-desc .rating .user-rating {background:url('../images/yellow-star-rating-full.jpg') no-repeat 0 0 ; height:17px; display:block;}
+.video-item .video-desc .rating .avg-rating {background:url('../images/blue-star-rating-full.jpg') no-repeat 0 0 ; height:17px; display:block;}
 
-.add-video {position:absolute; color:#ccc; font-size:26px; left:5px; top:215px; cursor:pointer;}
-.format-options {background:#ccc; border-radius:18px; top:222px; position:absolute; left:20px; padding:2px 0; z-index:10; width:500px;}
+.add-video {position:absolute; color:#ccc; font-size:26px; left:5px; top:267px; cursor:pointer;}
+.format-options {background:#ccc; border-radius:18px; top:276px; position:absolute; left:20px; padding:2px 0; z-index:10; width:500px;}
 .format-options li {list-style:none; padding:4px 0; border-radius:12px; margin:4px; cursor:pointer; float:left; width:156px;}
 .format-options li:hover {background:#fff;}
 .format-options li.owned {background:#2aabd2;}
 
 .video-poster .release-date {top:-5px; position:relative; clear:left; padding:0 5px; float:left;}
-.video-poster .owned-formats {position:absolute; z-index:5;}
+.video-poster .owned-formats {position:absolute; z-index:5; top:2px;}
 .video-poster .owned-formats span span {padding:4px; border-radius:12px; font-size:6px;}

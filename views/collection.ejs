@@ -19,10 +19,11 @@
                     </span>
                 </div>
                 <div class="video-poster">
-                    <img src="/images/no-poster.jpg" />
+                    <img ng-if="vid.value.poster_path" ng-src="http://image.tmdb.org/t/p/w185/{{vid.value.poster_path}}" />
+                    <img ng-if="!vid.value.poster_path" ng-src="/images/no-poster.jpg" />
                 </div>
                 <br />
-                <span class="release-date">Released: {{vid.value.release_date}}</span>
+                <span class="release-date"><small>Released:</small> {{vid.value.release_date}}</span>
                 <span class="glyphicon glyphicon-plus-sign add-video" onclick="toggleFormatOptions(this)"></span>
                 <div class="format-options hidden a-center" data-vid="vi-{{vid.value.media_type}}-{{vid.value.id}}">
                     <li ng-repeat="formatAvail in formatOptions" ng-if="vid.value.format | contains:formatAvail" onclick="toggleVideoFormatOwned(this, 'remove')" class="owned">
@@ -35,22 +36,28 @@
             </div>
 
             <div class="video-desc">
-                <h4>{{vid.value.title}}</h4>
+                <h4 class="video-title" ng-if="vid.value.title">{{vid.value.title}}</h4>
+                <h4 class="video-title" ng-if="vid.value.name">{{vid.value.name}}</h4>
                 <span class="rating">
                     <span ng-if="vid.value.userRating" class="user-rating">{{vid.value.userRating}}</span>
-                    <span ng-if="!vid.value.userRating" ng-bind="vid.value.vote_average | voteStars"></span>
+                    <span ng-if="!vid.value.userRating">
+                        <span ng-if="vid.value.vote_average" ng-bind="vid.value.vote_average | voteStars" class="avg-rating"></span>
+                        <span ng-if="!vid.value.vote_average" class="no-rating">no rating</span>
+                    </span>
                 </span>
                 <div class="clearer"></div>
                 <span class="overview">Summary: {{vid.value.overview}}</span>
                 <div class="clearer"></div>
-                <div class="watch-list">-- watch list --</div>
+                <div class="watch-list">
+                    <button ng-click="AddToWatchList('{{vid.key}}')">Add to watch list</button>
+                </div>
             </div>
 
         </div>
     </div>
     <div class="clearer"></div>
-    <p ng-hide="videoCollection.collection.length">No matching videos located.</p>
-    <span ng-show="videoCollection.collection.length" class="videos-found clear f-left">Videos Found: {{videoCollection.collection.length}}</span>
+    <p ng-hide="videoCollection.collection.msg.length">No matching videos located.</p>
+    <span ng-show="videoCollection.collection.msg.length" class="videos-found clear f-left">Videos Found: {{videoCollection.collection.msg.length}}</span>
 
 </div>
 <% include partials/footer.ejs %>

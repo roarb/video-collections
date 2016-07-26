@@ -14,7 +14,7 @@
 </div>
 <div class="clearer"></div>
 
-<div ng-repeat="vid in videoService.catalog">
+<div ng-repeat="vid in videoService.catalog" video-search-load>
     <div class="col-xs-4 col-sm-4 col-md-4 col-lg-6 video-item">
 
         <div class="video-poster" data ="http://image.tmdb.org/t/p/w185/{{vid.poster_path}}">
@@ -24,7 +24,8 @@
                 </span>
             </div>
             <div class="video-poster">
-                <img src="/images/no-poster.jpg" />
+                <img ng-if="vid.poster_path" ng-src="http://image.tmdb.org/t/p/w185/{{vid.poster_path}}" />
+                <img ng-if="!vid.poster_path" ng-src="/images/no-poster.jpg" />
             </div>
             <br />
             <span class="release-date">Released: {{vid.release_date}}</span>
@@ -40,8 +41,15 @@
         </div>
 
         <div class="video-desc">
-            <h4>{{vid.title}}</h4>
-            <span class="rating"><span ng-bind="vid.vote_average | voteStars"></span></span>
+            <h4 class="video-title" ng-if="vid.title">{{vid.title}}</h4>
+            <h4 class="video-title" ng-if="vid.name">{{vid.name}}</h4>
+            <span class="rating">
+                    <span ng-if="vid.userRating" class="user-rating" ng-class="vid.userRating">{{vid.userRating}}</span>
+                    <span ng-if="!vid.userRating">
+                        <span ng-if="vid.vote_average" ng-bind="vid.vote_average | voteStars" class="avg-rating"></span>
+                        <span ng-if="!vid.vote_average" class="no-rating">no rating</span>
+                    </span>
+                </span>
             <div class="clearer"></div>
             <span class="overview">Summary: {{vid.overview}}</span>
             <div class="clearer"></div>
@@ -52,7 +60,7 @@
 </div>
 <p ng-hide="videoService.catalog.length">No matching videos located.</p>
 <span ng-show="videoService.catalog.length" class="videos-found clear f-left">Videos Found: {{videoService.catalog.length}}</span>
-
+<div class="clearer"></div>
 <% include partials/footer.ejs %>
 </body>
 </html>

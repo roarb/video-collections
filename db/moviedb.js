@@ -16,56 +16,67 @@ module.exports = {
         };
 
         // method is call outing out to themoviedb -= commenting out to test local generation from couchbase
-        // callback = function (response) {
-        //     var str = '';
-        //     response.on('data', function (chunk) {
-        //         str += chunk;
-        //     });
-        //     response.on('end', function () {
-        //         var videos = JSON.parse(str);
-        //         var videos = videos.results;
-        //         for (var i = 0; i < videos.length; i++) {
-        //             var video = videos[i];
-        //             // save each returned video to couchbase
-        //             module.exports.saveVideoToCB(video, function(err, msg){
-        //                 // call back messaging
-        //             });
-        //             // todo build a front end return here - connect through to the user profile here?
-        //             console.log(usr);
+        callback = function (response) {
+            var str = '';
+            response.on('data', function (chunk) {
+                str += chunk;
+            });
+            response.on('end', function () {
+                var videos = JSON.parse(str);
+                videos = videos.results;
+                app.bucket.get('uid-'+usr.id, function(err, results) {
+                    if (err) { return cb(true, err); }
+                    var owned = results.value.videos;
+                    console.log(owned);
+                    for (var i = 0; i < videos.length; i++) {
+                        for (var x = 0; x < owned.length; x++) {
+                            if (owned[x].id === 'vi-'+videos[i].media_type+'-'+videos[i].id){
+                                videos[i].format = owned[x].format;
+                                videos[i].userRating = owned[x].rating;
+                                videos[i].owned = true; // needed to call in the format bubbles
+                            }
+                        }
+
+                        // save each returned video to couchbase
+                        module.exports.saveVideoToCB(videos[i], function(err, msg){
+                            // call back messaging
+                        });
+
+
+                    }
+                    return cb(false, videos);
+                });
+            });
+        };
+
+        http.request(options, callback).end();
+
+        // get video results from couchbase - // todo the search functionality is quite lacking here.
+        // app.bucket.get('uid-'+usr.id, function(err, results){
+        //     var owned = results.value.videos;
+        //
+        //     var query = ViewQuery.from('video', 'movies').range(name, name+' z');
+        //     app.bucket.query(query, function(err, results) {
+        //         var videos = [];
+        //         for (var i = 0; i < results.length; i++){
+        //
+        //             // check for a matching video ID to the user owned video IDS
+        //             for (var x = 0; x < owned.length; x++){
+        //                 //console.log(results[i].id);
+        //                 //console.log(owned[x].id);
+        //                 if (results[i].id === owned[x].id){
+        //                     results[i].value.owned = true;
+        //                     results[i].value.format = owned[x].format;
+        //                 }
+        //             }
+        //
+        //             //console.log(results[i]);
+        //             videos.push(results[i].value);
         //         }
         //
         //         return cb(false, videos);
         //     });
-        // };
-        //
-        // http.request(options, callback).end();
-
-        // get video results from couchbase - // todo the search functionality is quite lacking here.
-        app.bucket.get('uid-'+usr.id, function(err, results){
-            var owned = results.value.videos;
-
-            var query = ViewQuery.from('video', 'movies').range(name, name+' z');
-            app.bucket.query(query, function(err, results) {
-                var videos = [];
-                for (var i = 0; i < results.length; i++){
-
-                    // check for a matching video ID to the user owned video IDS
-                    for (var x = 0; x < owned.length; x++){
-                        //console.log(results[i].id);
-                        //console.log(owned[x].id);
-                        if (results[i].id === owned[x].id){
-                            results[i].value.owned = true;
-                            results[i].value.format = owned[x].format;
-                        }
-                    }
-
-                    //console.log(results[i]);
-                    videos.push(results[i].value);
-                }
-
-                return cb(false, videos);
-            });
-        });
+        // });
 
 
     },
@@ -173,5 +184,9 @@ module.exports = {
             });
             cb (false, 'Movie Format Removed');
         });
+    },
+
+    addToUserWatchList: function(id, cb) {
+        return cb(false, 'fired through to db.addToUserWatchList correctly');
     }
 };

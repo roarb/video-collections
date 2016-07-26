@@ -1,7 +1,13 @@
 function lazyVideoPosterLoad() {
-    console.log('lazyVideoPosterLoad fires - huzzha you bad mother fucker!');
-    // jquery loading issue here... --- jquery looks to be loading ---- todo come back to this.
-    console.log($('.video-poster'));
+    // var items = $('.video-poster');
+    // for (var i = 0; i < items.length; i++){
+    //     var item = items[i];
+    //     if ($(item).attr('data') != undefined){
+    //         var imgLoc = $(item).attr('data');
+    //         console.log(imgLoc);
+    //     }
+    //     $(item).find('img').attr('src', imgLoc);
+    // }
 }
 
 function toggleFormatOptions(e){

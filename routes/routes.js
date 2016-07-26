@@ -78,6 +78,13 @@ var appRouter = function(app) {
         res.render('collection', { title: req.user.username + "'s Collection", user:req.user, url:"collection"});
     });
 
+    app.get('/watch-list', function(req, res){
+        if (!req.user) {
+            return res.render("login", {title: 'TrackRight.org - Please Login First', user: false, msg:'Please Login First', url:"login"});
+        }
+        res.render('watch-list', { title: req.user.username + "'s To Watch List", user:req.user, url:"watch-list"});
+    });
+
     app.post(config.login.loc, function(req, res, next) {
         console.log('login post hit');
         passport.authenticate('consumer', function(err, user) {
@@ -145,6 +152,13 @@ var appRouter = function(app) {
         db.moviedb.getUserCollection(req.user.id, function(err, result) {
             res.send(JSON.stringify({"err": err, "msg": result}));
         })
+    });
+
+    // toggle user watchlist videos
+    app.post("/api/1/watchlist/toggle", function(req, res, next) {
+        console.log('watchlist/toggle hit');
+        console.log(req.user.id);
+        console.log(req.body.videoId);
     });
 
     // original CEAN sample examples below //

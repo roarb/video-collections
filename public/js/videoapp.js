@@ -12,12 +12,21 @@ app.service('videoService', function ($http) {
         url += '?query=' + name;
         $http.post(url).success(function (data) {
             self.catalog = data;
-            // lazy load all the new images
-            //lazyVideoPosterLoad();
         });
     };
 
     self.getData();
+});
+
+app.directive('videoSearchLoad', function() {
+    return function (scope, element, attrs) {
+        if (scope.$last) {
+            // sample example of how to run a function after the ng-repeat is finished
+            // iteration is complete, do whatever post-processing
+            // is necessary
+            // lazyVideoPosterLoad();
+        }
+    };
 });
 
 app.service('videoCollection', function ($http) {
@@ -29,8 +38,6 @@ app.service('videoCollection', function ($http) {
 
         // get collection of movies here
         $http.post('/api/1/user/collection').success(function (data) {
-            console.log('videoCollection data returned from CB');
-            console.log(data);
             self.collection = data;
         });
     };
@@ -38,21 +45,34 @@ app.service('videoCollection', function ($http) {
     self.getData();
 });
 
-var videoController = function ($scope, videoService, videoCollection) {
+var videoController = function ($scope, $http, videoService, videoCollection) {
     $scope.videoService = videoService;
 
     $scope.formatOptions = [
         "DVD", "Blu-Ray", "Google Play",
-        "iTunes", "VHS", "Digital (720)",
+        "iTunes",  "Digital (720)",
         "Digital (480)", "Digital (1080)",
         "Digital (4k)", "Amazon"
     ];
     $scope.formatOptions.sort();
 
     $scope.MainItemClick = function () {
-        console.log('$scope.MainItemClick function runs within the videoapp');
         var query = document.getElementById("search").value;
         videoService.getData(query);
+    };
+
+    $scope.AddToWatchList = function (id) {
+        console.log(id);
+        var url = '/api/1/watchlist/toggle';
+        url += '?videoId=' + id;
+        $http.post(url).success(function (data) {
+            self.catalog = data;
+        });
+        // db.moviedb.addToUserWatchList(id, function(err, result){
+        //     if (err){ console.log('found an error with adding to userWatchList()'); }
+        //     console.log(result);
+        // });
+        // console.log('AddToWatchList fires for video id: '+id);
     };
 
     $scope.videoCollection = videoCollection;
@@ -90,6 +110,16 @@ app.filter('firstLetter', function(){
 
 app.filter('voteStars', function(){
    return function (el){
+       if (el == 0){
+           return false;
+       }
        return (parseFloat(el) / 2).toFixed(2);
+   }
+});
+
+app.filter('starsWidth', function(){
+   return function (el){
+       el = (parseFloat(el) / 2).toFixed(2);
+       return el;
    }
 });
