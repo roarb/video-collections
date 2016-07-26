@@ -113,8 +113,21 @@ app.filter('voteStars', function(){
        if (el == 0){
            return false;
        }
-       return (parseFloat(el) / 2).toFixed(2);
+       var num = parseFloat(el).toFixed(1);
+       num = num*10;
+       return 'width-'+num;
    }
+});
+
+app.filter('userStars', function(){
+    return function (el){
+        if (el == 0){
+            return false;
+        }
+        var num = (parseFloat(el)*2).toFixed(1);
+        num = num*10;
+        return 'width-'+num;
+    }
 });
 
 app.filter('starsWidth', function(){

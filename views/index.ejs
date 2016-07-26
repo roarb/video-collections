@@ -44,9 +44,9 @@
             <h4 class="video-title" ng-if="vid.title">{{vid.title}}</h4>
             <h4 class="video-title" ng-if="vid.name">{{vid.name}}</h4>
             <span class="rating">
-                    <span ng-if="vid.userRating" class="user-rating" ng-class="vid.userRating">{{vid.userRating}}</span>
+                    <span ng-if="vid.userRating" class="user-rating" ng-class="vid.userRating | userStars"></span>
                     <span ng-if="!vid.userRating">
-                        <span ng-if="vid.vote_average" ng-bind="vid.vote_average | voteStars" class="avg-rating"></span>
+                        <span ng-if="vid.vote_average" ng-class="vid.vote_average | voteStars" class="avg-rating"></span>
                         <span ng-if="!vid.vote_average" class="no-rating">no rating</span>
                     </span>
                 </span>
