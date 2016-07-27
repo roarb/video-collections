@@ -49,7 +49,7 @@
                 <span class="overview">Summary: {{vid.value.overview}}</span>
                 <div class="clearer"></div>
                 <div class="watch-list">
-                    <button ng-click="AddToWatchList('{{vid.key}}')">Add to watch list</button>
+                    <button class="add-to-watchlist" onclick="AddToWatchList(this)" id="watchlist-{{vid.value.media_type}}-{{vid.value.id}}">Add to watch list</button>
                 </div>
             </div>
 
@@ -60,6 +60,7 @@
     <span ng-show="videoCollection.collection.msg.length" class="videos-found clear f-left">Videos Found: {{videoCollection.collection.msg.length}}</span>
 
 </div>
+
 <% include partials/footer.ejs %>
 </body>
 </html>

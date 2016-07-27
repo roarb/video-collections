@@ -61,20 +61,6 @@ var videoController = function ($scope, $http, videoService, videoCollection) {
         videoService.getData(query);
     };
 
-    $scope.AddToWatchList = function (id) {
-        console.log(id);
-        var url = '/api/1/watchlist/toggle';
-        url += '?videoId=' + id;
-        $http.post(url).success(function (data) {
-            self.catalog = data;
-        });
-        // db.moviedb.addToUserWatchList(id, function(err, result){
-        //     if (err){ console.log('found an error with adding to userWatchList()'); }
-        //     console.log(result);
-        // });
-        // console.log('AddToWatchList fires for video id: '+id);
-    };
-
     $scope.videoCollection = videoCollection;
     $scope.CollectionLoad = function() {
         videoCollection.getData();

@@ -1,13 +1,14 @@
-function lazyVideoPosterLoad() {
-    // var items = $('.video-poster');
-    // for (var i = 0; i < items.length; i++){
-    //     var item = items[i];
-    //     if ($(item).attr('data') != undefined){
-    //         var imgLoc = $(item).attr('data');
-    //         console.log(imgLoc);
-    //     }
-    //     $(item).find('img').attr('src', imgLoc);
-    // }
+function AddToWatchList(el){
+    var vidId = $(el).attr('id');
+    vidId = vidId.replace('watchlist','vi');
+    console.log(vidId);
+    var url = '/api/1/watchlist/toggle';
+    url += '?videoId=' + vidId;
+    $.post(url, function(data, status){
+        console.log('within the api/1/watchlist/toggle/');
+        console.log("Data: " + data + "\nStatus: " + status);
+    });
+
 }
 
 function toggleFormatOptions(e){

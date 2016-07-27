@@ -158,7 +158,8 @@ var appRouter = function(app) {
     app.post("/api/1/watchlist/toggle", function(req, res, next) {
         console.log('watchlist/toggle hit');
         console.log(req.user.id);
-        console.log(req.body.videoId);
+        console.log(req.query.videoId);
+        res.send('hit watchlist/toggle api with vidId '+req.query.videoId);
     });
 
     // original CEAN sample examples below //
