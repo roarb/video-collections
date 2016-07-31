@@ -20,7 +20,7 @@ a:hover {color:#ff0000;}
 .a-right {text-align:right;}
 
 button {
-    padding:2px 7px;
+    padding:2px 7px; border:1px solid #888; border-radius:5px; margin:3px 0 0;
     /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#f2f5f6+0,e3eaed+37,c8d7dc+100;Grey+3D+%234 */
     background: #f2f5f6; /* Old browsers */
     background: -moz-linear-gradient(top,  #f2f5f6 0%, #e3eaed 37%, #c8d7dc 100%); /* FF3.6-15 */
@@ -29,7 +29,7 @@ button {
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', endColorstr='#c8d7dc',GradientType=0 ); /* IE6-9 */
 
 }
-button:hover {
+button:hover, .in-list button:hover {
     /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#cfe7fa+0,6393c1+100;Grey+Blue+3D */
     background: #cfe7fa; /* Old browsers */
     background: -moz-linear-gradient(top,  #cfe7fa 0%, #6393c1 100%); /* FF3.6-15 */
@@ -38,17 +38,34 @@ button:hover {
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cfe7fa', endColorstr='#6393c1',GradientType=0 ); /* IE6-9 */
 }
 
+.in-list button {/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#feffe8+0,d6dbbf+100;Wax+3D+%231 */
+    background: #feffe8; /* Old browsers */
+    background: -moz-linear-gradient(top,  #feffe8 0%, #d6dbbf 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top,  #feffe8 0%,#d6dbbf 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom,  #feffe8 0%,#d6dbbf 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#feffe8', endColorstr='#d6dbbf',GradientType=0 ); /* IE6-9 */
+}
+
 .navbar-right .title {margin-top:10px; font-size:26px;}
 
 .video-search input {padding:5px 12px; top:1px; position:relative;}
 
 .video-item {background:#fff; height:360px; padding:10px;}
-.video-item .video-poster {float:left; padding:5px; max-width:40%; position:relative;}
-.video-item .video-desc {float:left; padding:5px; max-width:60%; overflow-x:auto; position:relative; height:360px;}
+.video-item .video-poster {float:left; padding:5px; max-width:35%; width:204px; position:relative; height:292px;}
+.video-item .video-poster img {max-height:275px; max-width:185px;}
+.video-item .video-desc {float:left; padding:5px; width:65%; position:relative; height:360px;}
 .video-item .video-desc h4 {font-size:20px; float:left; width:100%; border-bottom:1px solid #d1d1d1;}
 .video-item .video-desc .rating {float:right; width:100px; background:url('../images/grey-star-rating-full.jpg') no-repeat 0 0; font-size:0; height:17px;}
 .video-item .video-desc .rating .user-rating {background:url('../images/yellow-star-rating-full.jpg') no-repeat 0 0 ; height:17px; display:block;}
 .video-item .video-desc .rating .avg-rating {background:url('../images/blue-star-rating-full.jpg') no-repeat 0 0 ; height:17px; display:block;}
+.video-item .video-desc .overview {height:233px; padding:10px; margin:5px; display:block; border:1px solid #d1d1d1; background:#fafafa; overflow:hidden;}
+.video-item .video-desc .overview-shadow {/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#fafafa+0,fafafa+100&0+0,1+100 */
+    background: -moz-linear-gradient(top,  rgba(250,250,250,0) 0%, rgba(250,250,250,1) 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top,  rgba(250,250,250,0) 0%,rgba(250,250,250,1) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom,  rgba(250,250,250,0) 0%,rgba(250,250,250,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00fafafa', endColorstr='#fafafa',GradientType=0 ); /* IE6-9 */
+    display:block; height:54px; position:absolute; bottom:58px; right:11px; width:94%; z-index:1;}
+.video-item .video-desc .watch-list {position: relative; top:-13px; left:10px; z-index:3;}
 
 .add-video {position:absolute; color:#ccc; font-size:26px; left:5px; top:267px; cursor:pointer;}
 .format-options {background:#ccc; border-radius:18px; top:276px; position:absolute; left:20px; padding:2px 0; z-index:10; width:500px;}

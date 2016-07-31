@@ -27,14 +27,23 @@ module.exports = {
                 app.bucket.get('uid-'+usr.id, function(err, results) {
                     if (err) { return cb(true, err); }
                     var owned = results.value.videos;
-                    console.log(owned);
+                    var watchList = results.value.watchList;
                     for (var i = 0; i < videos.length; i++) {
                         for (var x = 0; x < owned.length; x++) {
                             if (owned[x].id === 'vi-'+videos[i].media_type+'-'+videos[i].id){
                                 videos[i].format = owned[x].format;
                                 videos[i].userRating = owned[x].rating;
-                                videos[i].owned = true; // needed to call in the format bubbles
+                                if (owned[x].length > -1) {
+                                    videos[i].owned = true; // needed to call in the format bubbles
+                                }
                             }
+                            videos[i].videoId = 'vi-'+videos[i].media_type+'-'+videos[i].id;
+                        }
+                        for (var x = 0; x < watchList.length; x++){
+                            if ('vi-'+videos[i].media_type+'-'+videos[i].id == watchList[x]){
+                                videos[i].watchList = true;
+                            }
+
                         }
 
                         // save each returned video to couchbase
@@ -112,6 +121,7 @@ module.exports = {
                 });
                 videos.push(result.value.videos[i].id);
             }
+            var watchList =  result.value.watchList;
             var query = ViewQuery.from('video', 'videoById').keys(videos);
             app.bucket.query(query, function(err, results) {
                 if (err) { return cb(true, "Problem Loading User Video Collection" ); }
@@ -121,14 +131,51 @@ module.exports = {
                         if (results[i].key == userVideos[x].id){
                             results[i].value.format = userVideos[x].format;
                             results[i].value.userRating = userVideos[x].rating;
+                            results[i].value.videoId = userVideos[x].id;
+                            results[i].value.watchList = false; // set the default to false.
                         }
                     }
+                    for (var x = 0; x < watchList.length; x++){
+                        if (results[i].key == watchList[x]){
+                            results[i].value.watchList = true;
+                        }
+
+                    }
                 }
+                // console.log(results);
                 return cb(false, results);
             });
 
         })
 
+    },
+
+    getUserWatchlist: function(userId, cb) {
+        console.log('moviedb getUserWatchlist fires with userId: '+userId);
+        var collection = [];
+        app.bucket.get('uid-'+userId, function(err, userResult) {
+        if (err) { return cb(true, "Problem Accessing User Watchlist Collection"); }
+            var query = ViewQuery.from('video', 'videoById').keys(userResult.value.watchList);
+            app.bucket.query(query, function(err, vidResults) {
+                // console.log(vidResults); // returned videos in watchlist -need to add in formats owned next.
+                for (var i = 0; i < userResult.value.videos.length; i++){
+                    for (var x = 0; x < vidResults.length; x++){
+                        if ('vi-'+vidResults[x].value.media_type+'-'+vidResults[x].value.id == userResult.value.videos[i].id){
+                            vidResults[x].value.format = userResult.value.videos[i].format;
+                            if (userResult.value.videos[i].rating == 'undefined'){
+                                vidResults[x].value.userRating = false;
+                            } else {
+                                vidResults[x].value.userRating = userResult.value.videos[i].rating;
+                            }
+                        }
+                        vidResults[x].value.videoId = userResult.value.videos[i].id;
+                        vidResults[x].value.watchList = true;
+                    }
+                }
+                // console.log(vidResults);
+                return cb(false, vidResults);
+            });
+        });
     },
 
     addFormat: function (userId, videoId, format, cb) {
@@ -138,9 +185,9 @@ module.exports = {
             // check if the incoming videoId matches any of the users current videos
             var added = false;
             for (var i = 0; i < result.value.videos.length; i++){
-                console.log(added);
-                console.log(videoId);
-                console.log(result.value.videos[i].id);
+                // console.log(added);
+                // console.log(videoId);
+                // console.log(result.value.videos[i].id);
                 if (videoId === result.value.videos[i].id && !added){
                     console.log('matching video found');
                     console.log(format+' added to '+videoId);
@@ -170,7 +217,6 @@ module.exports = {
             if (err) {
                 return cb(true, "Problem Accessing User Video Collection");
             }
-            console.log(result.value);
             for (var i = 0; i < result.value.videos.length; i++){
                 if (videoId === result.value.videos[i].id){
                     var index = result.value.videos[i].format.indexOf(format);
@@ -186,7 +232,31 @@ module.exports = {
         });
     },
 
-    addToUserWatchList: function(id, cb) {
-        return cb(false, 'fired through to db.addToUserWatchList correctly');
+    toggleUserWatchList: function(userId, vidId, cb) {
+        app.bucket.get('uid-'+userId, function(err, result) {
+            if (err) {
+                return cb(true, "Problem Accessing User Video Collection");
+            }
+            var wl = result.value.watchList;
+            var add = true, action = 'add';
+            for (var i = 0; i < wl.length; i++) {
+                if (wl[i] == vidId) {
+                    add = false;
+                    wl.splice(i, 1);
+                }
+            }
+            if (add) {
+                wl.push(vidId);
+            }
+            var returnValue = result.value;
+            returnValue.watchList = wl;
+            app.bucket.upsert('uid-' + userId, returnValue, function (err) {
+                if (err) {
+                    cb(true, 'Couchbase save function error');
+                }
+            });
+            if (!add){action = 'remove';}
+            return cb(false, action);
+        });
     }
 };

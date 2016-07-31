@@ -75,14 +75,25 @@ var appRouter = function(app) {
         if (!req.user) {
             return res.render("login", {title: 'TrackRight.org - Please Login First', user: false, msg:'Please Login First', url:"login"});
         }
-        res.render('collection', { title: req.user.username + "'s Collection", user:req.user, url:"collection"});
+        res.render('vid_collection', { title: req.user.username + "'s Collection", user:req.user, url:"collection", collection:"videoCollection"});
     });
 
     app.get('/watch-list', function(req, res){
         if (!req.user) {
             return res.render("login", {title: 'TrackRight.org - Please Login First', user: false, msg:'Please Login First', url:"login"});
         }
-        res.render('watch-list', { title: req.user.username + "'s To Watch List", user:req.user, url:"watch-list"});
+        res.render('vid_collection', { title: req.user.username + "'s To Watch List", user:req.user, url:"watch-list", collection:"watchlistCollection"});
+    });
+
+    app.get('/video', function(req, res){
+        var vidId = req.query.vidId;
+        if (!req.user) {
+            return res.render("login", {title: 'TrackRight.org - Please Login First', user: false, msg:'Please Login First', url:"login"});
+        }
+        if (!vidId) {
+            return res.send('no vidId set.');
+        }
+        res.send('working on this one yet.');
     });
 
     app.post(config.login.loc, function(req, res, next) {
@@ -148,8 +159,23 @@ var appRouter = function(app) {
     // get user collection of videos
     app.post("/api/1/user/collection", function(req, res, next){
         console.log('post - api/1/user/collection hit');
-        console.log(req.user.id);
         db.moviedb.getUserCollection(req.user.id, function(err, result) {
+            res.send(JSON.stringify({"err": err, "msg": result}));
+        })
+    });
+
+    // get user watchlist collection
+    app.post("/api/1/user/watchlist", function(req, res, next){
+        console.log('post - api/1/user/watchlist hit');
+        db.moviedb.getUserWatchlist(req.user.id, function(err, result) {
+            res.send(JSON.stringify({"err": err, "msg": result}));
+        })
+    });
+
+    // get all user information
+    app.post("/api/1/get/user", function(req, res, next){
+        console.log('get user request');
+        db.users.getUserData(req.user.id, function(err, result) {
             res.send(JSON.stringify({"err": err, "msg": result}));
         })
     });
@@ -157,9 +183,9 @@ var appRouter = function(app) {
     // toggle user watchlist videos
     app.post("/api/1/watchlist/toggle", function(req, res, next) {
         console.log('watchlist/toggle hit');
-        console.log(req.user.id);
-        console.log(req.query.videoId);
-        res.send('hit watchlist/toggle api with vidId '+req.query.videoId);
+        db.moviedb.toggleUserWatchList(req.user.id, req.query.videoId, function(err, result){
+            res.send(JSON.stringify({"err": err, "msg": result}));
+        });
     });
 
     // original CEAN sample examples below //

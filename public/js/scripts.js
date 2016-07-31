@@ -1,16 +1,3 @@
-function AddToWatchList(el){
-    var vidId = $(el).attr('id');
-    vidId = vidId.replace('watchlist','vi');
-    console.log(vidId);
-    var url = '/api/1/watchlist/toggle';
-    url += '?videoId=' + vidId;
-    $.post(url, function(data, status){
-        console.log('within the api/1/watchlist/toggle/');
-        console.log("Data: " + data + "\nStatus: " + status);
-    });
-
-}
-
 function toggleFormatOptions(e){
     var el = $(e).parent().find('.format-options');
     if ($(e).hasClass('open')){

@@ -3,10 +3,13 @@
 <head>
     <% include partials/head.ejs %>
 </head>
-<body>
+<body ng-app="userapp" ng-controller="userController">
 <% include partials/nav.ejs %>
 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-    Account Page
+    <span>Username: </span><span>{{userService.user.msg.username}}</span><br />
+    <span>First Name: </span><span>{{userService.user.msg.firstName}}</span><br />
+    <span>Last Name: </span><span>{{userService.user.msg.lastName}}</span><br />
+    <span>Email: </span><span>{{userService.user.msg.email}}</span><br />
 </div>
 <% include partials/footer.ejs %>
 </body>

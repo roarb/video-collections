@@ -43,6 +43,9 @@
         <div class="video-desc">
             <h4 class="video-title" ng-if="vid.title">{{vid.title}}</h4>
             <h4 class="video-title" ng-if="vid.name">{{vid.name}}</h4>
+            <span ng-class="['media-type', 'small', vid.media_type ]">Format:
+                <span style="text-transform: uppercase;">{{vid.media_type}}</span>
+            </span>
             <span class="rating">
                     <span ng-if="vid.userRating" class="user-rating" ng-class="vid.userRating | userStars"></span>
                     <span ng-if="!vid.userRating">
@@ -51,9 +54,15 @@
                     </span>
                 </span>
             <div class="clearer"></div>
-            <span class="overview">Summary: {{vid.overview}}</span>
+            <span class="overview">
+                <span ng-if="vid.overview">{{trimSummary(vid.overview)}}</span>
+                <span ng-if="!vid.overview">No Description Available</span>
+            </span>
+            <div class="overview-shadow"></div>
             <div class="clearer"></div>
-            <div class="watch-list">-- watch list --</div>
+            <div ng-class="[watchListClass(vid.watchList), 'watch-list']">
+                <button ng-class="'add-to-watchlist'" ng-click="AddToWatchList(vid.videoId, $event)" id="watchlist-{{vid.media_type}}-{{vid.id}}">{{watchListText(vid.watchList)}} Watch List</button>
+            </div>
         </div>
 
     </div>

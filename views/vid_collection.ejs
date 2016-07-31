@@ -8,9 +8,9 @@
 
 <% include partials/nav.ejs %>
 
-<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-    <div ng-if="videoCollection.collection.err"><span>{{videoCollection.collection.msg}}</span></div>
-    <div ng-repeat="vid in videoCollection.collection.msg">
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 video-collection <%= collection %>">
+    <div ng-if="videoCollection.collection.err"><span>{{<%= collection %>.collection}}</span></div>
+    <div ng-repeat="vid in <%= collection %>.collection">
         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-6 video-item">
             <div class="video-poster" data ="http://image.tmdb.org/t/p/w185/{{vid.value.poster_path}}">
                 <div id="owned-vi-{{vid.value.media_type}}-{{vid.value.id}}" class="owned-formats">
@@ -42,22 +42,26 @@
                     <span ng-if="vid.value.userRating" class="user-rating" ng-class="vid.value.userRating | userStars"></span>
                     <span ng-if="!vid.value.userRating">
                         <span ng-if="vid.value.vote_average" ng-class="vid.value.vote_average | voteStars" class="avg-rating"></span>
-                        <span ng-if="!vid.value.vote_average" class="no-rating">no rating</span>
+                        <span ng-if="!vid.value.vote_average" ng-class="no-rating">no rating</span>
                     </span>
                 </span>
                 <div class="clearer"></div>
-                <span class="overview">Summary: {{vid.value.overview}}</span>
+                <span class="overview">
+                    <span ng-if="vid.value.overview">{{trimSummary(vid.value.overview)}}</span>
+                    <span ng-if="!vid.value.overview">No Description Available</span>
+                </span>
+                <div class="overview-shadow"></div>
                 <div class="clearer"></div>
-                <div class="watch-list">
-                    <button class="add-to-watchlist" onclick="AddToWatchList(this)" id="watchlist-{{vid.value.media_type}}-{{vid.value.id}}">Add to watch list</button>
+                <div ng-class="[watchListClass(vid.value.watchList), 'watch-list']">
+                    <button ng-class="'add-to-watchlist'" ng-click="AddToWatchList(vid.value.videoId, $event)" id="watchlist-{{vid.value.media_type}}-{{vid.value.id}}">{{watchListText(vid.value.watchList)}} Watch List</button>
                 </div>
             </div>
 
         </div>
     </div>
     <div class="clearer"></div>
-    <p ng-hide="videoCollection.collection.msg.length">No matching videos located.</p>
-    <span ng-show="videoCollection.collection.msg.length" class="videos-found clear f-left">Videos Found: {{videoCollection.collection.msg.length}}</span>
+    <p ng-hide="videoCollection.collection.length">No matching videos located.</p>
+    <span ng-show="videoCollection.collection.length" class="videos-found clear f-left">Videos Found: {{videoCollection.collection.length}}</span>
 
 </div>
 

@@ -1,4 +1,5 @@
 var app = angular.module("videoapp", []);
+
 app.service('videoService', function ($http) {
 
     var self = this;
@@ -38,14 +39,14 @@ app.service('videoCollection', function ($http) {
 
         // get collection of movies here
         $http.post('/api/1/user/collection').success(function (data) {
-            self.collection = data;
+            self.collection = data.msg;
         });
     };
 
     self.getData();
 });
 
-var videoController = function ($scope, $http, videoService, videoCollection) {
+var videoController = function ($scope, $http, videoService, videoCollection, watchlistCollection) {
     $scope.videoService = videoService;
 
     $scope.formatOptions = [
@@ -66,9 +67,68 @@ var videoController = function ($scope, $http, videoService, videoCollection) {
         videoCollection.getData();
     };
 
+    $scope.watchlistCollection = watchlistCollection;
+    $scope.watchlistCollectionLoad = function() {
+        watchlistCollection.getData();
+    };
+
+    $scope.AddToWatchList = function(vidId, $event){
+        var url = '/api/1/watchlist/toggle';
+        url += '?videoId=' + vidId;
+        $.post(url, function(status){
+            status = JSON.parse(status);
+            if (status.err) {
+                // todo better error reporting here
+                console.log('watchlist toggle error');
+            }
+            var el = $event.currentTarget;
+            if (status.msg == 'add'){
+                console.log($(el));
+                $(el).text('Remove From Watch List');
+                $(el).parent().removeClass('not-in-list').addClass('in-list');
+            } else {
+                console.log($(el));
+                $(el).text('Add To Watch List');
+                $(el).parent().removeClass('in-list').addClass('not-in-list');
+            }
+        });
+
+    };
+
+    $scope.watchListClass = function(el){ // adds class to the div wrapper for the Watch List button
+        if (el) { return 'in-list'; } else { return 'not-in-list'; }
+    };
+
+    $scope.watchListText = function(el){ // Appended text to the Watch List button
+        if (el) { return 'Remove From '; } else { return 'Add To '; }
+    };
+
+    $scope.trimSummary = function(summary){
+        if (summary.length > 480){
+           summary = summary.substring(0, 480) + '... continue';
+        }
+
+        return summary;
+    }
 };
 
 app.controller(videoController);
+
+app.service('watchlistCollection', function ($http) {
+
+    var self  = this;
+    self.collection = [];
+
+    self.getData = function() {
+        console.log('watchlistCollection getData() request');
+        // get collection of movies here
+        $http.post('/api/1/user/watchlist').success(function (data) {
+            self.collection = data.msg;
+        });
+    };
+
+    self.getData();
+});
 
 app.filter('contains', function(){
     return function (array, needle){

@@ -74,3 +74,11 @@ exports.registerUser = function(user, cb) {
         });
     });
 };
+
+exports.getUserData = function(userId, cb) {
+    app.bucket.get('uid-'+userId, function(err, result){
+        console.log(result.value);
+        if (err) { cb(err, result.value); }
+        cb(false, result.value);
+    })
+};
