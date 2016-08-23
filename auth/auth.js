@@ -80,17 +80,31 @@ passport.use('consumer', new ConsumerStrategy(
     // consumer callback
     //
     // This callback finds the registered client associated with `consumerKey`.
-    // The client should be supplied to the `done` callback as the second
+    // The client should be supplied to the `cb` callback as the second
     // argument, and the consumer secret known by the server should be supplied
     // as the third argument.  The `ConsumerStrategy` will use this secret to
     // validate the request signature, failing authentication if it does not
     // match.
-    function(consumerKey, done) {
+    function(consumerKey, cb) {
+        console.log('incoming consumerKey: '+consumerKey);
         db.users.findByConsumerKey(consumerKey, function(err, client){
-            if (err) { return done(err); }
-            if (!client) { return done(null, false); }
-            return done(null, client, client.password);
-            // done(null, client, client.password);
+            console.log('from passport - consumer auth - client = ');
+            // console.log(client);
+            // if (err) {
+            //     console.log("err found in findByConsumerKey");
+            //     return cb(err);
+            // }
+            // else if (!client) {
+            //     console.log("no client found in findByConsumerKey");
+            //     return cb(false, "no client found in findByConsumerKey");
+            // }
+            // else {
+            //     console.log("should be positive return for findByConsumerKey with null, client, client.password");
+            //     console.log(client);
+            //     console.log(client.password);
+            //     cb(false, client, client.password);
+            // }
+            cb(false, client, client.password);
         });
         // db.clients.findByConsumerKey(consumerKey, function(err, client) {
         //     if (err) { return done(err); }
@@ -125,7 +139,7 @@ passport.use('consumer', new ConsumerStrategy(
                 userID: token.userID,
                 approved: token.approved
             };
-            done(null, token.secret, info);
+            done(false, token.secret, info);
         });
     },
     // validate callback
@@ -134,7 +148,7 @@ passport.use('consumer', new ConsumerStrategy(
     // replay attacks.  In this example, no checking is done and everything is
     // accepted.
     function(timestamp, nonce, done) {
-        done(null, true)
+        done(false, true)
     }
 ));
 
@@ -145,61 +159,62 @@ passport.use('consumer', new ConsumerStrategy(
  * user must have previously authorized a client application, which is issued an
  * access token to make requests on behalf of the authorizing user.
  */
-passport.use('token', new TokenStrategy(
-    // consumer callback
-    //
-    // This callback finds the registered client associated with `consumerKey`.
-    // The client should be supplied to the `done` callback as the second
-    // argument, and the consumer secret known by the server should be supplied
-    // as the third argument.  The `TokenStrategy` will use this secret to
-    // validate the request signature, failing authentication if it does not
-    // match.
-    function(consumerKey, done) {
-        console.log('token requested');
-        db.clients.findByConsumerKey(consumerKey, function(err, client) {
-            if (err) { return done(err); }
-            if (!client) { return done(null, false); }
-            return done(null, client, client.consumerSecret);
-        });
-    },
-    // verify callback
-    //
-    // This callback finds the user associated with `accessToken`.  The user
-    // should be supplied to the `done` callback as the second argument, and the
-    // token secret known by the server should be supplied as the third argument.
-    // The `TokenStrategy` will use this secret to validate the request signature,
-    // failing authentication if it does not match.
-    //
-    // Furthermore, additional arbitrary `info` can be passed as the fourth
-    // argument to the callback.  An access token will often have associated
-    // details such as scope of access, expiration date, etc.  These details can
-    // be retrieved from the database during this step.  They will then be made
-    // available by Passport at `req.authInfo` and carried through to other
-    // middleware and request handlers, avoiding the need to do additional
-    // unnecessary queries to the database.
-    //
-    // Note that additional access control (such as scope of access), is an
-    // authorization step that is distinct and separate from authentication.
-    // It is an application's responsibility to enforce access control as
-    // necessary.
-    function(accessToken, done) {
-        db.accessTokens.find(accessToken, function(err, token) {
-            if (err) { return done(err); }
-            db.users.find(token.userID, function(err, user) {
-                if (err) { return done(err); }
-                if (!user) { return done(null, false); }
-                // to keep this example simple, restricted scopes are not implemented
-                var info = { scope: '*' };
-                done(null, user, token.secret, info);
-            });
-        });
-    },
-    // validate callback
-    //
-    // The application can check timestamps and nonces, as a precaution against
-    // replay attacks.  In this example, no checking is done and everything is
-    // accepted.
-    function(timestamp, nonce, done) {
-        done(null, true)
-    }
-));
+//
+// passport.use('token', new TokenStrategy(
+//     // consumer callback
+//     //
+//     // This callback finds the registered client associated with `consumerKey`.
+//     // The client should be supplied to the `done` callback as the second
+//     // argument, and the consumer secret known by the server should be supplied
+//     // as the third argument.  The `TokenStrategy` will use this secret to
+//     // validate the request signature, failing authentication if it does not
+//     // match.
+//     function(consumerKey, done) {
+//         console.log('token requested');
+//         db.clients.findByConsumerKey(consumerKey, function(err, client) {
+//             if (err) { return done(err); }
+//             if (!client) { return done(null, false); }
+//             return done(null, client, client.consumerSecret);
+//         });
+//     },
+//     // verify callback
+//     //
+//     // This callback finds the user associated with `accessToken`.  The user
+//     // should be supplied to the `done` callback as the second argument, and the
+//     // token secret known by the server should be supplied as the third argument.
+//     // The `TokenStrategy` will use this secret to validate the request signature,
+//     // failing authentication if it does not match.
+//     //
+//     // Furthermore, additional arbitrary `info` can be passed as the fourth
+//     // argument to the callback.  An access token will often have associated
+//     // details such as scope of access, expiration date, etc.  These details can
+//     // be retrieved from the database during this step.  They will then be made
+//     // available by Passport at `req.authInfo` and carried through to other
+//     // middleware and request handlers, avoiding the need to do additional
+//     // unnecessary queries to the database.
+//     //
+//     // Note that additional access control (such as scope of access), is an
+//     // authorization step that is distinct and separate from authentication.
+//     // It is an application's responsibility to enforce access control as
+//     // necessary.
+//     function(accessToken, done) {
+//         db.accessTokens.find(accessToken, function(err, token) {
+//             if (err) { return done(err); }
+//             db.users.find(token.userID, function(err, user) {
+//                 if (err) { return done(err); }
+//                 if (!user) { return done(null, false); }
+//                 // to keep this example simple, restricted scopes are not implemented
+//                 var info = { scope: '*' };
+//                 done(null, user, token.secret, info);
+//             });
+//         });
+//     },
+//     // validate callback
+//     //
+//     // The application can check timestamps and nonces, as a precaution against
+//     // replay attacks.  In this example, no checking is done and everything is
+//     // accepted.
+//     function(timestamp, nonce, done) {
+//         done(null, true)
+//     }
+// ));

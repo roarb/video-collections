@@ -5,18 +5,30 @@ app.service('userService', function ($http) {
     var self = this;
     self.user = [];
 
-    self.getData = function() {
-        // get data on run here
-        $http.post('/api/1/get/user').success(function(data) {
-            self.user = data;
-        });
-    };
-
-    self.getData();
 });
 
-var userController = function ($scope, $http, userService){
+var accountCtrl = function ($scope, $http, userService){
     $scope.userService = userService;
+
+    $scope.login = function(){
+        console.log('Logging In.');
+       $.ajax({
+           url: '/login',
+           headers: { 'Authorization': createLoginAuth() },
+           type: 'POST',
+           success: function(data){
+               var res = JSON.parse(data);
+               console.log(res);
+               if (res.err){
+                   console.log('we have a problem');
+               } else{
+                   console.log('signing in');
+                   window.location.href = '/home';
+               }
+           }
+       });
+    };
+
 };
 
-app.controller(userController);
+app.controller(accountCtrl);

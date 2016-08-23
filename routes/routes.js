@@ -72,6 +72,8 @@ var appRouter = function(app) {
     });
 
     app.get('/collection', function(req, res){
+        console.log('/collection hit');
+        console.log(req.user);
         if (!req.user) {
             return res.render("login", {title: 'TrackRight.org - Please Login First', user: false, msg:'Please Login First', url:"login"});
         }
@@ -87,30 +89,38 @@ var appRouter = function(app) {
 
     app.get('/video', function(req, res){
         var vidId = req.query.vidId;
+        var type = req.query.type;
         if (!req.user) {
             return res.render("login", {title: 'TrackRight.org - Please Login First', user: false, msg:'Please Login First', url:"login"});
         }
         if (!vidId) {
             return res.send('no vidId set.');
         }
-        res.send('working on this one yet.');
+        res.render('video', { title: type+' id:'+vidId, user:req.user, url:"video", vidId: vidId, type: type});
     });
 
+    // todo change config to drop the login.loc --- un-needed
     app.post(config.login.loc, function(req, res, next) {
-        console.log('login post hit');
+        console.log('login post hit req incoming:');
+        console.log(req.body);
         passport.authenticate('consumer', function(err, user) {
-            if (err) { console.log(err); }
+            // if (err) { console.log("error in passport.authenticate"); }
             if (!user){
+                console.log("error ="+err);
+                console.log("user inc: "); console.log(user);
+                console.log('no user found in post /login-request');
                 return res.send(JSON.stringify({"err": err, "msg":"user not found", "user":false}));
             }
 
             req.logIn(user, function(err){
                 if (err) { return next(err); }
+                console.log('user found in /login-request ...');
                 return res.send(JSON.stringify({"err": err, "msg":"found a match!"}));
             })
         })(req, res, next);
     });
 
+    // todo change the config to drop the logout.loc --- un-needed
     app.get(config.logout.loc, function(req, res){
         req.logout();
         req.session.destroy(function (err) {
@@ -187,6 +197,32 @@ var appRouter = function(app) {
             res.send(JSON.stringify({"err": err, "msg": result}));
         });
     });
+
+    // get a single video details
+    app.post("/api/1/video/details", function(req, res, next) {
+        console.log('video details hit');
+        console.log(req.body.id);
+        console.log(req.body.type);
+        if (req.body.type == "movie"){
+            console.log('movie type found - hitting db.moviedb.findMovieDetailed to make api request.');
+            db.moviedb.findMovieDetailed(req.body.id, function(err, result){
+                console.log(result);
+                if (err) { res.send('Error Loading Movie') }
+                res.send(result);
+            })
+        }
+        else if (req.body.type == "tv"){
+            db.moviedb.findTelevisionDetailed(req.body.id, function(err, res){
+                console.log(res);
+                res.send(res);
+            })
+        } else {
+            res.send('404');
+        }
+    });
+
+
+
 
     // original CEAN sample examples below //
 

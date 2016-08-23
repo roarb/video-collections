@@ -4,7 +4,7 @@
     <% include partials/head.ejs %>
 </head>
 <!--<body ng-app="videoapp" ng-controller="videoController" data-ng-init="CollectionLoad()">-->
-<body ng-app="videoapp" ng-controller="videoController">
+<body ng-app="videoapp" ng-controller="videoController" ng-init="<%= collection %>Load()">
 
 <% include partials/nav.ejs %>
 
@@ -23,7 +23,7 @@
                     <img ng-if="!vid.value.poster_path" ng-src="/images/no-poster.jpg" />
                 </div>
                 <br />
-                <span class="release-date"><small>Released:</small> {{vid.value.release_date}}</span>
+                <span ng-if="vid.value.release_date" class="release-date"><small>Released:</small> {{vid.value.release_date}}</span>
                 <span class="glyphicon glyphicon-plus-sign add-video" onclick="toggleFormatOptions(this)"></span>
                 <div class="format-options hidden a-center" data-vid="vi-{{vid.value.media_type}}-{{vid.value.id}}">
                     <li ng-repeat="formatAvail in formatOptions" ng-if="vid.value.format | contains:formatAvail" onclick="toggleVideoFormatOwned(this, 'remove')" class="owned">

@@ -43,10 +43,10 @@ app.service('videoCollection', function ($http) {
         });
     };
 
-    self.getData();
+    // self.getData();
 });
 
-var videoController = function ($scope, $http, videoService, videoCollection, watchlistCollection) {
+var videoController = function ($scope, $http, $q, videoService, videoCollection, watchlistCollection, videoDetails) {
     $scope.videoService = videoService;
 
     $scope.formatOptions = [
@@ -63,13 +63,18 @@ var videoController = function ($scope, $http, videoService, videoCollection, wa
     };
 
     $scope.videoCollection = videoCollection;
-    $scope.CollectionLoad = function() {
+    $scope.videoCollectionLoad = function() {
         videoCollection.getData();
     };
 
     $scope.watchlistCollection = watchlistCollection;
     $scope.watchlistCollectionLoad = function() {
         watchlistCollection.getData();
+    };
+
+    $scope.videoDetails = videoDetails;
+    $scope.videoDetailsLoad = function(vidId, type) {
+        videoDetails.getData(vidId, type);
     };
 
     $scope.AddToWatchList = function(vidId, $event){
@@ -127,7 +132,26 @@ app.service('watchlistCollection', function ($http) {
         });
     };
 
-    self.getData();
+    // self.getData();
+});
+
+app.service('videoDetails', function ($http, $q) {
+
+    var self = this;
+
+    self.getData = function(vidId, type) {
+        console.log(vidId+" - "+type);
+        console.log('videoDetails getData request');
+
+        $http.post('/api/1/video/details', {"id":vidId, "type":type}).success(function (data) {
+            if (data != 404) {
+                self.details = data;
+            }
+        });
+
+    };
+
+    //self.getData();
 });
 
 app.filter('contains', function(){

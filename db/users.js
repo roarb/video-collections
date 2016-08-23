@@ -25,23 +25,26 @@ exports.findById = function(id, cb) {
 };
 
 /**
- * Find a user by Username from all uid-xxx documents
+ * Find a user by Username from all uid-xxx documents by username key
  * 
  * @param key
  * @param cb
  */
 exports.findByConsumerKey =  function(key, cb) {
+    console.log('findByConsumerKey key is '+key);
     var ViewQuery = couchbase.ViewQuery;
-    var query = ViewQuery.from('userId', 'userId');
+    var query = ViewQuery.from('userId', 'userId').key(key);
     app.bucket.query(query, function(err, results) {
-        for(var i in results) {
-            var user = results[i].value;
-            if (key == user.username) {
-                user.password = localCrypto.decrypt(user.password);
-                return cb(false, user);
-            }
+        if (err) {
+            // return cb(true, 'error finding match in database');
+            cb(true, 'error finding match in database');
         }
-        return cb(true, null);
+        else {
+            var user = results[0].value;
+            user.password = localCrypto.decrypt(user.password);
+            // return cb(false, user);
+            return cb(false, user);
+        }
     });
 };
 

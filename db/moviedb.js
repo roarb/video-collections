@@ -87,7 +87,33 @@ module.exports = {
         //     });
         // });
 
+    },
 
+    findMovieDetailed: function(id, cb){
+        console.log('get the details for the movie id '+id);
+
+        var options = {
+            "host": "api.themoviedb.org",
+            "path": "/3/movie/"+id+"?api_key=" + config.api.themoviedb
+        };
+
+        callback = function (response) {
+            var str = '';
+            response.on('data', function (chunk) {
+                str += chunk;
+            });
+            response.on('end', function () {
+                console.log(str);
+                return cb(false, str)
+            });
+        };
+
+        http.request(options, callback).end();
+    },
+
+
+    findTelevisionDetailed: function(id, cb){
+        console.log('get the details for television show id '+id);
     },
 
     saveVideoToCB: function (video, cb) {
@@ -108,6 +134,8 @@ module.exports = {
         var userVideos = [],
             videos = [];
         app.bucket.get('uid-'+userId, function(err, result){
+            console.log('getUserCollection result:');
+            console.log(result);
             if (err) { return cb(true, "Problem Accessing User Video Collection" ); }
             for (var i = 0; i < result.value.videos.length; i++){
                 var rating = null;
@@ -127,6 +155,7 @@ module.exports = {
                 if (err) { return cb(true, "Problem Loading User Video Collection" ); }
                 if (results == null){ return cb(true, "No Movies In Collection Yet" ); }
                 for (var i = 0; i < results.length; i++){
+                    // todo remove the additional .value. from each record returned
                     for (var x = 0; x < userVideos.length; x++){
                         if (results[i].key == userVideos[x].id){
                             results[i].value.format = userVideos[x].format;
@@ -158,6 +187,7 @@ module.exports = {
             var query = ViewQuery.from('video', 'videoById').keys(userResult.value.watchList);
             app.bucket.query(query, function(err, vidResults) {
                 // console.log(vidResults); // returned videos in watchlist -need to add in formats owned next.
+                // todo remove the additional .value. from each record returned
                 for (var i = 0; i < userResult.value.videos.length; i++){
                     for (var x = 0; x < vidResults.length; x++){
                         if ('vi-'+vidResults[x].value.media_type+'-'+vidResults[x].value.id == userResult.value.videos[i].id){

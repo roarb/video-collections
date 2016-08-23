@@ -28,7 +28,7 @@
                 <img ng-if="!vid.poster_path" ng-src="/images/no-poster.jpg" />
             </div>
             <br />
-            <span class="release-date">Released: {{vid.release_date}}</span>
+            <span ng-if="vid.release_date" class="release-date">Released: {{vid.release_date}}</span>
             <span class="glyphicon glyphicon-plus-sign add-video" onclick="toggleFormatOptions(this)"></span>
             <div class="format-options hidden a-center" data-vid="vi-{{vid.media_type}}-{{vid.id}}">
                 <li ng-repeat="formatAvail in formatOptions" ng-if="vid.format | contains:formatAvail" onclick="toggleVideoFormatOwned(this, 'remove')" class="owned">
