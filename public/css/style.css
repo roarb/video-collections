@@ -81,3 +81,6 @@ button:hover, .in-list button:hover {
 .video-details .background {opacity:.3; width:106%; margin:0 0 -5% -3%; height:auto; position:fixed; top:0; overflow:hidden; z-index: -1;}
 .video-details .background img {width:100%;}
 .video-details .video-poster img {max-height:275px; max-width:100%;}
+.video-details .video-desc .rating {float:right; width:100px; background:url('../images/grey-star-rating-full.jpg') no-repeat 0 0; font-size:0; height:17px;}
+.video-details .video-desc .rating .user-rating {background:url('../images/yellow-star-rating-full.jpg') no-repeat 0 0 ; height:17px; display:block;}
+.video-details .video-desc .rating .avg-rating {background:url('../images/blue-star-rating-full.jpg') no-repeat 0 0 ; height:17px; display:block;}

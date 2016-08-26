@@ -53,12 +53,12 @@
                 <span style="text-transform: uppercase;">{{vid.media_type}}</span>
             </span>
             <span class="rating">
-                    <span ng-if="vid.userRating" class="user-rating" ng-class="vid.userRating | userStars"></span>
-                    <span ng-if="!vid.userRating">
-                        <span ng-if="vid.vote_average" ng-class="vid.vote_average | voteStars" class="avg-rating"></span>
-                        <span ng-if="!vid.vote_average" class="no-rating">no rating</span>
-                    </span>
+                <span ng-if="vid.userRating" class="user-rating" ng-class="vid.userRating | userStars"></span>
+                <span ng-if="!vid.userRating">
+                    <span ng-if="vid.vote_average" ng-class="vid.vote_average | voteStars" class="avg-rating"></span>
+                    <span ng-if="!vid.vote_average" class="no-rating">no rating</span>
                 </span>
+            </span>
             <div class="clearer"></div>
             <span class="overview">
                 <span ng-if="vid.overview">{{trimSummary(vid.overview)}}</span>

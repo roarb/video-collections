@@ -128,8 +128,8 @@ module.exports = {
         };
 
         http.request(options, callback).end();
-        console.log('movie incoming   ____________________');
-        console.log(movie);
+        // console.log('movie incoming   ____________________');
+        // console.log(movie);
     },
 
 
