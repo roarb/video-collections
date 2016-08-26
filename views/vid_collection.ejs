@@ -15,7 +15,7 @@
             <div class="video-poster" data ="http://image.tmdb.org/t/p/w185/{{vid.value.poster_path}}">
                 <div id="owned-vi-{{vid.value.media_type}}-{{vid.value.id}}" class="owned-formats">
                     <span ng-repeat="format in vid.value.format" class="format-bubble">
-                        <span ng-class="format | firstLetter">{{format}}</span>
+                        <span style="background:{{format | bgColor}}">{{format}}</span>
                     </span>
                 </div>
                 <div class="video-poster">
@@ -37,11 +37,11 @@
 
             <div class="video-desc">
                 <h4 class="video-title" ng-if="vid.value.title">
-                    <a href="/video?vidId={{vid.value.id}}&type={{vid.value.media_type}}" title="{{vid.value.title}}">
+                    <a href="/video?vidId={{vid.value.id}}&type={{vid.value.media_type}}&name={{vid.value.title}}" title="{{vid.value.title}}">
                         {{vid.value.title}}</a>
                 </h4>
                 <h4 class="video-title" ng-if="vid.value.name">
-                    <a href="/video?vidId={{vid.value.id}}&type={{vid.value.media_type}}" title="{{vid.value.title}}">
+                    <a href="/video?vidId={{vid.value.id}}&type={{vid.value.media_type}}&name={{vid.value.title}}" title="{{vid.value.title}}">
                         {{vid.value.title}}</a>
                 </h4>
                 <span class="rating">

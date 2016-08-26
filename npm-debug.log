@@ -1,0 +1,508 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'C:\\Program Files\\nodejs\\node.exe',
+1 verbose cli   'C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'install',
+1 verbose cli   'os-service' ]
+2 info using npm@2.14.12
+3 info using node@v4.3.1
+4 verbose install initial load of C:\Users\Robert Hoehn\Documents\video-collections\package.json
+5 verbose installManyTop reading scoped package data from C:\Users\Robert Hoehn\Documents\video-collections\node_modules\body-parser\package.json
+6 verbose installManyTop reading scoped package data from C:\Users\Robert Hoehn\Documents\video-collections\node_modules\cookie-parser\package.json
+7 verbose installManyTop reading scoped package data from C:\Users\Robert Hoehn\Documents\video-collections\node_modules\couchbase\package.json
+8 verbose installManyTop reading scoped package data from C:\Users\Robert Hoehn\Documents\video-collections\node_modules\curlify\package.json
+9 verbose installManyTop reading scoped package data from C:\Users\Robert Hoehn\Documents\video-collections\node_modules\ejs\package.json
+10 verbose installManyTop reading scoped package data from C:\Users\Robert Hoehn\Documents\video-collections\node_modules\express\package.json
+11 verbose installManyTop reading scoped package data from C:\Users\Robert Hoehn\Documents\video-collections\node_modules\express-session\package.json
+12 verbose installManyTop reading scoped package data from C:\Users\Robert Hoehn\Documents\video-collections\node_modules\http\package.json
+13 verbose installManyTop reading scoped package data from C:\Users\Robert Hoehn\Documents\video-collections\node_modules\jquery\package.json
+14 verbose installManyTop reading scoped package data from C:\Users\Robert Hoehn\Documents\video-collections\node_modules\node-forge\package.json
+15 verbose installManyTop reading scoped package data from C:\Users\Robert Hoehn\Documents\video-collections\node_modules\node-uuid\package.json
+16 verbose installManyTop reading scoped package data from C:\Users\Robert Hoehn\Documents\video-collections\node_modules\passport\package.json
+17 verbose installManyTop reading scoped package data from C:\Users\Robert Hoehn\Documents\video-collections\node_modules\passport-http-oauth\package.json
+18 verbose installManyTop reading scoped package data from C:\Users\Robert Hoehn\Documents\video-collections\node_modules\path\package.json
+19 info package.json http@0.0.0 http is also the name of a node core module.
+20 info package.json http@0.0.0 No description
+21 info package.json http@0.0.0 No repository field.
+22 info package.json node-uuid@1.4.7 No license field.
+23 info package.json passport-http-oauth@0.1.3 No license field.
+24 info package.json path@0.12.7 path is also the name of a node core module.
+25 info package.json node-forge@0.6.40 No license field.
+26 verbose readDependencies loading dependencies from C:\Users\Robert Hoehn\Documents\video-collections\package.json
+27 silly cache add args [ 'os-service', null ]
+28 verbose cache add spec os-service
+29 silly cache add parsed spec Result {
+29 silly cache add   raw: 'os-service',
+29 silly cache add   scope: null,
+29 silly cache add   name: 'os-service',
+29 silly cache add   rawSpec: '',
+29 silly cache add   spec: 'latest',
+29 silly cache add   type: 'tag' }
+30 silly addNamed os-service@latest
+31 verbose addNamed "latest" is being treated as a dist-tag for os-service
+32 info addNameTag [ 'os-service', 'latest' ]
+33 silly mapToRegistry name os-service
+34 silly mapToRegistry using default registry
+35 silly mapToRegistry registry https://registry.npmjs.org/
+36 silly mapToRegistry uri https://registry.npmjs.org/os-service
+37 verbose addNameTag registry:https://registry.npmjs.org/os-service not in flight; fetching
+38 verbose request uri https://registry.npmjs.org/os-service
+39 verbose request no auth needed
+40 info attempt registry request try #1 at 2:42:04 PM
+41 verbose request using bearer token for auth
+42 verbose request id 70bf7676191a117a
+43 http request GET https://registry.npmjs.org/os-service
+44 http 200 https://registry.npmjs.org/os-service
+45 verbose headers { server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
+45 verbose headers   etag: '"C6W2YDW3BXQZI67952VON4TSB"',
+45 verbose headers   'content-type': 'application/json',
+45 verbose headers   'content-encoding': 'gzip',
+45 verbose headers   'cache-control': 'max-age=300',
+45 verbose headers   'transfer-encoding': 'chunked',
+45 verbose headers   'accept-ranges': 'bytes',
+45 verbose headers   date: 'Fri, 26 Aug 2016 19:42:04 GMT',
+45 verbose headers   via: '1.1 varnish',
+45 verbose headers   connection: 'keep-alive',
+45 verbose headers   'x-served-by': 'cache-ord1748-ORD',
+45 verbose headers   'x-cache': 'MISS',
+45 verbose headers   'x-cache-hits': '0',
+45 verbose headers   'x-timer': 'S1472240524.724339,VS0,VE98',
+45 verbose headers   vary: 'Accept-Encoding' }
+46 silly get cb [ 200,
+46 silly get   { server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
+46 silly get     etag: '"C6W2YDW3BXQZI67952VON4TSB"',
+46 silly get     'content-type': 'application/json',
+46 silly get     'content-encoding': 'gzip',
+46 silly get     'cache-control': 'max-age=300',
+46 silly get     'transfer-encoding': 'chunked',
+46 silly get     'accept-ranges': 'bytes',
+46 silly get     date: 'Fri, 26 Aug 2016 19:42:04 GMT',
+46 silly get     via: '1.1 varnish',
+46 silly get     connection: 'keep-alive',
+46 silly get     'x-served-by': 'cache-ord1748-ORD',
+46 silly get     'x-cache': 'MISS',
+46 silly get     'x-cache-hits': '0',
+46 silly get     'x-timer': 'S1472240524.724339,VS0,VE98',
+46 silly get     vary: 'Accept-Encoding' } ]
+47 verbose get saving os-service to C:\Users\Robert Hoehn\AppData\Roaming\npm-cache\registry.npmjs.org\os-service\.cache.json
+48 silly addNameTag next cb for os-service with tag latest
+49 silly addNamed os-service@1.3.0
+50 verbose addNamed "1.3.0" is a plain semver version for os-service
+51 silly mapToRegistry name os-service
+52 silly mapToRegistry using default registry
+53 silly mapToRegistry registry https://registry.npmjs.org/
+54 silly mapToRegistry uri https://registry.npmjs.org/os-service
+55 verbose addRemoteTarball https://registry.npmjs.org/os-service/-/os-service-1.3.0.tgz not in flight; adding
+56 verbose addRemoteTarball [ 'https://registry.npmjs.org/os-service/-/os-service-1.3.0.tgz',
+56 verbose addRemoteTarball   'ad9445354664d54997c78bfaf405b15b2c942453' ]
+57 info retry fetch attempt 1 at 2:42:22 PM
+58 info attempt registry request try #1 at 2:42:22 PM
+59 http fetch GET https://registry.npmjs.org/os-service/-/os-service-1.3.0.tgz
+60 verbose request using bearer token for auth
+61 http fetch 200 https://registry.npmjs.org/os-service/-/os-service-1.3.0.tgz
+62 silly fetchAndShaCheck shasum ad9445354664d54997c78bfaf405b15b2c942453
+63 verbose addTmpTarball C:\Users\ROBERT~1\AppData\Local\Temp\npm-27400-0960b1d1\registry.npmjs.org\os-service\-\os-service-1.3.0.tgz not in flight; adding
+64 verbose addTmpTarball already have metadata; skipping unpack for os-service@1.3.0
+65 silly cache afterAdd os-service@1.3.0
+66 verbose afterAdd C:\Users\Robert Hoehn\AppData\Roaming\npm-cache\os-service\1.3.0\package\package.json not in flight; writing
+67 verbose afterAdd C:\Users\Robert Hoehn\AppData\Roaming\npm-cache\os-service\1.3.0\package\package.json written
+68 silly install resolved [ { name: 'os-service',
+68 silly install resolved     version: '1.3.0',
+68 silly install resolved     description: 'Run Node.JS programs as native Operating System Services.',
+68 silly install resolved     main: 'index.js',
+68 silly install resolved     directories: { example: 'example' },
+68 silly install resolved     dependencies: { nan: '2.3.x' },
+68 silly install resolved     contributors: [ [Object] ],
+68 silly install resolved     repository:
+68 silly install resolved      { type: 'git',
+68 silly install resolved        url: 'git://github.com/stephenwvickers/node-os-service.git' },
+68 silly install resolved     keywords:
+68 silly install resolved      [ 'background-process',
+68 silly install resolved        'background-service',
+68 silly install resolved        'daemon',
+68 silly install resolved        'linux-daemon',
+68 silly install resolved        'linux-service',
+68 silly install resolved        'service',
+68 silly install resolved        'windows',
+68 silly install resolved        'windows-daemon',
+68 silly install resolved        'windows-service' ],
+68 silly install resolved     author:
+68 silly install resolved      { name: 'Stephen Vickers',
+68 silly install resolved        email: 'stephen.vickers.sv@gmail.com' },
+68 silly install resolved     license: 'MIT',
+68 silly install resolved     scripts: { install: 'node-gyp rebuild' },
+68 silly install resolved     gypfile: true,
+68 silly install resolved     gitHead: '144905b0ab79e3d85731f2afa7a2f994bfab2a21',
+68 silly install resolved     bugs: { url: 'https://github.com/stephenwvickers/node-os-service/issues' },
+68 silly install resolved     homepage: 'https://github.com/stephenwvickers/node-os-service#readme',
+68 silly install resolved     _id: 'os-service@1.3.0',
+68 silly install resolved     _shasum: 'ad9445354664d54997c78bfaf405b15b2c942453',
+68 silly install resolved     _from: 'os-service@latest',
+68 silly install resolved     _npmVersion: '3.8.6',
+68 silly install resolved     _nodeVersion: '6.1.0',
+68 silly install resolved     _npmUser:
+68 silly install resolved      { name: 'stephen.vickers',
+68 silly install resolved        email: 'stephen.vickers.sv@gmail.com' },
+68 silly install resolved     dist:
+68 silly install resolved      { shasum: 'ad9445354664d54997c78bfaf405b15b2c942453',
+68 silly install resolved        tarball: 'https://registry.npmjs.org/os-service/-/os-service-1.3.0.tgz' },
+68 silly install resolved     maintainers: [ [Object] ],
+68 silly install resolved     _npmOperationalInternal:
+68 silly install resolved      { host: 'packages-12-west.internal.npmjs.com',
+68 silly install resolved        tmp: 'tmp/os-service-1.3.0.tgz_1463341763063_0.14235343621112406' },
+68 silly install resolved     _resolved: 'https://registry.npmjs.org/os-service/-/os-service-1.3.0.tgz' } ]
+69 info install os-service@1.3.0 into C:\Users\Robert Hoehn\Documents\video-collections
+70 info installOne os-service@1.3.0
+71 verbose installOne of os-service to C:\Users\Robert Hoehn\Documents\video-collections not in flight; installing
+72 verbose lock using C:\Users\Robert Hoehn\AppData\Roaming\npm-cache\_locks\os-service-2106eb30491fb724.lock for C:\Users\Robert Hoehn\Documents\video-collections\node_modules\os-service
+73 silly install write writing os-service 1.3.0 to C:\Users\Robert Hoehn\Documents\video-collections\node_modules\os-service
+74 verbose unbuild node_modules\os-service
+75 silly gentlyRm C:\Users\Robert Hoehn\Documents\video-collections\node_modules\os-service is being purged from base C:\Users\Robert Hoehn\Documents\video-collections
+76 verbose gentlyRm don't care about contents; nuking C:\Users\Robert Hoehn\Documents\video-collections\node_modules\os-service
+77 verbose tar unpack C:\Users\Robert Hoehn\AppData\Roaming\npm-cache\os-service\1.3.0\package.tgz
+78 verbose tar unpacking to C:\Users\Robert Hoehn\Documents\video-collections\node_modules\os-service
+79 silly gentlyRm C:\Users\Robert Hoehn\Documents\video-collections\node_modules\os-service is being purged
+80 verbose gentlyRm don't care about contents; nuking C:\Users\Robert Hoehn\Documents\video-collections\node_modules\os-service
+81 silly gunzTarPerm modes [ '777', '666' ]
+82 silly gunzTarPerm extractEntry package.json
+83 silly gunzTarPerm extractEntry .npmignore
+84 silly gunzTarPerm extractEntry README.md
+85 silly gunzTarPerm extractEntry index.js
+86 silly gunzTarPerm extractEntry binding.gyp
+87 silly gunzTarPerm extractEntry example/periodic-logger.js
+88 silly gunzTarPerm extractEntry src/pthread.cc
+89 silly gunzTarPerm extractEntry src/pthread.h
+90 silly gunzTarPerm extractEntry src/service.cc
+91 silly gunzTarPerm extractEntry src/service.h
+92 verbose write writing to C:\Users\Robert Hoehn\Documents\video-collections\node_modules\os-service\package.json
+93 info preinstall os-service@1.3.0
+94 verbose readDependencies loading dependencies from C:\Users\Robert Hoehn\Documents\video-collections\node_modules\os-service\package.json
+95 silly prepareForInstallMany adding nan@2.3.x from os-service dependencies
+96 verbose readDependencies loading dependencies from C:\Users\Robert Hoehn\Documents\video-collections\node_modules\os-service\package.json
+97 silly cache add args [ 'nan@2.3.x', null ]
+98 verbose cache add spec nan@2.3.x
+99 silly cache add parsed spec Result {
+99 silly cache add   raw: 'nan@2.3.x',
+99 silly cache add   scope: null,
+99 silly cache add   name: 'nan',
+99 silly cache add   rawSpec: '2.3.x',
+99 silly cache add   spec: '>=2.3.0 <2.4.0',
+99 silly cache add   type: 'range' }
+100 silly addNamed nan@>=2.3.0 <2.4.0
+101 verbose addNamed ">=2.3.0 <2.4.0" is a valid semver range for nan
+102 silly addNameRange { name: 'nan', range: '>=2.3.0 <2.4.0', hasData: false }
+103 silly mapToRegistry name nan
+104 silly mapToRegistry using default registry
+105 silly mapToRegistry registry https://registry.npmjs.org/
+106 silly mapToRegistry uri https://registry.npmjs.org/nan
+107 verbose addNameRange registry:https://registry.npmjs.org/nan not in flight; fetching
+108 verbose request uri https://registry.npmjs.org/nan
+109 verbose request no auth needed
+110 info attempt registry request try #1 at 2:42:22 PM
+111 verbose request using bearer token for auth
+112 verbose etag "EGTR1APXEV7TH8V3QYT0WN357"
+113 http request GET https://registry.npmjs.org/nan
+114 http 200 https://registry.npmjs.org/nan
+115 verbose headers { server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
+115 verbose headers   etag: '"NAY6YRKIZAXUCU18M1YHIEA2"',
+115 verbose headers   'content-type': 'application/json',
+115 verbose headers   'content-encoding': 'gzip',
+115 verbose headers   'cache-control': 'max-age=300',
+115 verbose headers   'transfer-encoding': 'chunked',
+115 verbose headers   'accept-ranges': 'bytes',
+115 verbose headers   date: 'Fri, 26 Aug 2016 19:42:23 GMT',
+115 verbose headers   via: '1.1 varnish',
+115 verbose headers   connection: 'keep-alive',
+115 verbose headers   'x-served-by': 'cache-ord1746-ORD',
+115 verbose headers   'x-cache': 'MISS',
+115 verbose headers   'x-cache-hits': '0',
+115 verbose headers   'x-timer': 'S1472240543.705559,VS0,VE68',
+115 verbose headers   vary: 'Accept-Encoding' }
+116 silly get cb [ 200,
+116 silly get   { server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
+116 silly get     etag: '"NAY6YRKIZAXUCU18M1YHIEA2"',
+116 silly get     'content-type': 'application/json',
+116 silly get     'content-encoding': 'gzip',
+116 silly get     'cache-control': 'max-age=300',
+116 silly get     'transfer-encoding': 'chunked',
+116 silly get     'accept-ranges': 'bytes',
+116 silly get     date: 'Fri, 26 Aug 2016 19:42:23 GMT',
+116 silly get     via: '1.1 varnish',
+116 silly get     connection: 'keep-alive',
+116 silly get     'x-served-by': 'cache-ord1746-ORD',
+116 silly get     'x-cache': 'MISS',
+116 silly get     'x-cache-hits': '0',
+116 silly get     'x-timer': 'S1472240543.705559,VS0,VE68',
+116 silly get     vary: 'Accept-Encoding' } ]
+117 verbose get saving nan to C:\Users\Robert Hoehn\AppData\Roaming\npm-cache\registry.npmjs.org\nan\.cache.json
+118 silly addNameRange number 2 { name: 'nan', range: '>=2.3.0 <2.4.0', hasData: true }
+119 silly addNameRange versions [ 'nan',
+119 silly addNameRange   [ '0.3.0-wip',
+119 silly addNameRange     '0.3.0-wip2',
+119 silly addNameRange     '0.3.0',
+119 silly addNameRange     '0.3.1',
+119 silly addNameRange     '0.3.2',
+119 silly addNameRange     '0.4.0',
+119 silly addNameRange     '0.4.1',
+119 silly addNameRange     '0.4.2',
+119 silly addNameRange     '0.4.3',
+119 silly addNameRange     '0.4.4',
+119 silly addNameRange     '0.5.0',
+119 silly addNameRange     '0.5.1',
+119 silly addNameRange     '0.5.2',
+119 silly addNameRange     '0.6.0',
+119 silly addNameRange     '0.7.0',
+119 silly addNameRange     '0.7.1',
+119 silly addNameRange     '0.8.0',
+119 silly addNameRange     '1.0.0',
+119 silly addNameRange     '1.1.0',
+119 silly addNameRange     '1.1.1',
+119 silly addNameRange     '1.1.2',
+119 silly addNameRange     '1.2.0',
+119 silly addNameRange     '1.3.0',
+119 silly addNameRange     '1.4.0',
+119 silly addNameRange     '1.4.1',
+119 silly addNameRange     '1.5.0',
+119 silly addNameRange     '1.4.2',
+119 silly addNameRange     '1.4.3',
+119 silly addNameRange     '1.5.1',
+119 silly addNameRange     '1.5.2',
+119 silly addNameRange     '1.6.0',
+119 silly addNameRange     '1.5.3',
+119 silly addNameRange     '1.6.1',
+119 silly addNameRange     '1.6.2',
+119 silly addNameRange     '1.7.0',
+119 silly addNameRange     '1.8.0',
+119 silly addNameRange     '1.8.1',
+119 silly addNameRange     '1.8.2',
+119 silly addNameRange     '1.8.3',
+119 silly addNameRange     '1.8.4',
+119 silly addNameRange     '1.9.0',
+119 silly addNameRange     '2.0.0',
+119 silly addNameRange     '2.0.1',
+119 silly addNameRange     '2.0.2',
+119 silly addNameRange     '2.0.3',
+119 silly addNameRange     '2.0.4',
+119 silly addNameRange     '2.0.5',
+119 silly addNameRange     '2.0.6',
+119 silly addNameRange     '2.0.7',
+119 silly addNameRange     '2.0.8',
+119 silly addNameRange     '2.0.9',
+119 silly addNameRange     '2.1.0',
+119 silly addNameRange     '2.2.0',
+119 silly addNameRange     '2.2.1',
+119 silly addNameRange     '2.3.0',
+119 silly addNameRange     '2.3.1',
+119 silly addNameRange     '2.3.2',
+119 silly addNameRange     '2.3.3',
+119 silly addNameRange     '2.3.4',
+119 silly addNameRange     '2.3.5',
+119 silly addNameRange     '2.4.0' ] ]
+120 silly addNamed nan@2.3.5
+121 verbose addNamed "2.3.5" is a plain semver version for nan
+122 silly cache afterAdd nan@2.3.5
+123 verbose afterAdd C:\Users\Robert Hoehn\AppData\Roaming\npm-cache\nan\2.3.5\package\package.json not in flight; writing
+124 verbose afterAdd C:\Users\Robert Hoehn\AppData\Roaming\npm-cache\nan\2.3.5\package\package.json written
+125 silly install resolved [ { name: 'nan',
+125 silly install resolved     version: '2.3.5',
+125 silly install resolved     description: 'Native Abstractions for Node.js: C++ header for Node 0.8 -> 6 compatibility',
+125 silly install resolved     main: 'include_dirs.js',
+125 silly install resolved     repository: { type: 'git', url: 'git://github.com/nodejs/nan.git' },
+125 silly install resolved     scripts:
+125 silly install resolved      { test: 'tap --gc --stderr test/js/*-test.js',
+125 silly install resolved        'rebuild-tests': 'node-gyp rebuild --msvs_version=2013 --directory test',
+125 silly install resolved        docs: 'doc/.build.sh' },
+125 silly install resolved     contributors:
+125 silly install resolved      [ [Object],
+125 silly install resolved        [Object],
+125 silly install resolved        [Object],
+125 silly install resolved        [Object],
+125 silly install resolved        [Object],
+125 silly install resolved        [Object],
+125 silly install resolved        [Object] ],
+125 silly install resolved     devDependencies:
+125 silly install resolved      { bindings: '~1.2.1',
+125 silly install resolved        commander: '^2.8.1',
+125 silly install resolved        glob: '^5.0.14',
+125 silly install resolved        'node-gyp': '~3.0.1',
+125 silly install resolved        tap: '~0.7.1',
+125 silly install resolved        xtend: '~4.0.0' },
+125 silly install resolved     license: 'MIT',
+125 silly install resolved     bugs: { url: 'https://github.com/nodejs/nan/issues' },
+125 silly install resolved     homepage: 'https://github.com/nodejs/nan#readme',
+125 silly install resolved     _id: 'nan@2.3.5',
+125 silly install resolved     _shasum: '822a0dc266290ce4cd3a12282ca3e7e364668a08',
+125 silly install resolved     _resolved: 'https://registry.npmjs.org/nan/-/nan-2.3.5.tgz',
+125 silly install resolved     _from: 'nan@>=2.3.0 <2.4.0',
+125 silly install resolved     _npmVersion: '3.3.6',
+125 silly install resolved     _nodeVersion: '5.0.0',
+125 silly install resolved     _npmUser: { name: 'kkoopa', email: 'bbyholm@abo.fi' },
+125 silly install resolved     dist:
+125 silly install resolved      { shasum: '822a0dc266290ce4cd3a12282ca3e7e364668a08',
+125 silly install resolved        tarball: 'https://registry.npmjs.org/nan/-/nan-2.3.5.tgz' },
+125 silly install resolved     maintainers: [ [Object], [Object] ],
+125 silly install resolved     _npmOperationalInternal:
+125 silly install resolved      { host: 'packages-12-west.internal.npmjs.com',
+125 silly install resolved        tmp: 'tmp/nan-2.3.5.tgz_1464707164994_0.4295874561648816' },
+125 silly install resolved     directories: {},
+125 silly install resolved     readme: 'ERROR: No README data found!' } ]
+126 info install nan@2.3.5 into C:\Users\Robert Hoehn\Documents\video-collections\node_modules\os-service
+127 info installOne nan@2.3.5
+128 verbose installOne of nan to C:\Users\Robert Hoehn\Documents\video-collections\node_modules\os-service not in flight; installing
+129 verbose lock using C:\Users\Robert Hoehn\AppData\Roaming\npm-cache\_locks\nan-1ae7f9b7b615c017.lock for C:\Users\Robert Hoehn\Documents\video-collections\node_modules\os-service\node_modules\nan
+130 silly install write writing nan 2.3.5 to C:\Users\Robert Hoehn\Documents\video-collections\node_modules\os-service\node_modules\nan
+131 verbose unbuild node_modules\os-service\node_modules\nan
+132 silly gentlyRm C:\Users\Robert Hoehn\Documents\video-collections\node_modules\os-service\node_modules\nan is being purged from base C:\Users\Robert Hoehn\Documents\video-collections
+133 verbose gentlyRm don't care about contents; nuking C:\Users\Robert Hoehn\Documents\video-collections\node_modules\os-service\node_modules\nan
+134 verbose tar unpack C:\Users\Robert Hoehn\AppData\Roaming\npm-cache\nan\2.3.5\package.tgz
+135 verbose tar unpacking to C:\Users\Robert Hoehn\Documents\video-collections\node_modules\os-service\node_modules\nan
+136 silly gentlyRm C:\Users\Robert Hoehn\Documents\video-collections\node_modules\os-service\node_modules\nan is being purged
+137 verbose gentlyRm don't care about contents; nuking C:\Users\Robert Hoehn\Documents\video-collections\node_modules\os-service\node_modules\nan
+138 silly gunzTarPerm modes [ '777', '666' ]
+139 silly gunzTarPerm extractEntry package.json
+140 silly gunzTarPerm modified mode [ 'package.json', 436, 438 ]
+141 silly gunzTarPerm extractEntry README.md
+142 silly gunzTarPerm modified mode [ 'README.md', 436, 438 ]
+143 silly gunzTarPerm extractEntry include_dirs.js
+144 silly gunzTarPerm modified mode [ 'include_dirs.js', 436, 438 ]
+145 silly gunzTarPerm extractEntry nan_converters.h
+146 silly gunzTarPerm modified mode [ 'nan_converters.h', 436, 438 ]
+147 silly gunzTarPerm extractEntry LICENSE.md
+148 silly gunzTarPerm modified mode [ 'LICENSE.md', 436, 438 ]
+149 silly gunzTarPerm extractEntry doc/node_misc.md
+150 silly gunzTarPerm modified mode [ 'doc/node_misc.md', 436, 438 ]
+151 silly gunzTarPerm extractEntry doc/asyncworker.md
+152 silly gunzTarPerm modified mode [ 'doc/asyncworker.md', 436, 438 ]
+153 silly gunzTarPerm extractEntry doc/callback.md
+154 silly gunzTarPerm modified mode [ 'doc/callback.md', 436, 438 ]
+155 silly gunzTarPerm extractEntry doc/converters.md
+156 silly gunzTarPerm modified mode [ 'doc/converters.md', 436, 438 ]
+157 silly gunzTarPerm extractEntry doc/errors.md
+158 silly gunzTarPerm modified mode [ 'doc/errors.md', 436, 438 ]
+159 silly gunzTarPerm extractEntry doc/maybe_types.md
+160 silly gunzTarPerm modified mode [ 'doc/maybe_types.md', 436, 438 ]
+161 silly gunzTarPerm extractEntry doc/methods.md
+162 silly gunzTarPerm modified mode [ 'doc/methods.md', 436, 438 ]
+163 silly gunzTarPerm extractEntry doc/new.md
+164 silly gunzTarPerm modified mode [ 'doc/new.md', 436, 438 ]
+165 silly gunzTarPerm extractEntry doc/buffers.md
+166 silly gunzTarPerm modified mode [ 'doc/buffers.md', 436, 438 ]
+167 silly gunzTarPerm extractEntry doc/object_wrappers.md
+168 silly gunzTarPerm modified mode [ 'doc/object_wrappers.md', 436, 438 ]
+169 silly gunzTarPerm extractEntry doc/persistent.md
+170 silly gunzTarPerm modified mode [ 'doc/persistent.md', 436, 438 ]
+171 silly gunzTarPerm extractEntry doc/scopes.md
+172 silly gunzTarPerm modified mode [ 'doc/scopes.md', 436, 438 ]
+173 silly gunzTarPerm extractEntry doc/script.md
+174 silly gunzTarPerm modified mode [ 'doc/script.md', 436, 438 ]
+175 silly gunzTarPerm extractEntry doc/string_bytes.md
+176 silly gunzTarPerm modified mode [ 'doc/string_bytes.md', 436, 438 ]
+177 silly gunzTarPerm extractEntry doc/v8_internals.md
+178 silly gunzTarPerm modified mode [ 'doc/v8_internals.md', 436, 438 ]
+179 silly gunzTarPerm extractEntry doc/v8_misc.md
+180 silly gunzTarPerm modified mode [ 'doc/v8_misc.md', 436, 438 ]
+181 silly gunzTarPerm extractEntry nan.h
+182 silly gunzTarPerm modified mode [ 'nan.h', 436, 438 ]
+183 silly gunzTarPerm extractEntry nan_callbacks.h
+184 silly gunzTarPerm modified mode [ 'nan_callbacks.h', 436, 438 ]
+185 silly gunzTarPerm extractEntry nan_callbacks_12_inl.h
+186 silly gunzTarPerm modified mode [ 'nan_callbacks_12_inl.h', 436, 438 ]
+187 silly gunzTarPerm extractEntry nan_callbacks_pre_12_inl.h
+188 silly gunzTarPerm modified mode [ 'nan_callbacks_pre_12_inl.h', 436, 438 ]
+189 silly gunzTarPerm extractEntry nan_converters_43_inl.h
+190 silly gunzTarPerm modified mode [ 'nan_converters_43_inl.h', 436, 438 ]
+191 silly gunzTarPerm extractEntry nan_converters_pre_43_inl.h
+192 silly gunzTarPerm modified mode [ 'nan_converters_pre_43_inl.h', 436, 438 ]
+193 silly gunzTarPerm extractEntry nan_implementation_12_inl.h
+194 silly gunzTarPerm modified mode [ 'nan_implementation_12_inl.h', 436, 438 ]
+195 silly gunzTarPerm extractEntry nan_implementation_pre_12_inl.h
+196 silly gunzTarPerm modified mode [ 'nan_implementation_pre_12_inl.h', 436, 438 ]
+197 silly gunzTarPerm extractEntry nan_maybe_43_inl.h
+198 silly gunzTarPerm modified mode [ 'nan_maybe_43_inl.h', 436, 438 ]
+199 silly gunzTarPerm extractEntry nan_maybe_pre_43_inl.h
+200 silly gunzTarPerm modified mode [ 'nan_maybe_pre_43_inl.h', 436, 438 ]
+201 silly gunzTarPerm extractEntry nan_new.h
+202 silly gunzTarPerm modified mode [ 'nan_new.h', 436, 438 ]
+203 silly gunzTarPerm extractEntry nan_object_wrap.h
+204 silly gunzTarPerm modified mode [ 'nan_object_wrap.h', 436, 438 ]
+205 silly gunzTarPerm extractEntry nan_persistent_12_inl.h
+206 silly gunzTarPerm modified mode [ 'nan_persistent_12_inl.h', 436, 438 ]
+207 silly gunzTarPerm extractEntry nan_persistent_pre_12_inl.h
+208 silly gunzTarPerm modified mode [ 'nan_persistent_pre_12_inl.h', 436, 438 ]
+209 silly gunzTarPerm extractEntry nan_string_bytes.h
+210 silly gunzTarPerm modified mode [ 'nan_string_bytes.h', 436, 438 ]
+211 silly gunzTarPerm extractEntry nan_typedarray_contents.h
+212 silly gunzTarPerm modified mode [ 'nan_typedarray_contents.h', 436, 438 ]
+213 silly gunzTarPerm extractEntry nan_weak.h
+214 silly gunzTarPerm modified mode [ 'nan_weak.h', 436, 438 ]
+215 silly gunzTarPerm extractEntry CHANGELOG.md
+216 silly gunzTarPerm modified mode [ 'CHANGELOG.md', 436, 438 ]
+217 silly gunzTarPerm extractEntry tools/package.json
+218 silly gunzTarPerm modified mode [ 'tools/package.json', 436, 438 ]
+219 silly gunzTarPerm extractEntry tools/README.md
+220 silly gunzTarPerm modified mode [ 'tools/README.md', 436, 438 ]
+221 silly gunzTarPerm extractEntry tools/1to2.js
+222 silly gunzTarPerm modified mode [ 'tools/1to2.js', 509, 511 ]
+223 verbose write writing to C:\Users\Robert Hoehn\Documents\video-collections\node_modules\os-service\node_modules\nan\package.json
+224 info preinstall nan@2.3.5
+225 verbose readDependencies loading dependencies from C:\Users\Robert Hoehn\Documents\video-collections\node_modules\os-service\node_modules\nan\package.json
+226 verbose readDependencies loading dependencies from C:\Users\Robert Hoehn\Documents\video-collections\node_modules\os-service\node_modules\nan\package.json
+227 silly install resolved []
+228 verbose about to build C:\Users\Robert Hoehn\Documents\video-collections\node_modules\os-service\node_modules\nan
+229 info build C:\Users\Robert Hoehn\Documents\video-collections\node_modules\os-service\node_modules\nan
+230 info linkStuff nan@2.3.5
+231 silly linkStuff nan@2.3.5 has C:\Users\Robert Hoehn\Documents\video-collections\node_modules\os-service\node_modules as its parent node_modules
+232 verbose linkBins nan@2.3.5
+233 verbose linkMans nan@2.3.5
+234 verbose rebuildBundles nan@2.3.5
+235 info install nan@2.3.5
+236 info postinstall nan@2.3.5
+237 verbose unlock done using C:\Users\Robert Hoehn\AppData\Roaming\npm-cache\_locks\nan-1ae7f9b7b615c017.lock for C:\Users\Robert Hoehn\Documents\video-collections\node_modules\os-service\node_modules\nan
+238 verbose about to build C:\Users\Robert Hoehn\Documents\video-collections\node_modules\os-service
+239 info build C:\Users\Robert Hoehn\Documents\video-collections\node_modules\os-service
+240 info linkStuff os-service@1.3.0
+241 silly linkStuff os-service@1.3.0 has C:\Users\Robert Hoehn\Documents\video-collections\node_modules as its parent node_modules
+242 verbose linkBins os-service@1.3.0
+243 verbose linkMans os-service@1.3.0
+244 verbose rebuildBundles os-service@1.3.0
+245 verbose rebuildBundles [ 'nan' ]
+246 info install os-service@1.3.0
+247 verbose unsafe-perm in lifecycle true
+248 info os-service@1.3.0 Failed to exec install script
+249 verbose unlock done using C:\Users\Robert Hoehn\AppData\Roaming\npm-cache\_locks\os-service-2106eb30491fb724.lock for C:\Users\Robert Hoehn\Documents\video-collections\node_modules\os-service
+250 verbose stack Error: os-service@1.3.0 install: `node-gyp rebuild`
+250 verbose stack Exit status 1
+250 verbose stack     at EventEmitter.<anonymous> (C:\Program Files\nodejs\node_modules\npm\lib\utils\lifecycle.js:214:16)
+250 verbose stack     at emitTwo (events.js:87:13)
+250 verbose stack     at EventEmitter.emit (events.js:172:7)
+250 verbose stack     at ChildProcess.<anonymous> (C:\Program Files\nodejs\node_modules\npm\lib\utils\spawn.js:24:14)
+250 verbose stack     at emitTwo (events.js:87:13)
+250 verbose stack     at ChildProcess.emit (events.js:172:7)
+250 verbose stack     at maybeClose (internal/child_process.js:821:16)
+250 verbose stack     at Process.ChildProcess._handle.onexit (internal/child_process.js:211:5)
+251 verbose pkgid os-service@1.3.0
+252 verbose cwd C:\Users\Robert Hoehn\Documents\video-collections
+253 error Windows_NT 10.0.14393
+254 error argv "C:\\Program Files\\nodejs\\node.exe" "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "install" "os-service"
+255 error node v4.3.1
+256 error npm  v2.14.12
+257 error code ELIFECYCLE
+258 error os-service@1.3.0 install: `node-gyp rebuild`
+258 error Exit status 1
+259 error Failed at the os-service@1.3.0 install script 'node-gyp rebuild'.
+259 error This is most likely a problem with the os-service package,
+259 error not with npm itself.
+259 error Tell the author that this fails on your system:
+259 error     node-gyp rebuild
+259 error You can get their info via:
+259 error     npm owner ls os-service
+259 error There is likely additional logging output above.
+260 verbose exit [ 1, true ]
+261 verbose unbuild node_modules\os-service
+262 info preuninstall os-service@1.3.0
+263 info uninstall os-service@1.3.0
+264 verbose unbuild rmStuff os-service@1.3.0 from C:\Users\Robert Hoehn\Documents\video-collections\node_modules
+265 info postuninstall os-service@1.3.0
+266 silly gentlyRm C:\Users\Robert Hoehn\Documents\video-collections\node_modules\os-service is being purged from base C:\Users\Robert Hoehn\Documents\video-collections
+267 verbose gentlyRm don't care about contents; nuking C:\Users\Robert Hoehn\Documents\video-collections\node_modules\os-service
+268 silly vacuum-fs purging C:\Users\Robert Hoehn\Documents\video-collections\node_modules\os-service
+269 silly vacuum-fs quitting because other entries in C:\Users\Robert Hoehn\Documents\video-collections\node_modules

@@ -43,7 +43,7 @@ var appRouter = function(app) {
     app.get("/", function(req, res){
         //console.log(req.user);
         if(!req.user) {
-            return res.render('login', { title: 'TrackRight.org - Please Login First', user: false, url:"login"});
+            return res.render('login', { title: 'TrackRight.org', user: false, url:"login"});
         }
         res.render('index', { title: 'TrackRight.org', user: req.user, url:"home"} );
     });
@@ -51,7 +51,7 @@ var appRouter = function(app) {
     app.get('/home', function(req, res) {
         console.log(req.user);
         if (!req.user) {
-            return res.render("login", {title: 'TrackRight.org - Please Login First', user: false, url:"login"});
+            return res.render("login", {title: 'TrackRight.org', user: false, url:"login"});
         }
         res.render('index', { title: 'TrackRight.org', user: req.user, url:"home"});
     });
@@ -59,14 +59,14 @@ var appRouter = function(app) {
     app.get('/login', function(req, res) {
         console.log(req.user);
         if (!req.user) {
-            return res.render("login", {title: 'TrackRight.org - Please Login First', user: false, url:"login"});
+            return res.render("login", {title: 'TrackRight.org', user: false, url:"login"});
         }
         res.render('index', { title: 'TrackRight.org', user:req.user, url:"home"});
     });
 
     app.get('/account', function(req, res){
        if (!req.user) {
-           return res.render("login", {title: 'TrackRight.org - Please Login First', user: false, url:"login"});
+           return res.render("login", {title: 'TrackRight.org', user: false, url:"login"});
        }
        res.render('account', { title: req.user.username + "'s Account", user:req.user, url:"account"});
     });
@@ -75,14 +75,14 @@ var appRouter = function(app) {
         console.log('/collection hit');
         console.log(req.user);
         if (!req.user) {
-            return res.render("login", {title: 'TrackRight.org - Please Login First', user: false, msg:'Please Login First', url:"login"});
+            return res.render("login", {title: 'TrackRight.org', user: false, msg:'Please Login First', url:"login"});
         }
         res.render('vid_collection', { title: req.user.username + "'s Collection", user:req.user, url:"collection", collection:"videoCollection"});
     });
 
     app.get('/watch-list', function(req, res){
         if (!req.user) {
-            return res.render("login", {title: 'TrackRight.org - Please Login First', user: false, msg:'Please Login First', url:"login"});
+            return res.render("login", {title: 'TrackRight.org', user: false, msg:'Please Login First', url:"login"});
         }
         res.render('vid_collection', { title: req.user.username + "'s To Watch List", user:req.user, url:"watch-list", collection:"watchlistCollection"});
     });
@@ -90,13 +90,14 @@ var appRouter = function(app) {
     app.get('/video', function(req, res){
         var vidId = req.query.vidId;
         var type = req.query.type;
+        var name = req.query.name;
         if (!req.user) {
-            return res.render("login", {title: 'TrackRight.org - Please Login First', user: false, msg:'Please Login First', url:"login"});
+            return res.render("login", {title: 'TrackRight.org', user: false, msg:'Please Login First', url:"login"});
         }
         if (!vidId) {
             return res.send('no vidId set.');
         }
-        res.render('video', { title: type+' id:'+vidId, user:req.user, url:"video", vidId: vidId, type: type});
+        res.render('video', { title: name, user:req.user, url:"video", vidId: vidId, type: type});
     });
 
     // todo change config to drop the login.loc --- un-needed
@@ -205,14 +206,14 @@ var appRouter = function(app) {
         console.log(req.body.type);
         if (req.body.type == "movie"){
             console.log('movie type found - hitting db.moviedb.findMovieDetailed to make api request.');
-            db.moviedb.findMovieDetailed(req.body.id, function(err, result){
+            db.moviedb.findMovieDetailed(req.body.id, req.user, function(err, result){
                 // console.log(result);
                 if (err) { res.send('Error Loading Movie') }
                 res.send(result);
             })
         }
         else if (req.body.type == "tv"){
-            db.moviedb.findTelevisionDetailed(req.body.id, function(err, res){
+            db.moviedb.findTelevisionDetailed(req.body.id, req.user, function(err, res){
                 console.log(res);
                 res.send(res);
             })
