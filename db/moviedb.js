@@ -97,18 +97,39 @@ module.exports = {
             "path": "/3/movie/"+id+"?api_key=" + config.api.themoviedb
         };
 
+        var credits = {
+            "host": "api.themoviedb.org",
+            "path": "/3/movie/"+id+"/credits?api_key="+config.api.themoviedb
+        };
+        var movie = "temp";
+
         callback = function (response) {
             var str = '';
             response.on('data', function (chunk) {
                 str += chunk;
             });
             response.on('end', function () {
-                console.log(str);
-                return cb(false, str)
+                movie = str;
+
+                callback2 = function (response) {
+                    var credits = '';
+                    response.on('data', function (chunk) {
+                        credits += chunk;
+                    });
+                    response.on('end', function () {
+                        movie = JSON.parse(movie);
+                        movie.credits = JSON.parse(credits);
+                        return cb(false, JSON.stringify(movie));
+                    });
+                };
+
+                http.request(credits, callback2).end();
             });
         };
 
         http.request(options, callback).end();
+        console.log('movie incoming   ____________________');
+        console.log(movie);
     },
 
 

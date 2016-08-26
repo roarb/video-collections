@@ -36,8 +36,14 @@
             </div>
 
             <div class="video-desc">
-                <h4 class="video-title" ng-if="vid.value.title">{{vid.value.title}}</h4>
-                <h4 class="video-title" ng-if="vid.value.name">{{vid.value.name}}</h4>
+                <h4 class="video-title" ng-if="vid.value.title">
+                    <a href="/video?vidId={{vid.value.id}}&type={{vid.value.media_type}}" title="{{vid.value.title}}">
+                        {{vid.value.title}}</a>
+                </h4>
+                <h4 class="video-title" ng-if="vid.value.name">
+                    <a href="/video?vidId={{vid.value.id}}&type={{vid.value.media_type}}" title="{{vid.value.title}}">
+                        {{vid.value.title}}</a>
+                </h4>
                 <span class="rating">
                     <span ng-if="vid.value.userRating" class="user-rating" ng-class="vid.value.userRating | userStars"></span>
                     <span ng-if="!vid.value.userRating">

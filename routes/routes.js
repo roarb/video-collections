@@ -206,7 +206,7 @@ var appRouter = function(app) {
         if (req.body.type == "movie"){
             console.log('movie type found - hitting db.moviedb.findMovieDetailed to make api request.');
             db.moviedb.findMovieDetailed(req.body.id, function(err, result){
-                console.log(result);
+                // console.log(result);
                 if (err) { res.send('Error Loading Movie') }
                 res.send(result);
             })
