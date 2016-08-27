@@ -53,7 +53,7 @@ var videoController = function ($scope, $http, $q, videoService, videoCollection
         "DVD", "Blu-Ray", "Google Play",
         "iTunes",  "Digital (720)",
         "Digital (480)", "Digital (1080)",
-        "Digital (4k)", "Amazon"
+        "Digital (4k)", "Amazon", "Plex"
     ];
     $scope.formatOptions.sort();
 

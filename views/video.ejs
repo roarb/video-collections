@@ -32,25 +32,46 @@
         </div>
     </div>
     <div class="col-lg-10 video-desc">
-        <h4>{{videoDetails.details.title}}</h4>
-        <div class="genres" ng-if="videoDetails.details.genres.length > 0">
-            <li ng-repeat="genre in videoDetails.details.genres">
-                <span>{{genre.name}}</span>
-            </li>
+        <div class="col-lg-10 video-title-wrapper">
+            <h4>{{videoDetails.details.title}}</h4>
         </div>
-        <div class="tagline" ng-if="videoDetails.details.tagline">{{videoDetails.details.tagline}}</div>
-        <div class="overview" ng-if="videoDetails.details.overview">{{videoDetails.details.overview}}</div>
-        <span class="release-date" ng-if="videoDetails.details.release_date">{{videoDetails.details.release_date}}</span>
-        <span class="rating">
-            <span ng-if="videoDetails.details.userRating" class="user-rating" ng-class="videoDetails.details.userRating | userStars"></span>
-            <span ng-if="!videoDetails.details.userRating">
-                <span ng-if="videoDetails.details.vote_average" ng-class="videoDetails.details.vote_average | voteStars" class="avg-rating"></span>
-                <span ng-if="!videoDetails.details.vote_average" class="no-rating">no rating</span>
+        <div class="release-date col-lg-2" ng-if="videoDetails.details.release_date">{{videoDetails.details.release_date}}</div>
+        <div class="video-desc-wrapper clearer">
+            <div class="runtime col-lg-10" ng-if="videoDetails.details.runtime">{{videoDetails.details.runtime}}</div>
+            <div class="genres col-lg-2" ng-if="videoDetails.details.genres.length > 0">
+                <span ng-repeat="genre in videoDetails.details.genres">
+                    {{genre.name}}{{$last ? '' : ($index==genre.name.length-2) ? ' and ' : ', '}}
+                </span>
+            </div>
+            <div class="clearer"></div>
+            <div class="tagline col-lg-10" ng-if="videoDetails.details.tagline">{{videoDetails.details.tagline}}</div>
+            <span class="rating col-lg-2">
+                <span ng-if="videoDetails.details.userRating" class="user-rating" ng-class="videoDetails.details.userRating | userStars"></span>
+                <span ng-if="!videoDetails.details.userRating">
+                    <span ng-if="videoDetails.details.vote_average" ng-class="videoDetails.details.vote_average | voteStars" class="avg-rating"></span>
+                    <span ng-if="!videoDetails.details.vote_average" class="no-rating">no rating</span>
+                </span>
             </span>
-        </span>
+            <div class="clearer"></div>
+            <div class="credits director col-lg-12">
+                <span class="label">Director </span>
+                <span ng-repeat="crew in videoDetails.details.credits.crew">
+                    <span ng-if="crew.job == 'Director'">{{crew.name}}{{$last ? '' : ($index==genre.name.length-2) ? ' and ' : ', '}}</span>
+                </span>
+            </div>
+            <div class="credits cast col-lg-12">
+                <span class="label">Cast </span>
+                <span ng-repeat="cast in videoDetails.details.credits.cast">
+                    {{cast.name}}{{crew.name}}{{$last ? '' : ($index==genre.name.length-2) ? ' and ' : ', '}}
+                </span>
+            </div>
+
+            <div class="overview" ng-if="videoDetails.details.overview">{{videoDetails.details.overview}}</div>
+
+        </div>
     </div>
     <!--{{videoDetails.details.credits}}<hr />-->
-    {{videoDetails.details}}
+    <!--{{videoDetails.details}}-->
 </div>
 
 <% include partials/footer.ejs %>
