@@ -34,6 +34,6 @@ app.set('view engine', 'ejs');
 // All endpoints to be used in this application
 var routes = require("./routes/routes.js")(app);
 
-var server = app.listen(config.server.ip, function () {
+var server = app.listen(config.server.ip, "127.0.0.1", function () {
     console.log("Listening on port %s...", server.address().port);
 });

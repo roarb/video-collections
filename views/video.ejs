@@ -16,10 +16,40 @@
     <div class="col-lg-2 video-poster">
         <img ng-if="videoDetails.details.poster_path" ng-src="http://image.tmdb.org/t/p/w185/{{videoDetails.details.poster_path}}" />
         <img ng-if="!videoDetails.details.poster_path" ng-src="/images/no-poster.jpg" />
+        <div ng-if="videoDetails.details.owned" id="owned-vi-{{videoDetails.details.media_type}}-{{videoDetails.details.id}}" class="owned-formats">
+            <span ng-repeat="format in videoDetails.details.format" class="format-bubble">
+                <span style="background:{{format | bgColor}}">{{format}}</span>
+            </span>
+        </div>
+        <span class="glyphicon glyphicon-plus-sign add-video" onclick="toggleFormatOptions(this)"></span>
+        <div class="format-options hidden a-center" data-vid="vi-{{videoDetails.details.media_type}}-{{videoDetails.details.id}}">
+            <li ng-repeat="formatAvail in formatOptions" ng-if="videoDetails.details.format | contains:formatAvail" onclick="toggleVideoFormatOwned(this, 'remove')" class="owned">
+                {{formatAvail}}
+            </li>
+            <li ng-repeat="formatAvail in formatOptions" ng-if="videoDetails.details.format | doesNotContain:formatAvail" onclick="toggleVideoFormatOwned(this, 'add')">
+                {{formatAvail}}
+            </li>
+        </div>
     </div>
-    <div class="col-lg-10 video-info">
+    <div class="col-lg-10 video-desc">
         <h4>{{videoDetails.details.title}}</h4>
+        <div class="genres" ng-if="videoDetails.details.genres.length > 0">
+            <li ng-repeat="genre in videoDetails.details.genres">
+                <span>{{genre.name}}</span>
+            </li>
+        </div>
+        <div class="tagline" ng-if="videoDetails.details.tagline">{{videoDetails.details.tagline}}</div>
+        <div class="overview" ng-if="videoDetails.details.overview">{{videoDetails.details.overview}}</div>
+        <span class="release-date" ng-if="videoDetails.details.release_date">{{videoDetails.details.release_date}}</span>
+        <span class="rating">
+            <span ng-if="videoDetails.details.userRating" class="user-rating" ng-class="videoDetails.details.userRating | userStars"></span>
+            <span ng-if="!videoDetails.details.userRating">
+                <span ng-if="videoDetails.details.vote_average" ng-class="videoDetails.details.vote_average | voteStars" class="avg-rating"></span>
+                <span ng-if="!videoDetails.details.vote_average" class="no-rating">no rating</span>
+            </span>
+        </span>
     </div>
+    <!--{{videoDetails.details.credits}}<hr />-->
     {{videoDetails.details}}
 </div>
 

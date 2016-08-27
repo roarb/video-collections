@@ -20,7 +20,7 @@
         <div class="video-poster" data ="http://image.tmdb.org/t/p/w185/{{vid.poster_path}}">
             <div ng-if="vid.owned" id="owned-vi-{{vid.media_type}}-{{vid.id}}" class="owned-formats">
                 <span ng-repeat="format in vid.format" class="format-bubble">
-                    <span ng-class="format | firstLetter">{{format}}</span>
+                    <span style="background:{{format | bgColor}}">{{format}}</span>
                 </span>
             </div>
             <div class="video-poster">
@@ -42,23 +42,23 @@
 
         <div class="video-desc">
             <h4 class="video-title" ng-if="vid.title">
-                <a href="/video?vidId={{vid.id}}&type={{vid.media_type}}" title="{{vid.title}}">
+                <a href="/video?vidId={{vid.id}}&type={{vid.media_type}}&name={{vid.title}}" title="{{vid.title}}">
                     {{vid.title}}</a>
             </h4>
             <h4 class="video-title" ng-if="vid.name">
-                <a href="/video?vidId={{vid.id}}&type={{vid.media_type}}" title="{{vid.name}}">
+                <a href="/video?vidId={{vid.id}}&type={{vid.media_type}}&name={{vid.name}}" title="{{vid.name}}">
                     {{vid.name}}</a>
             </h4>
             <span ng-class="['media-type', 'small', vid.media_type ]">Format:
                 <span style="text-transform: uppercase;">{{vid.media_type}}</span>
             </span>
             <span class="rating">
-                    <span ng-if="vid.userRating" class="user-rating" ng-class="vid.userRating | userStars"></span>
-                    <span ng-if="!vid.userRating">
-                        <span ng-if="vid.vote_average" ng-class="vid.vote_average | voteStars" class="avg-rating"></span>
-                        <span ng-if="!vid.vote_average" class="no-rating">no rating</span>
-                    </span>
+                <span ng-if="vid.userRating" class="user-rating" ng-class="vid.userRating | userStars"></span>
+                <span ng-if="!vid.userRating">
+                    <span ng-if="vid.vote_average" ng-class="vid.vote_average | voteStars" class="avg-rating"></span>
+                    <span ng-if="!vid.vote_average" class="no-rating">no rating</span>
                 </span>
+            </span>
             <div class="clearer"></div>
             <span class="overview">
                 <span ng-if="vid.overview">{{trimSummary(vid.overview)}}</span>

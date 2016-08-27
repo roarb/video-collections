@@ -89,7 +89,7 @@ module.exports = {
 
     },
 
-    findMovieDetailed: function(id, cb){
+    findMovieDetailed: function(id, usr, cb){
         console.log('get the details for the movie id '+id);
 
         var options = {
@@ -119,7 +119,31 @@ module.exports = {
                     response.on('end', function () {
                         movie = JSON.parse(movie);
                         movie.credits = JSON.parse(credits);
-                        return cb(false, JSON.stringify(movie));
+                        var cbMovie = movie; // for future use to save credits into the cb local video save.
+                        // add in user video / watchlist items to the returned movie
+                        app.bucket.get('uid-'+usr.id, function(err, results) {
+                            if (err) {
+                                return cb(true, err);
+                            }
+                            var owned = results.value.videos;
+                            var watchList = results.value.watchList;
+
+                            for (var i = 0; i < owned.length; i++){
+                                if (owned[i].id == "vi-movie-"+movie.id){
+                                    movie.format = owned[i].format;
+                                    movie.userRating = owned[i].rating;
+                                    movie.owned = true;
+                                }
+                            }
+                            for (var i = 0; i < watchList.length; i++){
+                                if (watchList[i] == "vi-movie-"+movie.id) {
+                                    movie.watchList = true;
+                                }
+                            }
+
+                            return cb(false, JSON.stringify(movie));
+
+                        });
                     });
                 };
 
@@ -128,8 +152,8 @@ module.exports = {
         };
 
         http.request(options, callback).end();
-        console.log('movie incoming   ____________________');
-        console.log(movie);
+        // console.log('movie incoming   ____________________');
+        // console.log(movie);
     },
 
 
