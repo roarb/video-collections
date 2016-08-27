@@ -54,3 +54,4 @@ node_modules
 .idea/misc.xml
 .idea/misc.xml
 .idea/vagrant.xml
+config.json
