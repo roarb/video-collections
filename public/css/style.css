@@ -46,7 +46,17 @@ button:hover, .in-list button:hover {
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#feffe8', endColorstr='#d6dbbf',GradientType=0 ); /* IE6-9 */
 }
 
+.navbar-default {/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#e2e2e2+0,dbdbdb+50,d1d1d1+51,fefefe+100&0.4+0,1+100;Grey+Gloss+%231 */
+    background: -moz-linear-gradient(top,  rgba(226,226,226,0.4) 0%, rgba(219,219,219,0.7) 50%, rgba(209,209,209,0.71) 51%, rgba(254,254,254,1) 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top,  rgba(226,226,226,0.4) 0%,rgba(219,219,219,0.7) 50%,rgba(209,209,209,0.71) 51%,rgba(254,254,254,1) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom,  rgba(226,226,226,0.4) 0%,rgba(219,219,219,0.7) 50%,rgba(209,209,209,0.71) 51%,rgba(254,254,254,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#66e2e2e2', endColorstr='#fefefe',GradientType=0 ); /* IE6-9 */
+}
 .navbar-right .title {margin-top:10px; font-size:26px;}
+.navbar-default .navbar-nav>li>a {font-size:1.3em;}
+.navbar-default .navbar-nav>.active>a,
+.navbar-default .navbar-nav>.active>a:focus,
+.navbar-default .navbar-nav>.active>a:hover {background-color:transparent; color:#333; text-shadow:1px 1px #ccc;}
 
 .video-search input {padding:5px 12px; top:1px; position:relative;}
 
@@ -55,9 +65,9 @@ button:hover, .in-list button:hover {
 .video-item .video-poster img {max-height:275px; max-width:185px;}
 .video-item .video-desc {float:left; padding:5px; width:65%; position:relative; height:360px;}
 .video-item .video-desc h4 {font-size:20px; float:left; width:100%; border-bottom:1px solid #d1d1d1;}
-.video-item .video-desc .rating {float:right; width:100px; background:url('../images/grey-star-rating-full.jpg') no-repeat 0 0; font-size:0; height:17px;}
-.video-item .video-desc .rating .user-rating {background:url('../images/yellow-star-rating-full.jpg') no-repeat 0 0 ; height:17px; display:block;}
-.video-item .video-desc .rating .avg-rating {background:url('../images/blue-star-rating-full.jpg') no-repeat 0 0 ; height:17px; display:block;}
+.video-item .video-desc .rating {float:right; width:100px; background:url('../images/star_rating_sprites.png') no-repeat 0 -5px; font-size:0; height:17px;}
+.video-item .video-desc .rating .user-rating {background:url('../images/star_rating_sprites.png') no-repeat -2px -35px; height:17px; display:block;}
+.video-item .video-desc .rating .avg-rating {background:url('../images/star_rating_sprites.png') no-repeat -2px -63px; height:17px; display:block;}
 .video-item .video-desc .overview {height:233px; padding:10px; margin:5px; display:block; border:1px solid #d1d1d1; background:#fafafa; overflow:hidden;}
 .video-item .video-desc .overview-shadow {/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#fafafa+0,fafafa+100&0+0,1+100 */
     background: -moz-linear-gradient(top,  rgba(250,250,250,0) 0%, rgba(250,250,250,1) 100%); /* FF3.6-15 */
@@ -70,7 +80,7 @@ button:hover, .in-list button:hover {
 .add-video {position:absolute; color:#ccc; font-size:26px; left:5px; top:267px; cursor:pointer;}
 .format-options {background:#ccc; border-radius:18px; top:276px; position:absolute; left:20px; padding:2px 0; z-index:10; width:500px;}
 .format-options li {list-style:none; padding:4px 0; border-radius:12px; margin:4px; cursor:pointer; float:left; width:156px;}
-.format-options li:hover {background:#fff;}
+.format-options li:hover, .format-options li.owned:hover {background:#fff;}
 .format-options li.owned {background:#2aabd2;}
 
 .video-poster .release-date {top:-5px; position:relative; clear:left; padding:0 5px; float:left;}
@@ -78,10 +88,27 @@ button:hover, .in-list button:hover {
 .video-poster .owned-formats span span {padding:4px; border-radius:12px; font-size:6px;}
 
 /** single video details page **/
-.video-details .background {opacity:.3; width:106%; margin:0 0 -5% -3%; height:auto; position:fixed; top:0; overflow:hidden; z-index: -1;}
-.video-details .background img {width:100%;}
-.video-details .video-poster img {max-height:275px; max-width:100%;}
-.video-details .video-desc-wrapper {border:1px solid #333; padding:20px;}
-.video-details .video-desc .rating {float:right; width:100px; background:url('../images/grey-star-rating-full.jpg') no-repeat 0 0; font-size:0; height:17px;}
-.video-details .video-desc .rating .user-rating {background:url('../images/yellow-star-rating-full.jpg') no-repeat 0 0 ; height:17px; display:block;}
-.video-details .video-desc .rating .avg-rating {background:url('../images/blue-star-rating-full.jpg') no-repeat 0 0 ; height:17px; display:block;}
+.video-details .background {opacity:.8; width:106%; margin:0 0 -5% -3%; height:auto; position:fixed; top:0; overflow:hidden; z-index: -1;}
+.video-details .background img {width:100%; position:fixed;}
+.video-details .background-shadow {display:block; width:200%; position:fixed; height:487px; top:133px; z-index:-1; left:-50%;
+    background: -moz-linear-gradient(bottom, rgba(204,204,204,1) 0%, rgba(204,204,204,0.35) 100%);
+    background: -webkit-linear-gradient(bottom, rgba(204,204,204,1) 0%,rgba(204,204,204,0.35) 100%);
+    background: linear-gradient(to top, rgba(204,204,204,1) 0%,rgba(204,204,204,0.35) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( endColorstr='#cccccc', startColorstr='#40cccccc',GradientType=0 );}
+
+.video-details .video-poster img {max-height:275px; max-width:100%; margin-top:16px; box-shadow:4px 4px 12px #333;}
+.video-details .video-poster .add-video {color:#fff;}
+.video-details .video-poster .format-options {border:1px solid #666;}
+
+.video-details .video-desc-wrapper {padding:10px 20px;}
+.video-details .video-desc .video-title-wrapper h4 {font-size:3em; color:#d1d1d1; text-shadow:2px 2px #333;}
+.video-details .video-desc .release-date {color:#004d99; font-weight:bold; margin-top:9px; font-size:1.2em; line-height:3em;}
+.video-details .video-desc .runtime {margin:0 0 10px 0; font-size:1.1em;}
+.video-details .video-desc .genres {text-align:right; margin:0 0 10px 0; font-size:1.1em;}
+.video-details .video-desc .tagline {margin:10px 0; font-size:2em;}
+.video-details .video-desc .rating {margin:10px 0; padding:0; float:right; width:100px; background:url('../images/star_rating_sprites.png') no-repeat 0 -5px; font-size:0; height:17px;}
+.video-details .video-desc .rating .user-rating {background:url('../images/star_rating_sprites.png') no-repeat -2px -35px; height:17px; display:block;}
+.video-details .video-desc .rating .avg-rating {background:url('../images/star_rating_sprites.png') no-repeat -2px -63px; height:17px; display:block;}
+.video-details .video-desc .credits {margin:10px 0; font-size:1.1em;}
+.video-details .video-desc .credits .label {text-transform:uppercase; font-weight:bold; color:#000;}
+.video-details .video-desc .overview {margin:10px 0; background: #eaeaea; padding:25px 40px; border-radius:40px 4px 40px 4px;}

@@ -141,6 +141,8 @@ module.exports = {
                                 }
                             }
 
+                            movie.media_type = "movie";
+
                             return cb(false, JSON.stringify(movie));
 
                         });

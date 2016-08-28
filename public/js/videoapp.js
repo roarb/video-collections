@@ -114,6 +114,20 @@ var videoController = function ($scope, $http, $q, videoService, videoCollection
         }
 
         return summary;
+    };
+
+    $scope.dateShowYear = function(date){
+        return date.split('-')[0];
+    };
+
+    $scope.minToHours = function(a){
+        var hours = Math.trunc(a/60);
+        var minutes = a % 60;
+        var hoursStr = "hr";
+        if (hours > 1){
+            hoursStr = 'hrs';
+        }
+        return hours+' '+hoursStr+' '+minutes+' mins';
     }
 };
 
@@ -138,7 +152,8 @@ app.service('watchlistCollection', function ($http) {
 app.service('videoDetails', function ($http, $q) {
 
     var self = this;
-
+    // set the background-shadow height
+    $('.background-shadow').height($(window).height()-130);
     self.getData = function(vidId, type) {
         console.log(vidId+" - "+type);
         console.log('videoDetails getData request');

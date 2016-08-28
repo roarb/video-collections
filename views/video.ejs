@@ -12,6 +12,7 @@
     <div class="background">
         <img ng-if="videoDetails.details.backdrop_path" ng-src="http://image.tmdb.org/t/p/w185/{{videoDetails.details.backdrop_path}}" />
     </div>
+    <div class="background-shadow"></div>
     <!-- todo - load in a stock image based off of the media_type & genre if missing backdrop image perhaps -->
     <div class="col-lg-2 video-poster">
         <img ng-if="videoDetails.details.poster_path" ng-src="http://image.tmdb.org/t/p/w185/{{videoDetails.details.poster_path}}" />
@@ -35,10 +36,10 @@
         <div class="col-lg-10 video-title-wrapper">
             <h4>{{videoDetails.details.title}}</h4>
         </div>
-        <div class="release-date col-lg-2" ng-if="videoDetails.details.release_date">{{videoDetails.details.release_date}}</div>
+        <div class="release-date col-lg-2" ng-if="videoDetails.details.release_date">{{dateShowYear(videoDetails.details.release_date)}}</div>
         <div class="video-desc-wrapper clearer">
-            <div class="runtime col-lg-10" ng-if="videoDetails.details.runtime">{{videoDetails.details.runtime}}</div>
-            <div class="genres col-lg-2" ng-if="videoDetails.details.genres.length > 0">
+            <div class="runtime col-lg-6" ng-if="videoDetails.details.runtime">{{minToHours(videoDetails.details.runtime)}}</div>
+            <div class="genres col-lg-6" ng-if="videoDetails.details.genres.length > 0">
                 <span ng-repeat="genre in videoDetails.details.genres">
                     {{genre.name}}{{$last ? '' : ($index==genre.name.length-2) ? ' and ' : ', '}}
                 </span>
@@ -65,7 +66,7 @@
                     {{cast.name}}{{crew.name}}{{$last ? '' : ($index==genre.name.length-2) ? ' and ' : ', '}}
                 </span>
             </div>
-
+            <div class="clearer"></div>
             <div class="overview" ng-if="videoDetails.details.overview">{{videoDetails.details.overview}}</div>
 
         </div>
