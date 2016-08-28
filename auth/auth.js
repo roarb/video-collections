@@ -81,9 +81,13 @@ passport.use('facebook', new FacebookStrategy({
     callbackURL: config.facebook.callbackURL
 },
 function(accessToken, refreshToken, profile, cb){
-    User.findOrCreate({ facebookId: profile.id}, function (err, user) {
-        return cb(err, user);
-    });
+    console.log(profile);
+    console.log(accessToken);
+    console.log(refreshToken);
+    return cb(err, 'still testing');
+    // User.findOrCreate({ facebookId: profile.id}, function (err, user) {
+    //     return cb(err, user);
+    // });
 }
 ));
 
