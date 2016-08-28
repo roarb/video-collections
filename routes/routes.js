@@ -222,7 +222,14 @@ var appRouter = function(app) {
         }
     });
 
+    // facebook passport strategy //
+    app.get("/auth/facebook", passport.authenticate('facebook'));
 
+    app.get("/auth/facebook/callback", passport.authenticate('facebook', { failureRedirect: '/login' }),
+        function(req, res ){
+        // successful authentication, redirect home
+            res.redirect('/home');
+        });
 
 
     // original CEAN sample examples below //

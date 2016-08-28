@@ -13,7 +13,9 @@
 var passport = require('passport');
 var ConsumerStrategy = require('passport-http-oauth').ConsumerStrategy;
 var TokenStrategy = require('passport-http-oauth').TokenStrategy;
+var FacebookStrategy = require('passport-facebook');
 var db = require('./../db');
+var config = require('../config.json');
 
 /**
  * Parameters
@@ -66,6 +68,24 @@ var db = require('./../db');
  * to choose how user information is stored, without any assumptions imposed by the authentication layer.
  *
  **/
+
+/**
+ * FacebookStrategy
+ *
+ * testing integration from documentation at https://github.com/jaredhanson/passport-facebook
+ *
+ */
+passport.use('facebook', new FacebookStrategy({
+    clientID: config.facebook.clientID,
+    clientSecret: config.facebook.clientSecret,
+    callbackURL: config.facebook.callbackURL
+},
+function(accessToken, refreshToken, profile, cb){
+    User.findOrCreate({ facebookId: profile.id}, function (err, user) {
+        return cb(err, user);
+    });
+}
+));
 
 
 /**
