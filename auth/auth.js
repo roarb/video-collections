@@ -78,9 +78,24 @@ var config = require('../config.json');
 passport.use('facebook', new FacebookStrategy({
     clientID: config.facebook.clientID,
     clientSecret: config.facebook.clientSecret,
-    callbackURL: config.facebook.callbackURL
+    callbackURL: config.facebook.callbackURL,
+    profileFields: ['id', 'displayName', 'email', 'user_friends']
 },
 function(accessToken, refreshToken, profile, cb){
+    // sample object -profile returned:
+    // { id: '10153781019986570',
+    // username: undefined,
+    // displayName: 'Robert Hoehn',
+    // name: {
+    //   familyName: undefined,
+    //   givenName: undefined,
+    //   middleName: undefined },
+    // gender: undefined,
+    // profileUrl: undefined
+    // provider: 'facebook',
+    // __raw: '{"name": "Robert Hoehn", "id":"123123131231"}',
+    // __json: {name: 'Robert Hoehn', id: '123123123132132' }
+    // }
     console.log(profile);
     console.log(accessToken);
     console.log(refreshToken);
