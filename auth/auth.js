@@ -78,8 +78,7 @@ var config = require('../config.json');
 passport.use('facebook', new FacebookStrategy({
     clientID: config.facebook.clientID,
     clientSecret: config.facebook.clientSecret,
-    callbackURL: config.facebook.callbackURL,
-    profileFields: ['id', 'displayName', 'email', 'user_friends']
+    callbackURL: config.facebook.callbackURL
 },
 function(accessToken, refreshToken, profile, cb){
     // sample object -profile returned:
@@ -97,9 +96,10 @@ function(accessToken, refreshToken, profile, cb){
     // __json: {name: 'Robert Hoehn', id: '123123123132132' }
     // }
     console.log(profile);
-    console.log(accessToken);
-    console.log(refreshToken);
-    return cb(err, 'still testing');
+    // todo - commit the profile to the user database - if they're a user already, grab that document - if not, create a new one
+    // we'll need to do a secondary request to facebook for the user friends list
+    // sample at http://developers.facebook.com/docs/graph-api/reference/user/friends
+    return cb('still testing');
     // User.findOrCreate({ facebookId: profile.id}, function (err, user) {
     //     return cb(err, user);
     // });
