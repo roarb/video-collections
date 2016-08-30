@@ -100,14 +100,14 @@ exports.getUserData = function(userId, cb) {
 
 exports.facebookUserLogin = function(profile, cb) {
     console.log(profile.id);
-    app.bucket.get('uid-fb-'+profile.id, function(err, result){
+    app.bucket.get('uid-'+profile.id, function(err, result){
         if (err) {
             // no user found - create a new user with the default user object.
             blankUser.id = profile.id;
             blankUser.username = profile.displayName;
             blankUser.provider = profile.provider;
-            app.bucket.upsert('uid-fb-'+profile.id, blankUser, function(err){
-                console.log('new facebook user created: uid-fb-'+profile.id);
+            app.bucket.upsert('uid-'+profile.id, blankUser, function(err){
+                console.log('new facebook user created: uid-'+profile.id);
                 cb(false, blankUser);
             })
         }
