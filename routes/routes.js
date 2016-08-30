@@ -231,7 +231,7 @@ var appRouter = function(app) {
     //         res.redirect('/home');
     //     });
     app.get("/auth/facebook/callback", function(req, res ,next) {
-        passport.authenticate('facebook', { scope: ['user_friends', 'manage_pages', 'public_profile'] }, function(err, user){
+        passport.authenticate('facebook', function(err, user){
             req.logIn(user, function(err){
                 if (err) { return next(err); }
                 console.log('user found in facebook login ...');

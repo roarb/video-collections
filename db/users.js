@@ -100,74 +100,46 @@ exports.getUserData = function(userId, cb) {
 };
 
 exports.facebookUserLogin = function(profile, accessToken, cb) {
-    console.log(profile);
 
-    FB.options(
-        {
-            version:'v2.4',
-            appSecret: config.facebook.clientSecret,
-            appId: config.facebook.clientID,
-            xfbml: true
-        }
-    );
-
-    FB.setAccessToken(accessToken);
-
-    // FB.api(profile.id, { fields: ['name', 'friends'] }, function (res) {
+    // FB.options(
+    //     {
+    //         version:'v2.4',
+    //         appSecret: config.facebook.clientSecret,
+    //         appId: config.facebook.clientID,
+    //         xfbml: true
+    //     }
+    // );
+    //
+    // FB.setAccessToken(accessToken);
+    // // id,name,friends,picture{url}
+    // FB.api('', 'post', {
+    //     batch: [
+    //         { method: 'get', relative_url: 'me/friends' },
+    //         { method: 'get', relative_url: 'me/picture' }
+    //     ]
+    // }, function(res) {
+    //     var friends, pic;
+    //
     //     if(!res || res.error) {
-    //         console.log('fb.api test - errrored');
     //         console.log(!res ? 'error occurred' : res.error);
     //         return;
     //     }
-    //     console.log('fb returned -------------------------------------------------------');
-    //     console.log(res);
-    //     // console.log(res.name);
-    // });
+    //
+    //     friends = JSON.parse(res[0].body);
+    //     pic = JSON.parse(res[1].body);
+    //
+    //     console.log(pic);
+    //
+    //     if(friends.error) {
+    //         console.log(friends.error);
+    //     } else {
+    //         profile.friends = friends.data;
+    //         console.log('friends should be here');
+    //         console.log(profile.friends);
+    //     }
 
-    var extractEtag;
-    FB.api('', 'post', {
-        batch: [
-            { method: 'get', relative_url: profile.id },
-            { method: 'get', relative_url: 'me/friends?limit=50' }
-        ]
-    }, function(res) {
-        var res0, res1;
 
-        if(!res || res.error) {
-            console.log(!res ? 'error occurred' : res.error);
-            return;
-        }
-
-        res0 = JSON.parse(res[0].body);
-        res1 = JSON.parse(res[1].body);
-
-        if(res0.error) {
-            console.log(res0.error);
-        } else {
-            console.log('Hi ' + res0.name);
-            console.log('full res0 incoming');
-            console.log(res0);
-        }
-
-        if(res1.error) {
-            console.log(res1.error);
-        } else {
-            console.log('friends should be here');
-            console.log(res1);
-        }
-
-    });
-
-    extractETag = function(res) {
-        var etag, header, headerIndex;
-        for(headerIndex in res.headers) {
-            header = res.headers[headerIndex];
-            if(header.name === 'ETag') {
-                etag = header.value;
-            }
-        }
-        return etag;
-    };
+    console.log(profile);
 
     app.bucket.get('uid-'+profile.id, function(err, result){
         if (err) {
@@ -175,12 +147,26 @@ exports.facebookUserLogin = function(profile, accessToken, cb) {
             blankUser.id = profile.id;
             blankUser.username = profile.displayName;
             blankUser.provider = profile.provider;
+            blankUser.picture = profile._json.picture;
+            blankUser.friends = profile._json.friends;
+            blankUser.name = profile.name;
             app.bucket.upsert('uid-'+profile.id, blankUser, function(err){
                 cb(false, blankUser);
             })
         }
         else {
+            // add friends to pulled result
+            result.value.friends = profile._json.friends;
+            result.value.picture = profile._json.picture;
+            result.value.name = profile.name;
+            // add any other user infor we can get here too.
             cb(false, result.value);
+            // after returning the user, resave to couchbase
+            app.bucket.upsert('uid-'+profile.id, result.value, function(err){
+                if (err) throw err;
+            })
         }
-    })
+    });
+
+    // });
 };
