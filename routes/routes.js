@@ -19,12 +19,12 @@ var appRouter = function(app) {
      */
     
     passport.serializeUser(function(user, done) {
-        console.log('serialize User Id: '); console.log(user.id);
+        // console.log('serialize User Id: '); console.log(user.id);
         done(null, user.id);
     });
 
     passport.deserializeUser(function(id, done) {
-        console.log('deserializeUser runs'); console.log(id);
+        // console.log('deserializeUser runs'); console.log(id);
         db.users.findById(id, function(err, user) {
             if (err) { return done(err); }
             done(err, user);
@@ -231,7 +231,7 @@ var appRouter = function(app) {
     //         res.redirect('/home');
     //     });
     app.get("/auth/facebook/callback", function(req, res ,next) {
-        passport.authenticate('facebook', function(err, user){
+        passport.authenticate('facebook', { scope: ['user_friends', 'manage_pages', 'public_profile'] }, function(err, user){
             req.logIn(user, function(err){
                 if (err) { return next(err); }
                 console.log('user found in facebook login ...');

@@ -1,6 +1,6 @@
 var app = angular.module("userapp", []);
 
-app.service('userService', function ($http) {
+app.service('userService', function () {
 
     var self = this;
 
