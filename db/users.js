@@ -3,6 +3,18 @@ var config = require("./../config");
 var localCrypto = require("./../auth/local-crypto");
 var couchbase = require('couchbase');
 
+var blankUser = {
+    "id": "",
+    "email": "",
+    "username": "",
+    "password": "",
+    "firstName": "",
+    "lastName": "",
+    "videos": [],
+    "watchList": [],
+    "provider": ""
+};
+
 /**
  * Find a user by ID from the all uid-xxx documents
  * 
@@ -83,5 +95,24 @@ exports.getUserData = function(userId, cb) {
         console.log(result.value);
         if (err) { cb(err, result.value); }
         cb(false, result.value);
+    })
+};
+
+exports.facebookUserLogin = function(profile, cb) {
+    console.log(profile.id);
+    app.bucket.get('uid-fb-'+profile.id, function(err, result){
+        if (err) {
+            // no user found - create a new user with the default user object.
+            blankUser.id = profile.id;
+            blankUser.username = profile.displayName;
+            blankUser.provider = profile.provider;
+            app.bucket.upsert('uid-fb-'+profile.id, blankUser, function(err){
+                console.log('new facebook user created: uid-fb-'+profile.id);
+                cb(false, blankUser);
+            })
+        }
+        else {
+            cb(false, result.value);
+        }
     })
 };

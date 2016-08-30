@@ -68,7 +68,7 @@ var appRouter = function(app) {
        if (!req.user) {
            return res.render("login", {title: 'TrackRight.org', user: false, url:"login"});
        }
-       res.render('account', { title: req.user.username + "'s Account", user:req.user, url:"account"});
+       res.render('account', { title: req.user.username + "'s Account", user:req.user, account:JSON.stringify(req.user), url:"account"});
     });
 
     app.get('/collection', function(req, res){
@@ -225,12 +225,21 @@ var appRouter = function(app) {
     // facebook passport strategy //
     app.get("/auth/facebook", passport.authenticate('facebook'));
 
-    app.get("/auth/facebook/callback", passport.authenticate('facebook', { failureRedirect: '/login' }),
-        function(req, res ){
-        // successful authentication, redirect home
-            res.redirect('/home');
-        });
-
+    // app.get("/auth/facebook/callback", passport.authenticate('facebook', { failureRedirect: '/login' }),
+    //     function(req, res){
+    //     // successful authentication, redirect home
+    //         res.redirect('/home');
+    //     });
+    app.get("/auth/facebook/callback", function(req, res ,next) {
+        passport.authenticate('facebook', function(err, user){
+            req.logIn(user, function(err){
+                if (err) { return next(err); }
+                console.log('user found in facebook login ...');
+                res.redirect('/home');
+                //return res.send(JSON.stringify({"err": err, "msg":"found a match!"}));
+            })
+        })(req, res, next);
+    });
 
     // original CEAN sample examples below //
 

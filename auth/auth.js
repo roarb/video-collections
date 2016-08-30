@@ -99,7 +99,11 @@ function(accessToken, refreshToken, profile, cb){
     // todo - commit the profile to the user database - if they're a user already, grab that document - if not, create a new one
     // we'll need to do a secondary request to facebook for the user friends list
     // sample at http://developers.facebook.com/docs/graph-api/reference/user/friends
-    return cb('still testing');
+    db.users.facebookUserLogin(profile, function(err, user){
+
+        return cb(false, user);
+    });
+
     // User.findOrCreate({ facebookId: profile.id}, function (err, user) {
     //     return cb(err, user);
     // });
