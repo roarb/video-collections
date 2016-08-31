@@ -79,7 +79,7 @@ passport.use('facebook', new FacebookStrategy({
     clientID: config.facebook.clientID,
     clientSecret: config.facebook.clientSecret,
     callbackURL: config.facebook.callbackURL,
-    profileFields: ['id','name', 'displayName','friends','picture{url}']
+    profileFields: ['id','name','displayName','friends','picture{url}']
 },
 
     function(accessToken, refreshToken, profile, cb){
