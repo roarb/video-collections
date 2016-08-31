@@ -101,44 +101,6 @@ exports.getUserData = function(userId, cb) {
 
 exports.facebookUserLogin = function(profile, accessToken, cb) {
 
-    // FB.options(
-    //     {
-    //         version:'v2.4',
-    //         appSecret: config.facebook.clientSecret,
-    //         appId: config.facebook.clientID,
-    //         xfbml: true
-    //     }
-    // );
-    //
-    // FB.setAccessToken(accessToken);
-    // // id,name,friends,picture{url}
-    // FB.api('', 'post', {
-    //     batch: [
-    //         { method: 'get', relative_url: 'me/friends' },
-    //         { method: 'get', relative_url: 'me/picture' }
-    //     ]
-    // }, function(res) {
-    //     var friends, pic;
-    //
-    //     if(!res || res.error) {
-    //         console.log(!res ? 'error occurred' : res.error);
-    //         return;
-    //     }
-    //
-    //     friends = JSON.parse(res[0].body);
-    //     pic = JSON.parse(res[1].body);
-    //
-    //     console.log(pic);
-    //
-    //     if(friends.error) {
-    //         console.log(friends.error);
-    //     } else {
-    //         profile.friends = friends.data;
-    //         console.log('friends should be here');
-    //         console.log(profile.friends);
-    //     }
-
-
     console.log(profile);
 
     app.bucket.get('uid-'+profile.id, function(err, result){
@@ -150,6 +112,7 @@ exports.facebookUserLogin = function(profile, accessToken, cb) {
             blankUser.picture = profile._json.picture;
             blankUser.friends = profile._json.friends;
             blankUser.name = profile.name;
+            blankUser.email = profile.emails[0].value;
             app.bucket.upsert('uid-'+profile.id, blankUser, function(err){
                 cb(false, blankUser);
             })
@@ -159,6 +122,7 @@ exports.facebookUserLogin = function(profile, accessToken, cb) {
             result.value.friends = profile._json.friends;
             result.value.picture = profile._json.picture;
             result.value.name = profile.name;
+            result.value.email = profile.emails[0].value;
             // add any other user infor we can get here too.
             cb(false, result.value);
             // after returning the user, resave to couchbase

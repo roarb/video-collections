@@ -224,7 +224,7 @@ var appRouter = function(app) {
 
     // facebook passport strategy //
     app.get("/auth/facebook", function(req, res, next) {
-        passport.authenticate('facebook', { scope: ['user_friends', 'public_profile'] }, function(err, user){
+        passport.authenticate('facebook', { scope: ['user_friends', 'public_profile', 'email'] }, function(err, user){
             req.logIn(user, function(err){
                 if (err) { return next(err); }
                 console.log('user found in facebook login ...');
@@ -240,7 +240,7 @@ var appRouter = function(app) {
     //         res.redirect('/home');
     //     });
     app.get("/auth/facebook/callback", function(req ,res ,next) {
-        passport.authenticate('facebook', { scope: ['user_friends', 'public_profile'] }, function(err, user){
+        passport.authenticate('facebook', { scope: ['user_friends', 'public_profile', 'email'] }, function(err, user){
             req.logIn(user, function(err){
                 if (err) { return next(err); }
                 console.log('user found in facebook login ...');
