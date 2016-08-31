@@ -14,7 +14,7 @@
     <span>Username: </span><span>{{userService.account.username}}</span><br />
     <span>Email: </span><span>{{userService.account.email}}</span><br />
     <span>Friends: </span><span>{{userService.account.friends.data}}</span><br />
-    <span><img src="{{userService.account.picture.data.url}}" /></span><br />
+    <span><img ng-src="{{userService.account.picture.data.url}}" /></span><br />
 </div>
 <% include partials/footer.ejs %>
 </body>
