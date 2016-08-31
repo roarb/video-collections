@@ -10,7 +10,10 @@
 
 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     {{userService.account}}
+    <br />
     <span>Username: </span><span>{{userService.account.username}}</span><br />
+    <span>Friends: </span><span>{{userService.account.friends.data}}</span><br />
+    <span><img src="{{userService.account.picture.data.url}}" /></span><br />
 </div>
 <% include partials/footer.ejs %>
 </body>
