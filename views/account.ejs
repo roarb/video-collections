@@ -14,7 +14,8 @@
         <img ng-src="{{userService.account.picture.data.url}}" /><br />
         {{userService.account.username}}<br />
         {{userService.account.email}}<br />
-        <li ng-repeat="freind in userService.account.friends.data" ng-if="userService.account.friends.data">
+        <span ng-if="userService.account.friends.data">Friends:</span><br />
+        <li ng-repeat="friend in userService.account.friends.data" ng-if="userService.account.friends.data">
             {{friend.name}}
         </li>
     </div>
