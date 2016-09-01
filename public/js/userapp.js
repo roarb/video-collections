@@ -1,11 +1,18 @@
 var app = angular.module("userapp", []);
 
-app.service('userService', function () {
+app.service('userService', function ($http) {
 
     var self = this;
 
-    self.initAccount = function (account){
-        self.account = JSON.parse(account);
+    self.initAccount = function (id){
+        var url = '/api/1/user';
+        url += '?id=' + id;
+        $http.post(url).success(function (account) {
+            console.log('account init function');
+            console.log(account);
+            self.account = account;
+        });
+
     }
 
 });

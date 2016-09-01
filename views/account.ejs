@@ -3,13 +3,13 @@
 <head>
     <% include partials/head.ejs %>
 </head>
-<body ng-app="userapp" ng-controller="accountCtrl" ng-init="userService.initAccount('<%= account %>')">
+<body ng-app="userapp" ng-controller="accountCtrl" ng-init="userService.initAccount('<%= user.id %>')">
 
 <% include partials/nav.ejs %>
 <!--<div class="fb-like" data-share="true" data-width="450" data-show-faces="true"></div>-->
 
 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-    <!--{{userService.account}}-->
+    {{userService.account}}
     <br />
     <span>Username: </span><span>{{userService.account.username}}</span><br />
     <span>Email: </span><span>{{userService.account.email}}</span><br />

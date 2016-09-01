@@ -20,6 +20,9 @@ var appRouter = function(app) {
     
     passport.serializeUser(function(user, done) {
         // console.log('serialize User Id: '); console.log(user.id);
+        if (user.id == undefined){
+            console.log('passport.serializeUser user.id not found --- need error reporting here.')
+        }
         done(null, user.id);
     });
 
@@ -41,42 +44,42 @@ var appRouter = function(app) {
     
     
     app.get("/", function(req, res){
-        //console.log(req.user);
         if(!req.user) {
             return res.render('login', { title: 'TrackRight.org', user: false, url:"login"});
         }
-        res.render('index', { title: 'TrackRight.org', user: req.user, url:"home"} );
+        console.log('/ user.id '+req.user.id);
+        res.render('index', { title: 'TrackRight.org', user: req.user, url:"home"});
     });
 
     app.get('/home', function(req, res) {
-        console.log(req.user);
         if (!req.user) {
             return res.render("login", {title: 'TrackRight.org', user: false, url:"login"});
         }
+        console.log('/home user.id '+req.user.id);
         res.render('index', { title: 'TrackRight.org', user: req.user, url:"home"});
     });
 
     app.get('/login', function(req, res) {
-        console.log(req.user);
         if (!req.user) {
             return res.render("login", {title: 'TrackRight.org', user: false, url:"login"});
         }
+        console.log('/login user.id '+req.user.id);
         res.render('index', { title: 'TrackRight.org', user:req.user, url:"home"});
     });
 
     app.get('/account', function(req, res){
-       if (!req.user) {
-           return res.render("login", {title: 'TrackRight.org', user: false, url:"login"});
-       }
-       res.render('account', { title: req.user.username + "'s Account", user:req.user, account:JSON.stringify(req.user), url:"account"});
+        if (!req.user) {
+            return res.render("login", {title: 'TrackRight.org', user: false, url:"login"});
+        }
+        console.log('/account user.id '+req.user.id);
+        res.render('account', { title: req.user.username + "'s Account", user:req.user, url:"account"});
     });
 
     app.get('/collection', function(req, res){
-        console.log('/collection hit');
-        console.log(req.user);
         if (!req.user) {
             return res.render("login", {title: 'TrackRight.org', user: false, msg:'Please Login First', url:"login"});
         }
+        console.log('/collection user.id '+req.user.id);
         res.render('vid_collection', { title: req.user.username + "'s Collection", user:req.user, url:"collection", collection:"videoCollection"});
     });
 
@@ -84,10 +87,12 @@ var appRouter = function(app) {
         if (!req.user) {
             return res.render("login", {title: 'TrackRight.org', user: false, msg:'Please Login First', url:"login"});
         }
+        console.log('/watch-list user.id '+req.user.id);
         res.render('vid_collection', { title: req.user.username + "'s To Watch List", user:req.user, url:"watch-list", collection:"watchlistCollection"});
     });
 
     app.get('/video', function(req, res){
+        console.log('/video user.id '+req.user.id);
         var vidId = req.query.vidId;
         var type = req.query.type;
         var name = req.query.name;
@@ -199,6 +204,15 @@ var appRouter = function(app) {
         });
     });
 
+    // get user by id
+    app.post("/api/1/user" , function(req, res, next) {
+        db.users.getUserData(req.query.id, function(err, result){
+            console.log('getUserData');
+            console.log(result);
+            res.send(JSON.stringify(result));
+        });
+    });
+
     // get a single video details
     app.post("/api/1/video/details", function(req, res, next) {
         console.log('video details hit');
@@ -234,11 +248,6 @@ var appRouter = function(app) {
         })(req, res, next);
     });
 
-    // app.get("/auth/facebook/callback", passport.authenticate('facebook', { failureRedirect: '/login' }),
-    //     function(req, res){
-    //     // successful authentication, redirect home
-    //         res.redirect('/home');
-    //     });
     app.get("/auth/facebook/callback", function(req ,res ,next) {
         passport.authenticate('facebook', { scope: ['user_friends', 'public_profile', 'email'] }, function(err, user){
             req.logIn(user, function(err){
@@ -248,58 +257,6 @@ var appRouter = function(app) {
                 //return res.send(JSON.stringify({"err": err, "msg":"found a match!"}));
             })
         })(req, res, next);
-    });
-
-    // original CEAN sample examples below //
-
-    app.post("/api/delete", function(req, res) {
-        if(!req.body.document_id) {
-            return res.status(400).send({"status": "error", "message": "A document id is required"});
-        }
-        RecordModel.delete(req.body.document_id, function(error, result) {
-            if(error) {
-                return res.status(400).send(error);
-            }
-            res.send(result);
-        });
-    });
-
-    app.post("/api/save", function(req, res) {
-        if(!req.body.firstname) {
-            return res.status(400).send({"status": "error", "message": "A firstname is required"});
-        } else if(!req.body.lastname) {
-            return res.status(400).send({"status": "error", "message": "A lastname is required"});
-        } else if(!req.body.email) {
-            return res.status(400).send({"status": "error", "message": "A email is required"});
-        }
-        RecordModel.save(req.body, function(error, result) {
-            if(error) {
-                return res.status(400).send(error);
-            }
-            res.send(result);
-        });
-    });
-
-    app.get("/api/get", function(req, res) {
-        if(!req.query.document_id) {
-            return res.status(400).send({"status": "error", "message": "A document id is required"});
-        }
-        RecordModel.getByDocumentId(req.query.document_id, function(error, result) {
-            if(error) {
-                console.log(error);
-                return res.status(400).send(error);
-            }
-            res.send(result);
-        });
-    });
-
-    app.get("/api/getAllUsr", function(req, res) {
-        RecordModel.getAllUsr(function(error, result) {
-            if(error) {
-                return res.status(400).send(error);
-            }
-            res.send(result);
-        });
     });
 
 };

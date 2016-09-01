@@ -23,7 +23,7 @@ var blankUser = {
  * @param cb
  */
 exports.findById = function(id, cb) {
-    console.log(id + ' hit from within the findById function');
+    // console.log(id + ' hit from within the findById function');
     var ViewQuery = couchbase.ViewQuery;
     var query = ViewQuery.from('userId', 'userId');
     app.bucket.query(query, function(err, results) {
@@ -44,7 +44,7 @@ exports.findById = function(id, cb) {
  * @param cb
  */
 exports.findByConsumerKey =  function(key, cb) {
-    console.log('findByConsumerKey key is '+key);
+    // console.log('findByConsumerKey key is '+key);
     var ViewQuery = couchbase.ViewQuery;
     var query = ViewQuery.from('userId', 'userId').key(key);
     app.bucket.query(query, function(err, results) {
@@ -83,7 +83,7 @@ exports.registerUser = function(user, cb) {
         user.password = localCrypto.encrypt(user.password);
         users.push(user);
         users = {"users":users};
-        console.log(users);
+        // console.log(users);
         app.bucket.upsert('users', users, function(err, result){
             if (err) { return cb(true, "Problem with saving the users to couchbase."); }
             return cb(false, "updated")
@@ -93,7 +93,7 @@ exports.registerUser = function(user, cb) {
 
 exports.getUserData = function(userId, cb) {
     app.bucket.get('uid-'+userId, function(err, result){
-        console.log(result.value);
+        // console.log(result.value);
         if (err) { cb(err, result.value); }
         cb(false, result.value);
     })
@@ -101,7 +101,7 @@ exports.getUserData = function(userId, cb) {
 
 exports.facebookUserLogin = function(profile, accessToken, cb) {
 
-    console.log(profile);
+    // console.log(profile);
 
     app.bucket.get('uid-'+profile.id, function(err, result){
         if (err) {
