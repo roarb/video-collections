@@ -116,3 +116,6 @@ button:hover, .in-list button:hover {
 .video-details .video-desc .credits {margin:10px 0; font-size:1.1em;}
 .video-details .video-desc .credits .label {text-transform:uppercase; font-weight:bold; color:#000;}
 .video-details .video-desc .overview {margin:10px 0; background: #eaeaea; padding:25px 40px; border-radius:40px 4px 40px 4px;}
+
+/** user account page */
+.user-details {padding:2% 5%; border:1px solid #d1d1d1;}

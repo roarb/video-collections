@@ -8,13 +8,17 @@
 <% include partials/nav.ejs %>
 <!--<div class="fb-like" data-share="true" data-width="450" data-show-faces="true"></div>-->
 
-<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-    {{userService.account}}
-    <br />
-    <span>Username: </span><span>{{userService.account.username}}</span><br />
-    <span>Email: </span><span>{{userService.account.email}}</span><br />
-    <span>Friends: </span><span>{{userService.account.friends.data}}</span><br />
-    <span><img ng-src="{{userService.account.picture.data.url}}" /></span><br />
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 user-account">
+    <div class="col-lg-2"></div>
+    <div class="col-lg-8 user-details">
+        <img ng-src="{{userService.account.picture.data.url}}" /><br />
+        {{userService.account.username}}<br />
+        {{userService.account.email}}<br />
+        <li ng-repeat="freind in userService.account.friends.data" ng-if="userService.account.friends.data">
+            {{friend.name}}
+        </li>
+    </div>
+    <div class="col-lg-2"></div>
 </div>
 <% include partials/footer.ejs %>
 </body>
