@@ -24,6 +24,8 @@ module.exports = {
             response.on('end', function () {
                 var videos = JSON.parse(str);
                 videos = videos.results;
+                // todo: add in error control on all usr requests - if the session has expired check that first -
+                // this crashed the server...again.
                 app.bucket.get('uid-'+usr.id, function(err, results) {
                     if (err) { return cb(true, err); }
                     var owned = results.value.videos;

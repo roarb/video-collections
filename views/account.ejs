@@ -16,7 +16,7 @@
         {{userService.account.email}}<br />
         <span ng-if="userService.account.friends.data">Friends:</span><br />
         <li ng-repeat="friend in userService.account.friends.data" ng-if="userService.account.friends.data">
-            {{friend.name}}
+            <span ng-click="getFriendDetails(friend.id)">{{friend.name}}</span>
         </li>
     </div>
     <div class="col-lg-2"></div>

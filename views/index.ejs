@@ -8,74 +8,75 @@
 <% include partials/nav.ejs %>
 
 
-<div class="video-search a-center">
+<div class="video-search a-center col-lg-12 col-md-12 col-sm-12 col-xs-12">
     <form>
         <input type="text" id="search" placeholder="Search Videos" />
         <button type="submit" id="search-movies" class="btn btn-default" ng-click="MainItemClick()">Go</button>
     </form>
 </div>
 <div class="clearer"></div>
+<div id="video-search-wrapper" class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-style="resizeWithOffset(141)" resize>
+    <div ng-repeat="vid in videoService.catalog" video-search-load>
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 video-item">
 
-<div ng-repeat="vid in videoService.catalog" video-search-load>
-    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-6 video-item">
+            <div class="video-poster" data ="http://image.tmdb.org/t/p/w185/{{vid.poster_path}}">
+                <div ng-if="vid.owned" id="owned-vi-{{vid.media_type}}-{{vid.id}}" class="owned-formats">
+                    <span ng-repeat="format in vid.format" class="format-bubble">
+                        <span style="background:{{format | bgColor}}">{{format}}</span>
+                    </span>
+                </div>
+                <div class="video-poster">
+                    <img ng-if="vid.poster_path" ng-src="http://image.tmdb.org/t/p/w185/{{vid.poster_path}}" />
+                    <img ng-if="!vid.poster_path" ng-src="/images/no-poster.jpg" />
+                </div>
+                <br />
+                <span ng-if="vid.release_date" class="release-date">Released: {{vid.release_date}}</span>
+                <span class="glyphicon glyphicon-plus-sign add-video" onclick="toggleFormatOptions(this)"></span>
+                <div class="format-options hidden a-center" data-vid="vi-{{vid.media_type}}-{{vid.id}}">
+                    <li ng-repeat="formatAvail in formatOptions" ng-if="vid.format | contains:formatAvail" onclick="toggleVideoFormatOwned(this, 'remove')" class="owned">
+                        {{formatAvail}}
+                    </li>
+                    <li ng-repeat="formatAvail in formatOptions" ng-if="vid.format | doesNotContain:formatAvail" onclick="toggleVideoFormatOwned(this, 'add')">
+                        {{formatAvail}}
+                    </li>
+                </div>
+            </div>
 
-        <div class="video-poster" data ="http://image.tmdb.org/t/p/w185/{{vid.poster_path}}">
-            <div ng-if="vid.owned" id="owned-vi-{{vid.media_type}}-{{vid.id}}" class="owned-formats">
-                <span ng-repeat="format in vid.format" class="format-bubble">
-                    <span style="background:{{format | bgColor}}">{{format}}</span>
+            <div class="video-desc">
+                <h4 class="video-title" ng-if="vid.title">
+                    <a href="/video?vidId={{vid.id}}&type={{vid.media_type}}&name={{vid.title}}" title="{{vid.title}}">
+                        {{vid.title}}</a>
+                </h4>
+                <h4 class="video-title" ng-if="vid.name">
+                    <a href="/video?vidId={{vid.id}}&type={{vid.media_type}}&name={{vid.name}}" title="{{vid.name}}">
+                        {{vid.name}}</a>
+                </h4>
+                <span ng-class="['media-type', 'small', vid.media_type ]">Format:
+                    <span style="text-transform: uppercase;">{{vid.media_type}}</span>
                 </span>
-            </div>
-            <div class="video-poster">
-                <img ng-if="vid.poster_path" ng-src="http://image.tmdb.org/t/p/w185/{{vid.poster_path}}" />
-                <img ng-if="!vid.poster_path" ng-src="/images/no-poster.jpg" />
-            </div>
-            <br />
-            <span ng-if="vid.release_date" class="release-date">Released: {{vid.release_date}}</span>
-            <span class="glyphicon glyphicon-plus-sign add-video" onclick="toggleFormatOptions(this)"></span>
-            <div class="format-options hidden a-center" data-vid="vi-{{vid.media_type}}-{{vid.id}}">
-                <li ng-repeat="formatAvail in formatOptions" ng-if="vid.format | contains:formatAvail" onclick="toggleVideoFormatOwned(this, 'remove')" class="owned">
-                    {{formatAvail}}
-                </li>
-                <li ng-repeat="formatAvail in formatOptions" ng-if="vid.format | doesNotContain:formatAvail" onclick="toggleVideoFormatOwned(this, 'add')">
-                    {{formatAvail}}
-                </li>
-            </div>
-        </div>
-
-        <div class="video-desc">
-            <h4 class="video-title" ng-if="vid.title">
-                <a href="/video?vidId={{vid.id}}&type={{vid.media_type}}&name={{vid.title}}" title="{{vid.title}}">
-                    {{vid.title}}</a>
-            </h4>
-            <h4 class="video-title" ng-if="vid.name">
-                <a href="/video?vidId={{vid.id}}&type={{vid.media_type}}&name={{vid.name}}" title="{{vid.name}}">
-                    {{vid.name}}</a>
-            </h4>
-            <span ng-class="['media-type', 'small', vid.media_type ]">Format:
-                <span style="text-transform: uppercase;">{{vid.media_type}}</span>
-            </span>
-            <span class="rating">
-                <span ng-if="vid.userRating" class="user-rating" ng-class="vid.userRating | userStars"></span>
-                <span ng-if="!vid.userRating">
-                    <span ng-if="vid.vote_average" ng-class="vid.vote_average | voteStars" class="avg-rating"></span>
-                    <span ng-if="!vid.vote_average" class="no-rating">no rating</span>
+                <span class="rating">
+                    <span ng-if="vid.userRating" class="user-rating" ng-class="vid.userRating | userStars"></span>
+                    <span ng-if="!vid.userRating">
+                        <span ng-if="vid.vote_average" ng-class="vid.vote_average | voteStars" class="avg-rating"></span>
+                        <span ng-if="!vid.vote_average" class="no-rating">no rating</span>
+                    </span>
                 </span>
-            </span>
-            <div class="clearer"></div>
-            <span class="overview">
-                <span ng-if="vid.overview">{{trimSummary(vid.overview)}}</span>
-                <span ng-if="!vid.overview">No Description Available</span>
-            </span>
-            <div class="overview-shadow"></div>
-            <div class="clearer"></div>
-            <div ng-class="[watchListClass(vid.watchList), 'watch-list']">
-                <button ng-class="'add-to-watchlist'" ng-click="AddToWatchList(vid.videoId, $event)" id="watchlist-{{vid.media_type}}-{{vid.id}}">{{watchListText(vid.watchList)}} Watch List</button>
+                <div class="clearer"></div>
+                <span class="overview">
+                    <span ng-if="vid.overview">{{trimSummary(vid.overview)}}</span>
+                    <span ng-if="!vid.overview">No Description Available</span>
+                </span>
+                <div class="overview-shadow"></div>
+                <div class="clearer"></div>
+                <div ng-class="[watchListClass(vid.watchList), 'watch-list']">
+                    <button ng-class="'add-to-watchlist'" ng-click="AddToWatchList(vid.videoId, $event)" id="watchlist-{{vid.media_type}}-{{vid.id}}">{{watchListText(vid.watchList)}} Watch List</button>
+                </div>
             </div>
-        </div>
 
+        </div>
     </div>
+    <p ng-hide="videoService.catalog.length" ng-if="searchActive">No matching videos located.</p>
 </div>
-<p ng-hide="videoService.catalog.length">No matching videos located.</p>
 <span ng-show="videoService.catalog.length" class="videos-found clear f-left">Videos Found: {{videoService.catalog.length}}</span>
 <div class="clearer"></div>
 <% include partials/footer.ejs %>

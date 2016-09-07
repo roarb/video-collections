@@ -10,7 +10,7 @@
     url('../fonts/glyphicons-halflings-regular.svg#glyphicons-halflingsregular') format('svg');
 }
 
-body {padding:20px;}
+body {padding:0;}
 a:hover {color:#ff0000;}
 .clear, .clearer {clear:both !important;}
 .f-left {float:left;}
@@ -46,6 +46,7 @@ button:hover, .in-list button:hover {
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#feffe8', endColorstr='#d6dbbf',GradientType=0 ); /* IE6-9 */
 }
 
+.navbar.navbar-default {margin-bottom:0; border-bottom:0;}
 .navbar-default {/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#e2e2e2+0,dbdbdb+50,d1d1d1+51,fefefe+100&0.4+0,1+100;Grey+Gloss+%231 */
     background: -moz-linear-gradient(top,  rgba(226,226,226,0.4) 0%, rgba(219,219,219,0.7) 50%, rgba(209,209,209,0.71) 51%, rgba(254,254,254,1) 100%); /* FF3.6-15 */
     background: -webkit-linear-gradient(top,  rgba(226,226,226,0.4) 0%,rgba(219,219,219,0.7) 50%,rgba(209,209,209,0.71) 51%,rgba(254,254,254,1) 100%); /* Chrome10-25,Safari5.1-6 */
@@ -60,9 +61,16 @@ button:hover, .in-list button:hover {
 
 .fb-login {padding:60px 0; width:100%; text-align:center;}
 
-.footer {position:absolute; bottom:0; margin:auto; padding:2px 10% 12px 0; right:0;}
+.footer {position:absolute; bottom:0; margin:auto; padding:5px 40px 7px 0; right:0; background:#999; z-index:-1; color:#fff;}
+.footer a {color:#fff;}
+.footer a:hover {color:#fff;}
 
+.video-search {padding:10px 0;}
 .video-search input {padding:5px 12px; top:1px; position:relative;}
+#video-search-wrapper {display:block; overflow-x:hidden; overflow-y:auto;}
+.videos-found {position:absolute; bottom:7px; left:20px; color:#fff;}
+#video-collection-wrapper {display:block; overflow-x:hidden; overflow-y:auto; margin-top:10px;}
+#video-details-wrapper {display:block; overflow-x:hidden; overflow-y:auto; margin-top:10px;}
 
 .video-item {background:#fff; height:360px; padding:10px;}
 .video-item .video-poster {float:left; padding:5px; max-width:35%; width:204px; position:relative; height:292px;}

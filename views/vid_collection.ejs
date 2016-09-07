@@ -8,10 +8,10 @@
 
 <% include partials/nav.ejs %>
 
-<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 video-collection <%= collection %>">
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 video-collection <%= collection %>" id="video-collection-wrapper" ng-style="resizeWithOffset(105)" resize>
     <div ng-if="videoCollection.collection.err"><span>{{<%= collection %>.collection}}</span></div>
     <div ng-repeat="vid in <%= collection %>.collection">
-        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-6 video-item">
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 video-item">
             <div class="video-poster" data ="http://image.tmdb.org/t/p/w185/{{vid.value.poster_path}}">
                 <div id="owned-vi-{{vid.value.media_type}}-{{vid.value.id}}" class="owned-formats">
                     <span ng-repeat="format in vid.value.format" class="format-bubble">
@@ -65,12 +65,11 @@
 
         </div>
     </div>
-    <div class="clearer"></div>
-    <p ng-hide="videoCollection.collection.length">No matching videos located.</p>
-    <span ng-show="videoCollection.collection.length" class="videos-found clear f-left">Videos Found: {{videoCollection.collection.length}}</span>
-
+    <p ng-hide="<%= collection %>.collection.length">No matching videos located.</p>
 </div>
 
+<span ng-show="<%= collection %>.collection.length" class="videos-found clear f-left">Videos Found: {{<%= collection %>.collection.length}}</span>
+<div class="clearer"></div>
 <% include partials/footer.ejs %>
 </body>
 </html>

@@ -48,6 +48,7 @@ app.service('videoCollection', function ($http) {
 
 var videoController = function ($scope, $http, $q, videoService, videoCollection, watchlistCollection, videoDetails) {
     $scope.videoService = videoService;
+    $scope.searchActive = false;
 
     $scope.formatOptions = [
         "DVD", "Blu-Ray", "Google Play",
@@ -60,6 +61,7 @@ var videoController = function ($scope, $http, $q, videoService, videoCollection
     $scope.MainItemClick = function () {
         var query = document.getElementById("search").value;
         videoService.getData(query);
+        $scope.searchActive = true;
     };
 
     $scope.videoCollection = videoCollection;
@@ -231,5 +233,30 @@ app.filter('starsWidth', function(){
    return function (el){
        el = (parseFloat(el) / 2).toFixed(2);
        return el;
+   }
+});
+
+app.directive('resize', function($window) {
+   return function (scope, element, attr) {
+       var w = angular.element($window);
+       scope.$watch(function () {
+           return {
+               'h': w.height(),
+               'w': w.width()
+           };
+       }, function (newValue, oldValue) {
+           scope.windowHeight = newValue.h;
+           scope.windowWidth = newValue.w;
+
+           scope.resizeWithOffset = function (offsetH) {
+               return {
+                   'height': (newValue.h - offsetH) + 'px'
+               };
+           };
+       }, true);
+
+       w.bind('resize', function () {
+           scope.$apply();
+       });
    }
 });

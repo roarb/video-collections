@@ -17,9 +17,14 @@ app.service('userService', function ($http) {
 
 });
 
-var accountCtrl = function ($scope, $http, userService){
+var accountCtrl = function ($scope, $http, userService) {
 
     $scope.userService = userService;
+
+    $scope.userFriends = [];
+    $scope.getFriendDetails = function (id) {
+        console.log(id);
+    }
 
 };
 
