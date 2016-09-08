@@ -58,6 +58,8 @@ button:hover, .in-list button:hover {
 .navbar-default .navbar-nav>.active>a,
 .navbar-default .navbar-nav>.active>a:focus,
 .navbar-default .navbar-nav>.active>a:hover {background-color:transparent; color:#333; text-shadow:1px 1px #ccc;}
+.TR-logo {float:right;}
+.TR-logo .header-logo {height:40px; margin:-6px 5px 0;}
 
 .fb-login {padding:60px 0; width:100%; text-align:center;}
 
@@ -101,7 +103,7 @@ button:hover, .in-list button:hover {
 
 /** single video details page **/
 .video-details .background {opacity:.8; width:106%; margin:0; left:0; height:auto; position:fixed; top:0; overflow:hidden; z-index: -1;}
-.video-details .background img {width:100%; position:fixed;}
+.video-details .background img {width:100%; position:fixed; height:100%;}
 .video-details .background-shadow {display:block; width:200%; position:fixed; height:487px; top:133px; z-index:-1; left:-50%;
     background: -moz-linear-gradient(bottom, rgba(204,204,204,1) 0%, rgba(204,204,204,0.35) 100%);
     background: -webkit-linear-gradient(bottom, rgba(204,204,204,1) 0%,rgba(204,204,204,0.35) 100%);
@@ -126,4 +128,4 @@ button:hover, .in-list button:hover {
 .video-details .video-desc .overview {margin:10px 0; background: #eaeaea; padding:25px 40px; border-radius:40px 4px 40px 4px;}
 
 /** user account page */
-.user-details {padding:2% 5%; border:1px solid #d1d1d1;}
+.user-details {padding:2% 5%;}
