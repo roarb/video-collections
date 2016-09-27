@@ -34,27 +34,25 @@ app.service('videoCollection', function ($http) {
 
     var self  = this;
     self.collection = [];
-
     self.getData = function() {
-
         // get collection of movies here
         $http.post('/api/1/user/collection').success(function (data) {
-            self.collection = data.msg;
+            for (var i = 0; i < data.msg.length; i++){
+                self.collection.push(data.msg[i].value)
+            }
         });
     };
-
-    // self.getData();
 });
 
-var videoController = function ($scope, $http, $q, videoService, videoCollection, watchlistCollection, videoDetails) {
+var videoController = function ($scope, $http, $q, videoService, videoCollection, watchlistCollection, videoDetails, tvDetails) {
     $scope.videoService = videoService;
     $scope.searchActive = false;
 
     $scope.formatOptions = [
         "DVD", "Blu-Ray", "Google Play",
-        "iTunes",  "Digital (720)",
-        "Digital (480)", "Digital (1080)",
-        "Digital (4k)", "Amazon", "Plex"
+        "iTunes", "Digital",
+        // "Digital (720)", "Digital (480)", "Digital (1080)", "Digital (4k)",
+        "Amazon", "Plex"
     ];
     $scope.formatOptions.sort();
 
@@ -74,47 +72,44 @@ var videoController = function ($scope, $http, $q, videoService, videoCollection
         watchlistCollection.getData();
     };
 
+    $scope.tvDetails = tvDetails;
+    $scope.getTVDetails = function (vidId) {
+        tvDetails.getDetails(vidId);
+    };
+
     $scope.videoDetails = videoDetails;
     $scope.videoDetailsLoad = function(vidId, type) {
         videoDetails.getData(vidId, type);
     };
 
-    $scope.AddToWatchList = function(vidId, $event){
-        var url = '/api/1/watchlist/toggle';
-        url += '?videoId=' + vidId;
-        $.post(url, function(status){
-            status = JSON.parse(status);
-            if (status.err) {
-                // todo better error reporting here
-                console.log('watchlist toggle error');
-            }
-            var el = $event.currentTarget;
-            if (status.msg == 'add'){
-                console.log($(el));
-                $(el).text('Remove From Watch List');
-                $(el).parent().removeClass('not-in-list').addClass('in-list');
-            } else {
-                console.log($(el));
-                $(el).text('Add To Watch List');
-                $(el).parent().removeClass('in-list').addClass('not-in-list');
-            }
-        });
+    $scope.toggleVideoFormatOwned = function (id, action) {
+        console.log(id); console.log(action);
+    };
 
+    $scope.AddToWatchList = function(vid){
+        vid.watchList = (vid.watchList ? false : true);
+        var data = { "videoId": 'vi-'+vid.media_type+'-'+vid.id };
+        $http({
+            url: "/api/1/watchlist/toggle",
+            method: "POST",
+            data: data
+        }).then(function(rtnMsg){
+            // add in error reporting here
+        });
     };
 
     $scope.watchListClass = function(el){ // adds class to the div wrapper for the Watch List button
-        if (el) { return 'in-list'; } else { return 'not-in-list'; }
+        return (el ? 'in-list' : 'not-in-list');
     };
 
     $scope.watchListText = function(el){ // Appended text to the Watch List button
-        if (el) { return 'Remove From '; } else { return 'Add To '; }
+        return (el ? 'Remove From ' : 'Add To ');
     };
 
     $scope.trimSummary = function(summary){
         if (summary.length > 480){
            summary = summary.substring(0, 480) + '... continue';
         }
-
         return summary;
     };
 
@@ -141,14 +136,14 @@ app.service('watchlistCollection', function ($http) {
     self.collection = [];
 
     self.getData = function() {
-        console.log('watchlistCollection getData() request');
         // get collection of movies here
         $http.post('/api/1/user/watchlist').success(function (data) {
-            self.collection = data.msg;
+            for (var i = 0; i < data.msg.length; i++){
+                self.collection.push(data.msg[i].value)
+            }
         });
     };
 
-    // self.getData();
 });
 
 app.service('videoDetails', function ($http, $q) {
@@ -157,18 +152,26 @@ app.service('videoDetails', function ($http, $q) {
     // set the background-shadow height
     $('.background-shadow').height($(window).height()-130);
     self.getData = function(vidId, type) {
-        console.log(vidId+" - "+type);
-        console.log('videoDetails getData request');
-
         $http.post('/api/1/video/details', {"id":vidId, "type":type}).success(function (data) {
             if (data != 404) {
-                self.details = data;
+                self.details[vidId] = data;
             }
         });
-
     };
+});
 
-    //self.getData();
+app.service('tvDetails', function ($http, $q) {
+    var self = this;
+    self.details = [];
+    self.getDetails = function(vidId){
+        console.log('tv show vidId - '+vidId);
+        $http.post('/api/1/video/details', {"id":vidId, "type":"tvSeason"}).success(function (data) {
+            if (data != 404) {
+                console.log(data.name);
+                self.details[data.name] = data;
+            }
+        });
+    }
 });
 
 app.filter('contains', function(){
@@ -190,9 +193,7 @@ app.filter('doesNotContain', function(){
 });
 
 app.filter('bgColor', function(){
-    // return function (el){
-    //     return 'bgc-'+el.substring(0,2).toLowerCase()
-    // }
+
     return function(str) {
         var hash = 0;
         for (var i = 0; i < str.length; i++) {

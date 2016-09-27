@@ -100,6 +100,10 @@ button:hover, .in-list button:hover {
 .video-poster .release-date {top:-5px; position:relative; clear:left; padding:0 5px; float:left;}
 .video-poster .owned-formats {position:absolute; z-index:5; top:2px;}
 .video-poster .owned-formats span span {padding:4px; border-radius:12px; font-size:6px;}
+.video-poster .season-selection.dropdown {position:absolute; bottom:-8px;}
+.video-poster .add-to-collection-wrapper.dropdown {position:absolute; bottom:0;}
+.video-poster .dropdown-menu {text-align:center; width:200px;}
+.video-poster .dropdown-menu li {cursor:pointer; padding:2px; background:#f1f1f1; margin:3px 8px; border-radius:4px;}
 
 /** single video details page **/
 .video-details .background {opacity:.8; width:106%; margin:0; left:0; height:auto; position:fixed; top:0; overflow:hidden; z-index: -1;}
@@ -126,6 +130,8 @@ button:hover, .in-list button:hover {
 .video-details .video-desc .credits {margin:10px 0; font-size:1.1em;}
 .video-details .video-desc .credits .label {text-transform:uppercase; font-weight:bold; color:#000;}
 .video-details .video-desc .overview {margin:10px 0; background: #eaeaea; padding:25px 40px; border-radius:40px 4px 40px 4px;}
+
+.season-selection .get-seasons {position:absolute; bottom:-13px; left:0;}
 
 /** user account page */
 .user-details {padding:2% 5%;}

@@ -12,56 +12,10 @@
     <div ng-if="videoCollection.collection.err"><span>{{<%= collection %>.collection}}</span></div>
     <div ng-repeat="vid in <%= collection %>.collection">
         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 video-item">
-            <div class="video-poster" data ="http://image.tmdb.org/t/p/w185/{{vid.value.poster_path}}">
-                <div id="owned-vi-{{vid.value.media_type}}-{{vid.value.id}}" class="owned-formats">
-                    <span ng-repeat="format in vid.value.format" class="format-bubble">
-                        <span style="background:{{format | bgColor}}">{{format}}</span>
-                    </span>
-                </div>
-                <div class="video-poster">
-                    <img ng-if="vid.value.poster_path" ng-src="http://image.tmdb.org/t/p/w185/{{vid.value.poster_path}}" />
-                    <img ng-if="!vid.value.poster_path" ng-src="/images/no-poster.jpg" />
-                </div>
-                <br />
-                <span ng-if="vid.value.release_date" class="release-date"><small>Released:</small> {{vid.value.release_date}}</span>
-                <span class="glyphicon glyphicon-plus-sign add-video" onclick="toggleFormatOptions(this)"></span>
-                <div class="format-options hidden a-center" data-vid="vi-{{vid.value.media_type}}-{{vid.value.id}}">
-                    <li ng-repeat="formatAvail in formatOptions" ng-if="vid.value.format | contains:formatAvail" onclick="toggleVideoFormatOwned(this, 'remove')" class="owned">
-                        {{formatAvail}}
-                    </li>
-                    <li ng-repeat="formatAvail in formatOptions" ng-if="vid.value.format | doesNotContain:formatAvail" onclick="toggleVideoFormatOwned(this, 'add')">
-                        {{formatAvail}}
-                    </li>
-                </div>
-            </div>
 
-            <div class="video-desc">
-                <h4 class="video-title" ng-if="vid.value.title">
-                    <a href="/video?vidId={{vid.value.id}}&type={{vid.value.media_type}}&name={{vid.value.title}}" title="{{vid.value.title}}">
-                        {{vid.value.title}}</a>
-                </h4>
-                <h4 class="video-title" ng-if="vid.value.name">
-                    <a href="/video?vidId={{vid.value.id}}&type={{vid.value.media_type}}&name={{vid.value.title}}" title="{{vid.value.title}}">
-                        {{vid.value.title}}</a>
-                </h4>
-                <span class="rating">
-                    <span ng-if="vid.value.userRating" class="user-rating" ng-class="vid.value.userRating | userStars"></span>
-                    <span ng-if="!vid.value.userRating">
-                        <span ng-if="vid.value.vote_average" ng-class="vid.value.vote_average | voteStars" class="avg-rating"></span>
-                        <span ng-if="!vid.value.vote_average" ng-class="no-rating">no rating</span>
-                    </span>
-                </span>
-                <div class="clearer"></div>
-                <span class="overview">
-                    <span ng-if="vid.value.overview">{{trimSummary(vid.value.overview)}}</span>
-                    <span ng-if="!vid.value.overview">No Description Available</span>
-                </span>
-                <div class="overview-shadow"></div>
-                <div class="clearer"></div>
-                <div ng-class="[watchListClass(vid.value.watchList), 'watch-list']">
-                    <button ng-class="'add-to-watchlist'" ng-click="AddToWatchList(vid.value.videoId, $event)" id="watchlist-{{vid.value.media_type}}-{{vid.value.id}}">{{watchListText(vid.value.watchList)}} Watch List</button>
-                </div>
-            </div>
+            <% include partials/videoBlockPoster %>
+
+            <% include partials/videoBlockDesc %>
 
         </div>
     </div>

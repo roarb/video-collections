@@ -10,6 +10,7 @@ function toggleFormatOptions(e){
 }
 
 function toggleVideoFormatOwned(e, action){
+    console.log('fires scripts.toggleVideoFormatOwned()');
     // replaces to fix the angular text publishing to the li element.
     var format = $(e).text().replace('\n', '').replace(/\s/g, '').replace('(', ' (').replace('eP', 'e P');
     var videoId = $(e).parent().attr('data-vid');

@@ -84,7 +84,7 @@ passport.use('facebook', new FacebookStrategy({
 
     function(accessToken, refreshToken, profile, cb){
 
-        console.log(profile);
+        // console.log(profile);
 
         db.users.facebookUserLogin(profile, accessToken, function(err, user){
 

@@ -20,6 +20,9 @@ var appRouter = function(app) {
     
     passport.serializeUser(function(user, done) {
         // console.log('serialize User Id: '); console.log(user.id);
+        if (user == undefined){
+            console.log('passport.serializeUser user.id not found --- need error reporting here.')
+        }
         if (user.id == undefined){
             console.log('passport.serializeUser user.id not found --- need error reporting here.')
         }
@@ -199,7 +202,7 @@ var appRouter = function(app) {
     // toggle user watchlist videos
     app.post("/api/1/watchlist/toggle", function(req, res, next) {
         console.log('watchlist/toggle hit');
-        db.moviedb.toggleUserWatchList(req.user.id, req.query.videoId, function(err, result){
+        db.moviedb.toggleUserWatchList(req.user.id, req.body.videoId, function(err, result){
             res.send(JSON.stringify({"err": err, "msg": result}));
         });
     });
@@ -227,9 +230,14 @@ var appRouter = function(app) {
             })
         }
         else if (req.body.type == "tv"){
-            db.moviedb.findTelevisionDetailed(req.body.id, req.user, function(err, res){
-                console.log(res);
-                res.send(res);
+            db.moviedb.findTelevisionDetailed(req.body.id, req.user, function(err, result){
+                console.log(result);
+                res.send(result);
+            })
+        } else if (req.body.type == "tvSeason") {
+            db.moviedb.findTelevisionSeason(req.body.id, req.user, function(err, result){
+                console.log(result);
+                res.send(result);
             })
         } else {
             res.send('404');

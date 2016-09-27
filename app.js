@@ -20,7 +20,7 @@ app.use(cookieParser());
  * In a Connect or Express-based application, passport.initialize() middleware is required to initialize Passport.
  * If your application uses persistent login sessions, passport.session() middleware must also be used.
  */
-app.use(expressSession({ secret: 'bazinga' }));
+app.use(expressSession({secret:'bazinga', resave:'', saveUninitialized:''}));
 app.use(passport.initialize());
 app.use(passport.session());
 

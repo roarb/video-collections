@@ -1,0 +1,30 @@
+<div class="video-desc">
+    <h4 class="video-title">
+        <a href="/video?vidId={{vid.id}}&type={{vid.media_type}}&name={{vid.title}}" title="{{vid.title}}" ng-if="vid.title">
+            {{vid.title}}</a>
+        <a href="/video?vidId={{vid.id}}&type={{vid.media_type}}&name={{vid.title}}" title="{{vid.title}}" ng-if="vid.name">
+            {{vid.name}}</a>
+        <span ng-if="vid.media_type == 'movie'" class="glyphicon glyphicon-film" style="float:right;"></span>
+        <span ng-if="vid.media_type == 'tv'" class="glyphicon glyphicon-object-align-vertical" style="float:right;"></span>
+    </h4>
+    <span class="year">
+
+    </span>
+    <span class="rating">
+        <span ng-if="vid.userRating" class="user-rating" ng-class="vid.userRating | userStars"></span>
+        <span ng-if="!vid.userRating">
+            <span ng-if="vid.vote_average" ng-class="vid.vote_average | voteStars" class="avg-rating"></span>
+            <span ng-if="!vid.vote_average" ng-class="no-rating">no rating</span>
+        </span>
+    </span>
+    <div class="clearer"></div>
+    <span class="overview">
+        <span ng-if="vid.overview">{{trimSummary(vid.overview)}}</span>
+        <span ng-if="!vid.overview">No Description Available</span>
+    </span>
+    <div class="overview-shadow"></div>
+    <div class="clearer"></div>
+    <div ng-class="[watchListClass(vid.watchList), 'watch-list']" ng-model="vid.watchList">
+        <button ng-model="vid.watchList" class="btn btn-default add-to-watchlist" ng-click="AddToWatchList(vid)" id="watchlist-{{vid.media_type}}-{{vid.id}}">{{watchListText(vid.watchList)}} Watch List</button>
+    </div>
+</div>

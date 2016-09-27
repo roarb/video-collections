@@ -3,6 +3,7 @@ var couchbase = require('couchbase');
 var app = require('./../app');
 var http = require('http');
 var ViewQuery = couchbase.ViewQuery;
+var Q = require("q");
 
 module.exports = {
 
@@ -15,79 +16,105 @@ module.exports = {
             "path": "/3/search/multi?api_key=" + config.api.themoviedb + "&query=" + name
         };
 
-        // method is call outing out to themoviedb -= commenting out to test local generation from couchbase
+        // method is call outing out to themoviedb -= comment out to test local generation from couchbase
         callback = function (response) {
             var str = '';
+            var parent = this;
             response.on('data', function (chunk) {
                 str += chunk;
             });
             response.on('end', function () {
                 var videos = JSON.parse(str);
                 videos = videos.results;
-                // todo: add in error control on all usr requests - if the session has expired check that first -
-                // this crashed the server...again.
+
                 app.bucket.get('uid-'+usr.id, function(err, results) {
                     if (err) { return cb(true, err); }
                     var owned = results.value.videos;
                     var watchList = results.value.watchList;
-                    for (var i = 0; i < videos.length; i++) {
-                        for (var x = 0; x < owned.length; x++) {
-                            if (owned[x].id === 'vi-'+videos[i].media_type+'-'+videos[i].id){
-                                videos[i].format = owned[x].format;
-                                videos[i].userRating = owned[x].rating;
-                                if (owned[x].length > -1) {
-                                    videos[i].owned = true; // needed to call in the format bubbles
+
+                    var compileVideos = function(videos) {
+                        var rootDeferred = Q.defer();
+
+                        var getSeasons = function () {
+                            var deferred = Q.defer();
+                            var seasonUpdates = [];
+
+                            for (var i = 0; i < videos.length; i++) {
+
+                                for (var x = 0; x < owned.length; x++) {
+                                    if (owned[x].id === 'vi-' + videos[i].media_type + '-' + videos[i].id) {
+                                        videos[i].format = owned[x].format;
+                                        videos[i].userRating = owned[x].rating;
+                                        if (owned[x].length > -1) {
+                                            videos[i].owned = true;
+                                        }
+                                    }
+                                    videos[i].videoId = 'vi-' + videos[i].media_type + '-' + videos[i].id;
                                 }
-                            }
-                            videos[i].videoId = 'vi-'+videos[i].media_type+'-'+videos[i].id;
-                        }
-                        for (var x = 0; x < watchList.length; x++){
-                            if ('vi-'+videos[i].media_type+'-'+videos[i].id == watchList[x]){
-                                videos[i].watchList = true;
+                                for (var x = 0; x < watchList.length; x++) {
+                                    if ('vi-' + videos[i].media_type + '-' + videos[i].id == watchList[x]) {
+                                        videos[i].watchList = true;
+                                    }
+                                }
+
+                                if (videos[i].media_type == 'tv') {
+
+                                    findTelevisionSeason(videos[i].id, usr, function (err, result) {
+                                        result = JSON.parse(result);
+                                        seasonUpdates.push(result);
+                                        deferred.resolve(seasonUpdates);
+                                    });
+                                } else {
+                                    seasonUpdates.push([{"movieId":videos[i].id}]);
+                                    deferred.resolve(seasonUpdates);
+                                }
+
                             }
 
+                            return deferred.promise;
+                        };
+
+                        function seasonsReady(seasonUpdates, vidLen){
+
+                            setTimeout(function(){
+                                if (vidLen == seasonUpdates.length){
+                                    rootDeferred.resolve(seasonUpdates);
+                                } else {
+                                    seasonsReady(seasonUpdates, vidLen);
+                                }
+                            }, 100);
                         }
 
-                        // save each returned video to couchbase
-                        module.exports.saveVideoToCB(videos[i], function(err, msg){
-                            // call back messaging
+                        getSeasons()
+                            .then(function(seasonUpdates) {
+                                seasonsReady(seasonUpdates, videos.length);
+                            });
+
+                        return rootDeferred.promise;
+                    };
+
+                    compileVideos(videos)
+                        .then(function(seasonUpdates) {
+
+                            for (var v = 0; v < videos.length; v++){
+                                for (var s = 0; s < seasonUpdates.length; s++){
+                                    if (videos[v].id == seasonUpdates[s].id){
+                                        videos[v].tvDetails = seasonUpdates[s];
+                                    }
+                                }
+                                 module.exports.saveVideoToCB(videos[v], function (err, msg) {
+                                    // console.log('write to cb -msg - ' + msg);
+                                 });
+                            }
+
+                            return cb(false, videos);
                         });
 
-
-                    }
-                    return cb(false, videos);
                 });
             });
         };
 
         http.request(options, callback).end();
-
-        // get video results from couchbase - // todo the search functionality is quite lacking here.
-        // app.bucket.get('uid-'+usr.id, function(err, results){
-        //     var owned = results.value.videos;
-        //
-        //     var query = ViewQuery.from('video', 'movies').range(name, name+' z');
-        //     app.bucket.query(query, function(err, results) {
-        //         var videos = [];
-        //         for (var i = 0; i < results.length; i++){
-        //
-        //             // check for a matching video ID to the user owned video IDS
-        //             for (var x = 0; x < owned.length; x++){
-        //                 //console.log(results[i].id);
-        //                 //console.log(owned[x].id);
-        //                 if (results[i].id === owned[x].id){
-        //                     results[i].value.owned = true;
-        //                     results[i].value.format = owned[x].format;
-        //                 }
-        //             }
-        //
-        //             //console.log(results[i]);
-        //             videos.push(results[i].value);
-        //         }
-        //
-        //         return cb(false, videos);
-        //     });
-        // });
 
     },
 
@@ -164,6 +191,29 @@ module.exports = {
     findTelevisionDetailed: function(id, cb){
         console.log('get the details for television show id '+id);
     },
+
+    // findTelevisionSeason: function(id, user, cb){
+    //     console.log('get season information for video id '+id);
+    //     var options = {
+    //         "host": "api.themoviedb.org",
+    //         "path": "/3/tv/"+id+"?api_key=" + config.api.themoviedb
+    //     };
+    //     var tvDetails = 'temp';
+    //
+    //     callback = function (response) {
+    //         console.log('from within the callback function');
+    //         var str = '';
+    //         response.on('data', function (chunk) {
+    //             str += chunk;
+    //         });
+    //         response.on('end', function () {
+    //             tvDetails = str;
+    //             return cb(false, tvDetails);
+    //         });
+    //
+    //     };
+    //     http.request(options, callback).end();
+    // },
 
     saveVideoToCB: function (video, cb) {
         // todo, create a call to first pull in the existing document - then update it before saving.
@@ -331,7 +381,7 @@ module.exports = {
             returnValue.watchList = wl;
             app.bucket.upsert('uid-' + userId, returnValue, function (err) {
                 if (err) {
-                    cb(true, 'Couchbase save function error');
+                    return cb(true, 'Couchbase save function error');
                 }
             });
             if (!add){action = 'remove';}
@@ -339,3 +389,26 @@ module.exports = {
         });
     }
 };
+
+function findTelevisionSeason(id, user, cb){
+    //console.log('get season information for video id '+id);
+    var options = {
+        "host": "api.themoviedb.org",
+        "path": "/3/tv/"+id+"?api_key=" + config.api.themoviedb
+    };
+    var tvDetails = 'temp';
+
+    callback = function (response) {
+        //console.log('from within the callback function');
+        var str = '';
+        response.on('data', function (chunk) {
+            str += chunk;
+        });
+        response.on('end', function () {
+            tvDetails = str;
+            return cb(false, tvDetails);
+        });
+
+    };
+    http.request(options, callback).end();
+}

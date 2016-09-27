@@ -1,0 +1,38 @@
+<div class="video-poster" data ="http://image.tmdb.org/t/p/w185/{{vid.poster_path}}">
+    <div ng-if="vid.owned" id="owned-vi-{{vid.media_type}}-{{vid.id}}" class="owned-formats">
+                    <span ng-repeat="format in vid.format" class="format-bubble">
+                        <span style="background:{{format | bgColor}}">{{format}}</span>
+                    </span>
+    </div>
+    <div class="video-poster">
+        <a href="/video?vidId={{vid.id}}&type={{vid.media_type}}&name={{vid.title}}" title="{{vid.title}}">
+            <img ng-if="vid.poster_path" ng-src="http://image.tmdb.org/t/p/w185/{{vid.poster_path}}" />
+            <img ng-if="!vid.poster_path" ng-src="/images/no-poster.jpg" />
+        </a>
+    </div>
+    <br />
+    <!--<span ng-if="vid.release_date" class="release-date">Released: {{vid.release_date}}</span>-->
+    <div class="add-to-collection-wrapper dropdown" ng-if="vid.media_type == 'movie' || !vid.tvDetails.seasons">
+        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Add To Collection
+            <span class="caret"></span></button>
+        <ul class="dropdown-menu">
+            <li ng-repeat="formatAvail in formatOptions" ng-model="vid.format.owned" ng-if="vid.format | contains:formatAvail" ng-click="toggleVideoFormatOwned('vi-'+vid.media_type+'-'+vid.id, 'remove')" class="owned" style="background:{{formatAvail | bgColor}}">
+                <span class="label">{{formatAvail}}</span>
+            </li>
+            <li ng-repeat="formatAvail in formatOptions" ng-model="vid.format.owned" ng-if="vid.format | doesNotContain:formatAvail" ng-click="toggleVideoFormatOwned('vi-'+vid.media_type+'-'+vid.id, 'add')">
+                <span class="label">{{formatAvail}}</span>
+            </li>
+        </ul>
+    </div>
+
+    <div class="season-selection dropdown" ng-if="vid.media_type != 'movie' && vid.tvDetails.seasons">
+        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Seasons
+            <span class="caret"></span></button>
+        <ul class="dropdown-menu">
+            <!--todo add in add in the season background image and a link to the add the season to your collection-->
+            <li class="season-item" ng-repeat="season in vid.tvDetails.seasons" ng-if="season.season_number > 0">
+                Season {{season.season_number}}: {{season.episode_count}} Episodes
+            </li>
+        </ul>
+    </div>
+</div>
