@@ -125,7 +125,7 @@ var videoController = function ($scope, $http, $q, videoService, videoCollection
             hoursStr = 'hrs';
         }
         return hours+' '+hoursStr+' '+minutes+' mins';
-    }
+    };
 };
 
 app.controller(videoController);
@@ -141,35 +141,57 @@ app.service('watchlistCollection', function ($http) {
             for (var i = 0; i < data.msg.length; i++){
                 self.collection.push(data.msg[i].value)
             }
+            self.collection = videoCollectionSort(self.collection);
         });
     };
+
+    function videoCollectionSort(collection) {
+        // normalize movie and tv names to a sortName string
+        for (var i = 0; i < collection.length; i++){
+            if (collection[i].title){
+                collection[i].sortName = collection[i].title
+            } else if (collection[i].original_title){
+                collection[i].sortName = collection[i].original_title
+            } else if (collection[i].name){
+                collection[i].sortName = collection[i].name
+            }
+        }
+        // remove 'The ' from sortName
+        for (var i = 0; i < collection.length; i++){
+            if (collection[i].sortName.indexOf('The ') == 0){
+                collection[i].sortName = collection[i].sortName.slice(4, collection[i].sortName.length);
+            }
+        }
+
+        collection.sort(function (a, b) {
+            return a.sortName.localeCompare(b.sortName);
+        });
+
+        return collection;
+    }
 
 });
 
 app.service('videoDetails', function ($http, $q) {
 
     var self = this;
+    self.details = {};
     // set the background-shadow height
     $('.background-shadow').height($(window).height()-130);
     self.getData = function(vidId, type) {
         $http.post('/api/1/video/details', {"id":vidId, "type":type}).success(function (data) {
-            if (data != 404) {
-                self.details[vidId] = data;
-            }
+            self.details = (data != 404 ? data : {"error": true});
         });
     };
 });
 
 app.service('tvDetails', function ($http, $q) {
     var self = this;
-    self.details = [];
+    self.details = {};
     self.getDetails = function(vidId){
         console.log('tv show vidId - '+vidId);
         $http.post('/api/1/video/details', {"id":vidId, "type":"tvSeason"}).success(function (data) {
-            if (data != 404) {
-                console.log(data.name);
-                self.details[data.name] = data;
-            }
+            self.details = (data != 404 ? data : {"error": true});
         });
     }
 });

@@ -11,7 +11,7 @@
         </a>
     </div>
     <br />
-    <!--<span ng-if="vid.release_date" class="release-date">Released: {{vid.release_date}}</span>-->
+    <span ng-if="vid.release_date" class="release-date">{{vid.release_date.slice(0,4)}}</span>
     <div class="add-to-collection-wrapper dropdown" ng-if="vid.media_type == 'movie' || !vid.tvDetails.seasons">
         <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Add To Collection
             <span class="caret"></span></button>

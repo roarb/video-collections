@@ -97,7 +97,7 @@ button:hover, .in-list button:hover {
 .format-options li:hover, .format-options li.owned:hover {background:#fff;}
 .format-options li.owned {background:#2aabd2;}
 
-.video-poster .release-date {top:-5px; position:relative; clear:left; padding:0 5px; float:left;}
+.video-poster .release-date {top:0; position:relative; clear:left; padding:0 5px; float:left; font-weight:bold;}
 .video-poster .owned-formats {position:absolute; z-index:5; top:2px;}
 .video-poster .owned-formats span span {padding:4px; border-radius:12px; font-size:6px;}
 .video-poster .season-selection.dropdown {position:absolute; bottom:-8px;}
