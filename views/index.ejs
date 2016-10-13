@@ -17,12 +17,8 @@
 <div class="clearer"></div>
 <div id="video-search-wrapper" class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-style="resizeWithOffset(141)" resize>
     <div ng-repeat="vid in videoService.catalog" video-search-load>
-        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 video-item" ng-if="vid.poster_path">
-
-            <% include partials/videoBlockPoster %>
-
-            <% include partials/videoBlockDesc %>
-
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 video-item-wrapper" ng-if="vid.poster_path" ng-mouseenter="vid.activeHover = true" ng-mouseleave="vid.activeHover = false">
+            <% include partials/videoBlockFullWidth %>
         </div>
     </div>
     <p ng-hide="videoService.catalog.length" ng-if="searchActive">No matching videos located.</p>

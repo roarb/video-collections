@@ -30,20 +30,6 @@ app.directive('videoSearchLoad', function() {
     };
 });
 
-app.service('videoCollection', function ($http) {
-
-    var self  = this;
-    self.collection = [];
-    self.getData = function() {
-        // get collection of movies here
-        $http.post('/api/1/user/collection').success(function (data) {
-            for (var i = 0; i < data.msg.length; i++){
-                self.collection.push(data.msg[i].value)
-            }
-        });
-    };
-});
-
 var videoController = function ($scope, $http, $q, videoService, videoCollection, watchlistCollection, videoDetails, tvDetails) {
     $scope.videoService = videoService;
     $scope.searchActive = false;
@@ -82,8 +68,23 @@ var videoController = function ($scope, $http, $q, videoService, videoCollection
         videoDetails.getData(vidId, type);
     };
 
-    $scope.toggleVideoFormatOwned = function (id, action) {
-        console.log(id); console.log(action);
+    $scope.toggleVideoFormatOwned = function (id, action, format) {
+        var data = { "videoId": id, "format": format };
+        console.log(data);
+        $http({
+            url: "/api/1/"+action+"/format",
+            method: "POST",
+            data: data
+        }).then(function(rtnMsg){
+            // add in error reporting here
+        });
+    };
+
+    $scope.isFormatOwned = function(arr, format) {
+        if (arr == null) {
+            return false
+        }
+        return arr.indexOf(format) !== -1;
     };
 
     $scope.AddToWatchList = function(vid){
@@ -108,7 +109,7 @@ var videoController = function ($scope, $http, $q, videoService, videoCollection
 
     $scope.trimSummary = function(summary){
         if (summary.length > 480){
-           summary = summary.substring(0, 480) + '... continue';
+           summary = summary.substring(0, 480) + '... ';
         }
         return summary;
     };
@@ -129,6 +130,46 @@ var videoController = function ($scope, $http, $q, videoService, videoCollection
 };
 
 app.controller(videoController);
+
+app.service('videoCollection', function ($http) {
+
+    var self  = this;
+    self.collection = [];
+
+    self.getData = function() {
+        // get collection of movies here
+        $http.post('/api/1/user/collection').success(function (data) {
+            for (var i = 0; i < data.msg.length; i++){
+                self.collection.push(data.msg[i].value)
+            }
+            self.collection = videoCollectionSort(self.collection);
+        });
+    };
+    function videoCollectionSort(collection) {
+        // normalize movie and tv names to a sortName string
+        for (var i = 0; i < collection.length; i++){
+            if (collection[i].title){
+                collection[i].sortName = collection[i].title
+            } else if (collection[i].original_title){
+                collection[i].sortName = collection[i].original_title
+            } else if (collection[i].name){
+                collection[i].sortName = collection[i].name
+            }
+        }
+        // remove 'The ' from sortName
+        for (var i = 0; i < collection.length; i++){
+            if (collection[i].sortName.indexOf('The ') == 0){
+                collection[i].sortName = collection[i].sortName.slice(4, collection[i].sortName.length);
+            }
+        }
+
+        collection.sort(function (a, b) {
+            return a.sortName.localeCompare(b.sortName);
+        });
+
+        return collection;
+    }
+});
 
 app.service('watchlistCollection', function ($http) {
 

@@ -1,0 +1,67 @@
+<div class="video-scroll-item">
+    <div class="video-poster col-lg-2 col-md-2 col-sm-2 col-xs-2">
+        <a href="/video?vidId={{vid.id}}&type={{vid.media_type}}&name={{vid.title}}" title="{{vid.title}}">
+            <img ng-if="vid.poster_path" ng-src="http://image.tmdb.org/t/p/w185/{{vid.poster_path}}" />
+            <img ng-if="!vid.poster_path" ng-src="/images/no-poster.jpg" />
+            <!--<img ng-src="/images/no-poster.jpg" />-->
+        </a>
+        <div id="owned-vi-{{vid.media_type}}-{{vid.id}}" class="owned-formats">
+            <span ng-repeat="format in vid.format" class="format-bubble">
+                <span style="background:{{format | bgColor}}">{{format}}</span>
+            </span>
+        </div>
+    </div>
+    <div class="video-title col-lg-6">
+        <strong><a href="/video?vidId={{vid.id}}&type={{vid.media_type}}&name={{vid.title}}" title="{{vid.title}}" ng-if="vid.title">
+            {{vid.title}}</a>
+        <a href="/video?vidId={{vid.id}}&type={{vid.media_type}}&name={{vid.title}}" title="{{vid.title}}" ng-if="vid.name">
+            {{vid.name}}</a></strong>
+        <span ng-if="vid.release_date" class="release-date"> - Released: {{vid.release_date.slice(0,4)}}</span>
+        <span ng-if="vid.first_air_date" class="release-date"> - First Air Date: {{vid.first_air_date.slice(0,4)}}</span>
+        <span ng-if="vid.tvDetails.last_air_date" class="release-date"> - Last Air Date: {{vid.tvDetails.last_air_date.slice(0,4)}}</span>
+        <br />
+        <span ng-if="vid.media_type == 'movie'" class="glyphicon glyphicon-film" style="float:right;"></span>
+        <span ng-if="vid.media_type == 'tv'" class="glyphicon glyphicon-object-align-vertical" style="float:right;"></span>
+        <div class="clearer"></div>
+        <span class="overview" ng-if="vid.activeHover">
+            <span ng-if="vid.overview">{{trimSummary(vid.overview)}}</span>
+            <span ng-if="!vid.overview">No Description Available</span>
+        </span>
+    </div>
+
+    <div class="video-action col-lg-4">
+        <div ng-if="vid.activeHover">
+            <span class="rating">
+                <span ng-if="vid.userRating" class="user-rating" ng-class="vid.userRating | userStars"></span>
+                <span ng-if="!vid.userRating">
+                    <span ng-if="vid.vote_average" ng-class="vid.vote_average | voteStars" class="avg-rating"></span>
+                    <span ng-if="!vid.vote_average" ng-class="no-rating">no rating</span>
+                </span>
+            </span>
+            <div class="add-to-collection-wrapper dropdown" ng-if="vid.media_type == 'movie' || !vid.tvDetails.seasons">
+                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                    Add To Collection <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li ng-repeat="formatAvail in formatOptions" ng-model="vid.format" ng-click="toggleVideoFormatOwned('vi-'+vid.media_type+'-'+vid.id, 'add', formatAvail); vid.format.owned.push(formatAvail)">
+                        <span class="format-label owned" ng-if="isFormatOwned(vid.format, formatAvail)" style="background-color:{{formatAvail | bgColor}}">{{formatAvail}}</span>
+                        <span class="format-label" ng-if="!isFormatOwned(vid.format, formatAvail)">{{formatAvail}}</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="season-selection dropdown" ng-if="vid.media_type != 'movie' && vid.tvDetails.seasons">
+                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Seasons
+                <span class="caret"></span></button>
+                <ul class="dropdown-menu">
+                <!--todo add in add in the season background image and a link to the add the season to your collection-->
+                    <li class="season-item" ng-repeat="season in vid.tvDetails.seasons" ng-if="season.season_number > 0">
+                        Season {{season.season_number}}: {{season.episode_count}} Episodes
+                    </li>
+                </ul>
+            </div>
+            <div ng-class="[watchListClass(vid.watchList), 'watch-list']" ng-model="vid.watchList">
+                <button ng-model="vid.watchList" class="btn btn-default add-to-watchlist" ng-click="AddToWatchList(vid)" id="watchlist-{{vid.media_type}}-{{vid.id}}">{{watchListText(vid.watchList)}} Watch List</button>
+            </div>
+        </div>
+    </div>
+</div>

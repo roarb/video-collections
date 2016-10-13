@@ -281,14 +281,17 @@ module.exports = {
     getUserWatchlist: function(userId, cb) {
         console.log('moviedb getUserWatchlist fires with userId: '+userId);
         var collection = [];
+        // get the user record and requery couchbase videos for the video ids in the watchList array with a keys viewQuery
         app.bucket.get('uid-'+userId, function(err, userResult) {
-        if (err) { return cb(true, "Problem Accessing User Watchlist Collection"); }
+            if (err) { return cb(true, "Problem Accessing User Watchlist Collection"); }
             var query = ViewQuery.from('video', 'videoById').keys(userResult.value.watchList);
             app.bucket.query(query, function(err, vidResults) {
                 // console.log(vidResults); // returned videos in watchlist -need to add in formats owned next.
                 // todo remove the additional .value. from each record returned
                 for (var i = 0; i < userResult.value.videos.length; i++){
+                    console.log('inside first for - looping the videos document to look for owned formats & user ratings');
                     for (var x = 0; x < vidResults.length; x++){
+                        console.log(vidResults);
                         if ('vi-'+vidResults[x].value.media_type+'-'+vidResults[x].value.id == userResult.value.videos[i].id){
                             vidResults[x].value.format = userResult.value.videos[i].format;
                             if (userResult.value.videos[i].rating == 'undefined'){
@@ -298,6 +301,11 @@ module.exports = {
                             }
                         }
                         vidResults[x].value.videoId = userResult.value.videos[i].id;
+                        vidResults[x].value.watchList = true;
+                    }
+                }
+                if (userResult.value.videos.length == 0){
+                    for (var x = 0; x < vidResults.length; x++){
                         vidResults[x].value.watchList = true;
                     }
                 }

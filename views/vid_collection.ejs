@@ -7,16 +7,12 @@
 <body ng-app="videoapp" ng-controller="videoController" ng-init="<%= collection %>Load()">
 
 <% include partials/nav.ejs %>
-
-<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 video-collection <%= collection %>" id="video-collection-wrapper" ng-style="resizeWithOffset(105)" resize>
+<!-- old offset was 105 -->
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 video-collection <%= collection %>" id="video-collection-wrapper" ng-style="resizeWithOffset(81)" resize>
     <div ng-if="videoCollection.collection.err"><span>{{<%= collection %>.collection}}</span></div>
     <div ng-repeat="vid in <%= collection %>.collection">
-        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 video-item">
-
-            <% include partials/videoBlockPoster %>
-
-            <% include partials/videoBlockDesc %>
-
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 video-item-wrapper" ng-if="vid.poster_path" ng-mouseenter="vid.activeHover = true" ng-mouseleave="vid.activeHover = false">
+            <% include partials/videoBlockFullWidth %>
         </div>
     </div>
     <p ng-hide="<%= collection %>.collection.length">No matching videos located.</p>
