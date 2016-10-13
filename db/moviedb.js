@@ -289,9 +289,9 @@ module.exports = {
                 // console.log(vidResults); // returned videos in watchlist -need to add in formats owned next.
                 // todo remove the additional .value. from each record returned
                 for (var i = 0; i < userResult.value.videos.length; i++){
-                    console.log('inside first for - looping the videos document to look for owned formats & user ratings');
+                    // console.log('inside first for - looping the videos document to look for owned formats & user ratings');
                     for (var x = 0; x < vidResults.length; x++){
-                        console.log(vidResults);
+                        // console.log(vidResults);
                         if ('vi-'+vidResults[x].value.media_type+'-'+vidResults[x].value.id == userResult.value.videos[i].id){
                             vidResults[x].value.format = userResult.value.videos[i].format;
                             if (userResult.value.videos[i].rating == 'undefined'){
