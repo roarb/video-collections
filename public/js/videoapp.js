@@ -70,7 +70,6 @@ var videoController = function ($scope, $http, $q, videoService, videoCollection
 
     $scope.toggleVideoFormatOwned = function (id, action, format) {
         var data = { "videoId": id, "format": format };
-        console.log(data);
         $http({
             url: "/api/1/"+action+"/format",
             method: "POST",
@@ -140,7 +139,9 @@ app.service('videoCollection', function ($http) {
         // get collection of movies here
         $http.post('/api/1/user/collection').success(function (data) {
             for (var i = 0; i < data.msg.length; i++){
-                self.collection.push(data.msg[i].value)
+                if (data.msg[i].value.format.length > 0){
+                    self.collection.push(data.msg[i].value)
+                }
             }
             self.collection = videoCollectionSort(self.collection);
         });

@@ -217,11 +217,7 @@ module.exports = {
 
     saveVideoToCB: function (video, cb) {
         // todo, create a call to first pull in the existing document - then update it before saving.
-        var vidName = video.title;
-        if (vidName == undefined){
-            vidName = video.name;
-        }
-        console.log('saving '+vidName+' to couchbase.');
+
         app.bucket.upsert('vi-'+video.media_type+'-'+video.id, video, function(err, result){
             if (err) { return cb(true, "Problem with saving the users to couchbase."); }
             return cb(false, "updated")
@@ -326,8 +322,8 @@ module.exports = {
                 // console.log(videoId);
                 // console.log(result.value.videos[i].id);
                 if (videoId === result.value.videos[i].id && !added){
-                    console.log('matching video found');
-                    console.log(format+' added to '+videoId);
+                    // console.log('matching video found');
+                    // console.log(format+' added to '+videoId);
                     // match found - add in the format record // shouldn't already exist based off app logic
                     // todo perhaps add some error checking just in case especially for spammed requests.
                     result.value.videos[i].format.push(format);
@@ -339,7 +335,6 @@ module.exports = {
                     result.value.videos = [];
                 }
                 result.value.videos.push({"id": videoId, "format": [format]});
-                added = true;
             }
             app.bucket.upsert('uid-'+userId, result.value, function(err){
                 if (err){ cb (true, 'Couchbase save function error'); }

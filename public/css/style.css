@@ -63,33 +63,20 @@ button:hover, .in-list button:hover {
 
 .fb-login {padding:60px 0; width:100%; text-align:center;}
 
-.footer {position:absolute; bottom:0; margin:auto; padding:5px 40px 7px 0; right:0; background:#999; z-index:-1; color:#fff;}
+.footer {position:absolute; bottom:0; margin:auto; padding:5px 40px 0 0; right:0; background:#999; z-index:-1; color:#fff;}
 .footer a {color:#fff;}
 .footer a:hover {color:#fff;}
 
 .video-search {padding:10px 0;}
 .video-search input {padding:5px 12px; top:1px; position:relative;}
 #video-search-wrapper {display:block; overflow-x:hidden; overflow-y:auto; padding:12px 0;}
-.videos-found {position:absolute; bottom:7px; left:20px; color:#fff;}
+.videos-found {position:absolute; bottom:0; left:20px; color:#fff;}
 #video-collection-wrapper {display:block; overflow-x:hidden; overflow-y:auto; margin-top:10px; padding:12px 0;}
 #video-details-wrapper {display:block; overflow-x:hidden; overflow-y:auto; margin-top:10px;}
 
-.video-item {background:#fff; height:360px; padding:10px;}
-/*.video-item .video-poster {float:left; padding:5px; max-width:35%; width:204px; position:relative; height:292px;}
-.video-item .video-poster img {max-height:275px; max-width:185px;}*/
-.video-item .video-desc {float:left; padding:5px; width:65%; position:relative; height:360px;}
-.video-item .video-desc h4 {font-size:20px; float:left; width:100%; border-bottom:1px solid #d1d1d1;}
-.video-item .video-desc .rating {float:right; width:100px; background:url('../images/star_rating_sprites.png') no-repeat 0 -5px; font-size:0; height:17px;}
-.video-item .video-desc .rating .user-rating {background:url('../images/star_rating_sprites.png') no-repeat -2px -35px; height:17px; display:block;}
-.video-item .video-desc .rating .avg-rating {background:url('../images/star_rating_sprites.png') no-repeat -2px -63px; height:17px; display:block;}
-.video-item .video-desc .overview {height:233px; padding:10px; margin:5px; display:block; border:1px solid #d1d1d1; background:#fafafa; overflow:hidden;}
-.video-item .video-desc .overview-shadow {/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#fafafa+0,fafafa+100&0+0,1+100 */
-    background: -moz-linear-gradient(top,  rgba(250,250,250,0) 0%, rgba(250,250,250,1) 100%); /* FF3.6-15 */
-    background: -webkit-linear-gradient(top,  rgba(250,250,250,0) 0%,rgba(250,250,250,1) 100%); /* Chrome10-25,Safari5.1-6 */
-    background: linear-gradient(to bottom,  rgba(250,250,250,0) 0%,rgba(250,250,250,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00fafafa', endColorstr='#fafafa',GradientType=0 ); /* IE6-9 */
-    display:block; height:54px; position:absolute; bottom:58px; right:11px; width:94%; z-index:1;}
-.video-item .video-desc .watch-list {position: relative; top:-13px; left:10px; z-index:3;}
+.video-scroll-item .rating {float:right; width:100px; margin-top:10px; background:url('../images/star_rating_sprites.png') no-repeat 0 -5px; font-size:0; height:17px;}
+.video-scroll-item .rating .user-rating {background:url('../images/star_rating_sprites.png') no-repeat -2px -35px; height:17px; display:block;}
+.video-scroll-item .rating .avg-rating {background:url('../images/star_rating_sprites.png') no-repeat -2px -63px; height:17px; display:block;}
 
 .add-video {position:absolute; color:#ccc; font-size:26px; left:5px; top:267px; cursor:pointer;}
 .format-options {background:#ccc; border-radius:18px; top:276px; position:absolute; left:20px; padding:2px 0; z-index:10; width:500px;}
@@ -97,9 +84,9 @@ button:hover, .in-list button:hover {
 .format-options li:hover, .format-options li.owned:hover {background:#fff;}
 .format-options li.owned {background:#2aabd2;}
 
-.video-poster .release-date {top:0; position:relative; clear:left; padding:0 5px; float:left; font-weight:bold;}
-.video-poster .owned-formats {position:absolute; z-index:5; top:2px;}
-.video-poster .owned-formats span span {padding:4px; border-radius:12px; font-size:6px;}
+.video-poster .owned-formats {position:absolute; z-index:5; top:0; left:75px;}
+.active .video-poster .owned-formats {animation-name:scroll-item-formatBubble; animation-duration:.2s; left:140px;}
+.video-poster .owned-formats .bubble {padding:4px; border-radius:12px; font-size:10px; margin:4px 2px; display:block;}
 .video-poster .season-selection.dropdown {position:absolute; bottom:-8px;}
 .video-poster .add-to-collection-wrapper.dropdown {position:absolute; bottom:0;}
 .video-poster .dropdown-menu {text-align:center; width:200px;}
@@ -138,37 +125,33 @@ button:hover, .in-list button:hover {
 
 
 /** testing new full width video return **/
-.video-item-wrapper {
-    height:100px;
-    background:#d1d1d1;
-    border-top:1px solid #333;
-    border-bottom:1px solid #333;
-    position:relative;
-    width:100%;
-    margin:0;
-    padding:0;
-    box-shadow:0;
-    z-index:1;
-}
-.video-item-wrapper:hover, .video-item-wrapper.active {
-    animation-name: scroll-item-wrapper;
-    animation-duration: .2s;
-    margin: -5px -1.5% -5px;
-    background: #fafafa;
-    width:103%;
-    height:200px;
-    padding: 0 1.5%;
-    z-index:9999;
-    box-shadow:0 0 15px #333;
-}
+.video-item-wrapper {animation-name:scroll-item-wrapper-revert; animation-duration:.2s; height:100px; background:#d1d1d1; border-top:1px solid #333; border-bottom:1px solid #333; position:relative; width:100%; margin:0; padding:0; box-shadow:0; z-index:1;}
+.video-item-wrapper:hover, .video-item-wrapper.active {animation-name:scroll-item-wrapper; animation-duration:.2s; margin:-5px -1.5% -5px; background:#fafafa; width:103%; height:200px; padding: 0 1.5%; z-index:9999; box-shadow:0 0 15px #333;}
 .video-scroll-item .video-poster {float:left; padding-right:12px;}
-.video-item-wrapper .video-scroll-item .video-poster img {height:98px;}
-.video-item-wrapper:hover .video-scroll-item .video-poster img, .video-item-wrapper.active .video-scroll-item .video-poster img {
-    height:198px;
-    animation-name: scroll-item-wrapper-img;
-    animation-duration: .2s;
-}
+.video-item-wrapper .video-scroll-item .video-poster img {animation-name:scroll-item-wrapper-height-revert; animation-duration:.2s; height:98px;}
+.video-item-wrapper:hover .video-scroll-item .video-poster img, .video-item-wrapper.active .video-scroll-item .video-poster img {height:198px; animation-name:scroll-item-wrapper-height; animation-duration:.2s;}
 .video-scroll-item .video-title a {color:#333; font-size:1.2em;}
+
+.video-scroll-item .video.poster {}
+
+.video-scroll-item .video-title {
+    background: -moz-linear-gradient(left,  rgba(209,209,209,1) 0%, rgba(250,250,250,1) 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(left,  rgba(209,209,209,1) 0%,rgba(250,250,250,1) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to right,  rgba(209,209,209,1) 0%,rgba(250,250,250,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d1d1d1', endColorstr='#fafafa',GradientType=1 ); /* IE6-9 */
+    padding-top:15px; height:98px; animation-name:scroll-item-wrapper-height-revert; animation-duration:.2s;}
+.active .video-scroll-item .video-title {background:#fafafa; height:198px; animation-name:scroll-item-wrapper-height; animation-duration:.2s;}
+.video-scroll-item .video-title strong a {font-size:24px;}
+.video-scroll-item .video-title .glyphicon {position:absolute; top:24px; left:-2px; color:#888;}
+.video-scroll-item .video-title .watch-list {position:absolute; bottom:10px;}
+
+.video-scroll-item .video-action {background:#fafafa; padding-top:15px; height:98px; animation-name:scroll-item-wrapper-height-revert; animation-duration:.2s;}
+.active .video-scroll-item .video-action {height:198px; animation-name:scroll-item-wrapper-height; animation-duration:.2s;}
+.video-scroll-item .video-action .dropdown-menu .format-label {width:98%; text-align:center; padding:2px 0; margin:1%; background:#f1f1f1; border-radius:10px; cursor:pointer;}
+.video-scroll-item .video-action .dropdown-menu .format-label:hover {background:#d1d1d1;}
+.video-scroll-item .video-action .add-to-collection-list {list-style:none;}
+.video-scroll-item .video-action .format-item span {cursor:pointer; background:#e5e5e5; border-radius:10px; float:left; padding:2px 10px; margin:4px 6px;}
+.video-scroll-item .video-action .format-item:hover span {background:#d1d1d1;}
 
 /*** animations ***/
 @keyframes scroll-item-wrapper {
@@ -185,7 +168,29 @@ button:hover, .in-list button:hover {
         padding:0 1.5%;
     }
 }
-@keyframes scroll-item-wrapper-img {
+@keyframes scroll-item-wrapper-revert {
+    from {height:200px;
+        background:#fafafa;
+        margin: -5px -1.5% -5px;
+        width:103%;
+        padding:0 1.5%;
+    }
+    to {height:100px;
+        background:#d1d1d1;
+        margin:0 0 0 0;
+        width:100%;
+        padding:0;
+    }
+}
+@keyframes scroll-item-wrapper-height {
     from {height:98px;}
     to {height:198px;}
+}
+@keyframes scroll-item-wrapper-height-revert {
+    from {height:198px;}
+    to {height:98px;}
+}
+@keyframes scroll-item-formatBubble {
+    from {left:75px;}
+    to {left:140px;}
 }

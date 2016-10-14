@@ -11,7 +11,7 @@
 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 video-collection <%= collection %>" id="video-collection-wrapper" ng-style="resizeWithOffset(81)" resize>
     <div ng-if="videoCollection.collection.err"><span>{{<%= collection %>.collection}}</span></div>
     <div ng-repeat="vid in <%= collection %>.collection">
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 video-item-wrapper" ng-if="vid.poster_path" ng-mouseenter="vid.activeHover = true" ng-mouseleave="vid.activeHover = false">
+        <div ng-class="['col-xs-12', 'col-sm-12', 'col-md-12', 'col-lg-12', 'video-item-wrapper', vid.activeHover ? 'active' : '']" ng-if="vid.poster_path" ng-mouseenter="vid.activeHover = true" ng-mouseleave="vid.activeHover = false">
             <% include partials/videoBlockFullWidth %>
         </div>
     </div>
