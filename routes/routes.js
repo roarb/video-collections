@@ -21,12 +21,14 @@ var appRouter = function(app) {
     passport.serializeUser(function(user, done) {
         // console.log('serialize User Id: '); console.log(user.id);
         if (user == undefined){
-            console.log('passport.serializeUser user.id not found --- need error reporting here.')
+            console.log('passport.serializeUser user.id not found --- need error reporting here.');
+            done(null, null);
         }
-        if (user.id == undefined){
-            console.log('passport.serializeUser user.id not found --- need error reporting here.')
+        // console.log(user);
+        else {
+            console.log('serializeUser ran correctly for userId: '+user.id);
+            done(null, user.id);
         }
-        done(null, user.id);
     });
 
     passport.deserializeUser(function(id, done) {

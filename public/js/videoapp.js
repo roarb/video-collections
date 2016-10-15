@@ -12,7 +12,14 @@ app.service('videoService', function ($http) {
         var url = '/api/1/search/multi';
         url += '?query=' + name;
         $http.post(url).success(function (data) {
+            // self.catalog = data;
+
+            data.sort(function (a, b) {
+                return b.popularity - a.popularity;
+            });
+
             self.catalog = data;
+
         });
     };
 
@@ -108,7 +115,7 @@ var videoController = function ($scope, $http, $q, videoService, videoCollection
 
     $scope.trimSummary = function(summary){
         if (summary.length > 480){
-           summary = summary.substring(0, 480) + '... ';
+           summary = summary.substring(0, 240) + '... ';
         }
         return summary;
     };

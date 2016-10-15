@@ -152,6 +152,14 @@ button:hover, .in-list button:hover {
 .video-scroll-item .video-action .add-to-collection-list {list-style:none;}
 .video-scroll-item .video-action .format-item span {cursor:pointer; background:#e5e5e5; border-radius:10px; float:left; padding:2px 10px; margin:4px 6px;}
 .video-scroll-item .video-action .format-item:hover span {background:#d1d1d1;}
+.video-scroll-item .video-action .season-selection {}
+.video-scroll-item .video-action .season-selection .season-item {float:left;}
+.video-scroll-item .video-action .season-selection .season-item .season-img {cursor:pointer;}
+.video-scroll-item .video-action .season-selection .season-item .season-img.active {-webkit-filter: grayscale(100%); filter: grayscale(100%);}
+.video-scroll-item .video-action .season-details {position:absolute; top:-22px; left:0; background:#fff; width:420px; height:240px; display:block; border:1px solid #333; padding:16px; border-radius:10px; box-shadow:2px 1px 12px #444; overflow:hidden;}
+.video-scroll-item .video-action .season-details .close-window {cursor:pointer; position:absolute; right:4px; top:4px; font-size:1.4em;}
+.video-scroll-item .video-action .season-details .season-img {position:absolute; top:0; left:0; height:240px; border-right:1px solid #666; box-shadow:0 0 12px #444; border-radius:10px; cursor:default;}
+.video-scroll-item .video-action .season-details .season-details-box {margin-left:170px;}
 
 /*** animations ***/
 @keyframes scroll-item-wrapper {

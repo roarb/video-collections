@@ -13,10 +13,12 @@
         </div>
     </div>
     <div class="video-title col-lg-6">
-        <strong><a href="/video?vidId={{vid.id}}&type={{vid.media_type}}&name={{vid.title}}" title="{{vid.title}}" ng-if="vid.title">
+        <strong>
+            <a href="/video?vidId={{vid.id}}&type={{vid.media_type}}&name={{vid.title}}" title="{{vid.title}}" ng-if="vid.title">
             {{vid.title}}</a>
-        <a href="/video?vidId={{vid.id}}&type={{vid.media_type}}&name={{vid.title}}" title="{{vid.title}}" ng-if="vid.name">
-            {{vid.name}}</a></strong>
+            <a href="/video?vidId={{vid.id}}&type={{vid.media_type}}&name={{vid.title}}" title="{{vid.title}}" ng-if="vid.name">
+            {{vid.name}}</a>
+        </strong>
         <span ng-if="vid.release_date" class="release-date"> - Released: {{vid.release_date.slice(0,4)}}</span>
         <span ng-if="vid.first_air_date" class="release-date"> - First Air Date: {{vid.first_air_date.slice(0,4)}}</span>
         <span ng-if="vid.tvDetails.last_air_date" class="release-date"> - Last Air Date: {{vid.tvDetails.last_air_date.slice(0,4)}}</span>
@@ -42,7 +44,7 @@
 
     <div class="video-action col-lg-4">
         <div ng-if="vid.activeHover">
-            <div class="add-to-collection-wrapper dropdown" ng-if="vid.media_type == 'movie' || !vid.tvDetails.seasons">
+            <div class="add-to-collection-wrapper" ng-if="vid.media_type == 'movie' || !vid.tvDetails.seasons">
                 <strong>Add To Collection</strong>
                 <ul class="add-to-collection-list">
                     <li class="format-item" ng-repeat="formatAvail in formatOptions" ng-model="vid.format">
@@ -53,13 +55,22 @@
                     </li>
                 </ul>
             </div>
-            <div class="season-selection dropdown" ng-if="vid.media_type != 'movie' && vid.tvDetails.seasons">
-                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Seasons
-                <span class="caret"></span></button>
-                <ul class="dropdown-menu">
-                <!--todo add in add in the season background image and a link to the add the season to your collection-->
+            <div class="season-selection" ng-if="vid.media_type != 'movie' && vid.tvDetails.seasons">
+                <strong>Seasons</strong>
+                <ul class="add-to-collection-list">
                     <li class="season-item" ng-repeat="season in vid.tvDetails.seasons" ng-if="season.season_number > 0">
-                         <img ng-src="http://image.tmdb.org/t/p/w185/{{season.poster_path}}" style="width:50px; max-height:75px;" />
+                        <img ng-class="[season.showDetails ? 'active' : 'static', 'season-img']" class="season-img" ng-src="http://image.tmdb.org/t/p/w185/{{season.poster_path}}" style="width:50px; height:75px;" ng-click="season.showDetails = !season.showDetails" />
+                        <div class="season-details" ng-show="season.showDetails">
+                            <span class="close-window glyphicon glyphicon-remove" style="cursor:pointer;" ng-click="season.showDetails = !season.showDetails"></span>
+                            <img ng-src="http://image.tmdb.org/t/p/w185/{{season.poster_path}}" class="season-img" />
+                            <div class="season-details-box">
+                                <strong>Season #{{season.season_number}}</strong><br />
+                                Air Date: {{season.air_date}}<br />
+                                Episodes: {{season.episode_count}}<br />
+                                <a href="">Season Details</a><br />
+                                load in add to collection links here.
+                            </div>
+                        </div>
                     </li>
                 </ul>
             </div>
